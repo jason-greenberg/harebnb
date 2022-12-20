@@ -22,8 +22,10 @@ router.get(
   (req, res) => {
     const { user } = req;
     if (user) {
+      const userJSON = user.toSafeObject();
+      userJSON.token = req.headers['xsrf-token'];
       return res.json({
-        user: user.toSafeObject()
+        user: userJSON
       });
     } else return res.json({ user: null });
   }
