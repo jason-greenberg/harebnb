@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { query } = require('express');
 const { models } = require('sequelize');
+const sequelize = require('sequelize');
 const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
 
@@ -34,7 +35,14 @@ router.get(
 
     if (spot) {
       const spotJSON = spot.toJSON();
+      const result = await Review.findAll({
+        attributes: [[sequelize.fn('AVG', sequelize.col('stars')), 'averageStars']],
+        where: { spotId },
+        group: ['spotId']
+      });
+
       spotJSON.numReviews = await Review.count({ where: { spotId }});
+      spotJSON.avgStarRating = result[0].dataValues.averageStars;
       spotJSON.SpotImages = await spot.getSpotImages();
       spotJSON.Owner = await spot.getUser({
         through: {
@@ -62,5 +70,8 @@ router.get(
 
     res.json({Spots: allSpots});
 });
+
+// Create and return a new spot
+
 
 module.exports = router;
