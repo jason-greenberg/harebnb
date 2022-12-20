@@ -111,6 +111,11 @@ module.exports = (sequelize, DataTypes) => {
           attributes: {
             exclude: ['createdAt', 'updatedAt']
           }
+        },
+        spotOwner: {
+          attributes: {
+            exclude: ['hashedPassword','email', 'createdAt', 'updatedAt', 'username', 'Booking']
+          }
         }
       }
     }
