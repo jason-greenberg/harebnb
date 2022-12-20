@@ -37,15 +37,45 @@ router.post(
   '/',
   validateSignup,
   async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ firstName, lastName, email, username, password });
-
-    await setTokenCookie(res, user);
-
-    return res.json({
-      user: user
-    });
+    const { firstName, lastName, email, password, username } = req.body;
+    try {
+      const user = await User.signup({ firstName, lastName, email, username, password });
+      await setTokenCookie(res, user);
+      const userJSON = user.toJSON()
+      userJSON.token = req.headers['xsrf-token'];
+      return res.json({
+        user: userJSON
+      });
+    } catch (error) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        res.status(403)
+        if (error.fields.includes('email')) {
+          return res.json({
+            message: 'User already exists',
+            statusCode: 403,
+            errors: {
+              email: "User with that email already exists"
+            }
+          });
+        }
+        if (error.fields.includes('username')) {
+          return res.json({
+            message: 'User already exists',
+            statusCode: 403,
+            errors: {
+              username: "User with that username already exists"
+            }
+          });
+        }
+      }
+      res.status(500)
+      return res.json({
+        message: 'Server error',
+      });
+    }
   }
 );
+
+module.exports = router;
 
 module.exports = router;

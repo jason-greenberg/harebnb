@@ -47,8 +47,11 @@ router.post(
     }
 
     await setTokenCookie(res, user);
+    const userJSON = user.toJSON();
+    userJSON.token = req.headers['xsrf-token']
 
-    return res.json({ user });
+
+    return res.json({ user: userJSON });
   }
 );
 
