@@ -72,6 +72,60 @@ router.get(
 });
 
 // Create and return a new spot
+router.post(
+  '/',
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const {
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+    } = req.body;
+    const { user } = req;
+    const ownerId = user.id;
 
+    try {
+      const newSpot = await Spot.create({
+        ownerId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+      });
+
+      res.status(201)
+      res.json(newSpot);
+    } catch(e) {
+      const errorResponse = {
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {}
+      };
+
+      if (e.name === 'SequelizeValidationError') {
+        e.errors.forEach(error => {
+          errorResponse.errors[error.path] = error.message;
+        });
+      } else {
+        errorResponse.errors.server = 'Server error';
+      }
+
+      res.status(errorResponse.statusCode);
+      res.json(errorResponse);
+    }
+  }
+);
 
 module.exports = router;
