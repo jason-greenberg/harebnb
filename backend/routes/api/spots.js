@@ -71,6 +71,53 @@ router.get(
     res.json({Spots: allSpots});
 });
 
+// Create and return a new image for a spot specified by id
+router.post(
+  '/:spotId/images',
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { url, preview } = req.body;
+    const { user } = req;
+    const userId = user.id;
+    const spotId = parseInt(req.params.spotId);
+    const spot = await Spot.findByPk(spotId);
+
+    // Return 404 Error if spot not found
+    if (!spot) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
+    }
+    // Return 401 Not authorized Error if spot does not belong to current user
+    if (spot.ownerId !== userId) {
+      res.status(401);
+      return res.json({
+        message: "Invalid credentials",
+        statusCode: 401
+      })
+    }
+
+    const newSpotImage = await SpotImage.create({
+      spotId,
+      url,
+      preview
+    });
+    // return the new spot image using default scope (not applied to above instance)
+    const responseSpotImage = await SpotImage.findOne({
+      where: {
+        spotId,
+        url,
+        preview
+      }
+    });
+
+    res.json(responseSpotImage);
+  }
+)
+
 // Create and return a new spot
 router.post(
   '/',
