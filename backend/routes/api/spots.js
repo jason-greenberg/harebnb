@@ -91,12 +91,12 @@ router.post(
         statusCode: 404
       })
     }
-    // Return 401 Not authorized Error if spot does not belong to current user
+    // Return 403 Not authorized Error if spot does not belong to current user
     if (spot.ownerId !== userId) {
       res.status(401);
       return res.json({
-        message: "Invalid credentials",
-        statusCode: 401
+        message: "Forbidden",
+        statusCode: 403
       })
     }
 
@@ -174,5 +174,105 @@ router.post(
     }
   }
 );
+
+// Updates and returns an existing spot
+router.put(
+  '/:spotId',
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { user } = req;
+    const userId = user.id;
+    const spotId = parseInt(req.params.spotId);
+    const spot = await Spot.findByPk(spotId);
+
+    // Return 404 Error if spot not found
+    if (!spot) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
+    }
+    // Return 403 Not authorized Error if spot does not belong to current user
+    if (spot.ownerId !== userId) {
+      res.status(401);
+      return res.json({
+        message: "Forbidden",
+        statusCode: 403
+      })
+    }
+
+    const {
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+    } = req.body;
+
+    const expectedFields = [
+      'address',
+      'city',
+      'state',
+      'country',
+      'lat',
+      'lng',
+      'name',
+      'description',
+      'price'
+    ];
+    const missingFields = expectedFields.filter(field => !(field in req.body));
+
+    if (missingFields.length > 0) {
+      res.status(400);
+      return res.json({
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {
+          missingFields: missingFields.map(field => `${field} is required`)
+        }
+      });
+    }
+
+    try {
+
+      await spot.update({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+      })
+
+      return res.json(spot);
+    } catch(e) {
+      const errorResponse = {
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {}
+      };
+
+      if (e.name === 'SequelizeValidationError') {
+        e.errors.forEach(error => {
+          errorResponse.errors[error.path] = error.message;
+        });
+      } else {
+        errorResponse.errors.server = 'Server error';
+      }
+
+      res.status(errorResponse.statusCode);
+      res.json(errorResponse);
+    }
+  }
+)
 
 module.exports = router;
