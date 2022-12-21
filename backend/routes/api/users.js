@@ -4,6 +4,8 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { SequelizeUniqueConstraintError, SequelizeValidationError } = require('sequelize');
+
 
 // ...
 const validateSignup = [
@@ -47,35 +49,35 @@ router.post(
         user: userJSON
       });
     } catch (error) {
-      if (error.name === 'SequelizeUniqueConstraintError') {
-        res.status(403)
-        if (error.fields.includes('email')) {
-          return res.json({
-            message: 'User already exists',
-            statusCode: 403,
-            errors: {
-              email: "User with that email already exists"
-            }
-          });
-        }
-        if (error.fields.includes('username')) {
-          return res.json({
-            message: 'User already exists',
-            statusCode: 403,
-            errors: {
-              username: "User with that username already exists"
-            }
-          });
-        }
+      if (error.original && error.original.code === '23505') {
+        // Handle unique constraint error
+        const field = error.original.constraint;
+        return res.status(403).json({
+          message: 'User already exists',
+          statusCode: 403,
+          errors: {
+            [field]: `User with that ${field} already exists`
+          }
+        });
+      } else if (error.errors) {
+        // Handle validation error
+        return res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors: error.errors.reduce((errors, err) => {
+            errors[err.path] = err.message;
+            return errors;
+          }, {})
+        });
+      } else {
+        // Handle server error
+        return res.status(500).json({
+          message: 'Server error',
+          statusCode: 500
+        });
       }
-      res.status(500)
-      return res.json({
-        message: 'Server error',
-      });
     }
   }
 );
-
-module.exports = router;
 
 module.exports = router;
