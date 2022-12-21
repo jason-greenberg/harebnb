@@ -273,6 +273,41 @@ router.put(
       res.json(errorResponse);
     }
   }
+);
+
+router.delete(
+  '/:spotId',
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { user } = req;
+    const userId = user.id;
+    const spotId = parseInt(req.params.spotId);
+    const spot = await Spot.findByPk(spotId);
+
+    // Return 404 Error if spot not found
+    if (!spot) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
+    }
+    // Return 403 Not authorized Error if spot does not belong to current user
+    if (spot.ownerId !== userId) {
+      res.status(401);
+      return res.json({
+        message: "Forbidden",
+        statusCode: 403
+      })
+    }
+
+    await spot.destroy();
+    res.json({
+      message: "Successfully deleted",
+      statusCode: 200
+    })
+  }
 )
 
 module.exports = router;
