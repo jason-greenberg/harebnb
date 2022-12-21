@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { query } = require('express');
-const { models } = require('sequelize');
 const sequelize = require('sequelize');
 const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
@@ -8,7 +7,6 @@ const { requireAuth, restoreUser } = require('../../utils/auth');
 // Return all the spots owned (created) by the current user.
 router.get(
   '/current',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const { user } = req;
@@ -74,7 +72,6 @@ router.get(
 // Create and return a new image for a spot specified by id
 router.post(
   '/:spotId/images',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const { url, preview } = req.body;
@@ -121,7 +118,6 @@ router.post(
 // Create and return a new spot
 router.post(
   '/',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const {
@@ -178,7 +174,6 @@ router.post(
 // Updates and returns an existing spot
 router.put(
   '/:spotId',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const { user } = req;
@@ -277,7 +272,6 @@ router.put(
 
 router.delete(
   '/:spotId',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const { user } = req;
