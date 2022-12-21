@@ -21,11 +21,34 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: { model: 'Spots'}
     },
-    url: DataTypes.STRING,
-    preview: DataTypes.BOOLEAN
+    url: {
+      type: DataTypes.STRING,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Image URL must be a string');
+          }
+        }
+      }
+    },
+    preview: {
+      type: DataTypes.BOOLEAN,
+      validate: {
+        isBoolean(value) {
+          if (typeof value !== 'boolean') {
+            throw new Error('Preview value must be a boolean');
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'SpotImage',
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'spotId']
+      }
+    }
   });
   return SpotImage;
 };

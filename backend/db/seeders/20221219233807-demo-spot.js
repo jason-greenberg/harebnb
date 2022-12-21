@@ -20,7 +20,6 @@ module.exports = {
         name: 'Basket House',
         description: 'Bound to have a good time.',
         price: 199.99,
-        avgRating: 4.9,
         previewImage: 'preview-url'
       },
       {
@@ -34,7 +33,6 @@ module.exports = {
         name: 'Hare Haven',
         description: 'Cozy and comfortable retreat.',
         price: 149.99,
-        avgRating: 4.5,
         previewImage: 'preview-url-2'
       },
       {
@@ -48,7 +46,6 @@ module.exports = {
         name: 'Burrow Bungalow',
         description: 'Relax and recharge in this cute and charming home.',
         price: 174.99,
-        avgRating: 4.7,
         previewImage: 'preview-url-3'
         },
     ], {});

@@ -33,20 +33,95 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       references: { model: 'Users' }
     },
-    address: DataTypes.STRING,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    country: DataTypes.STRING,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL,
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.DECIMAL,
-    avgRating: DataTypes.DECIMAL,
-    previewImage: DataTypes.STRING
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Address must be a string');
+          }
+        }
+      }
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('City must be a string');
+          }
+        }
+      }
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('State must be a string');
+          }
+        }
+      }
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Country must be a string');
+          }
+        }
+      }
+    },
+    lat: {
+      type: DataTypes.DECIMAL,
+      validate: {
+        isDecimal: true
+      }
+    },
+    lng: {
+      type: DataTypes.DECIMAL,
+      validate: {
+        isDecimal: true
+      }
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 50],
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Name must be a string');
+          }
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Description must be a string');
+          }
+        }
+      }
+    },
+    price: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      validate: {
+        isDecimal: true
+      }
+    }
   }, {
     sequelize,
-    modelName: 'Spot',
+    modelName: 'Spot'
   });
   return Spot;
 };
