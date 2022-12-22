@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       hooks: true
     },
+    SpotId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     spotId: {
       type: DataTypes.INTEGER,
       references: { model: 'Spots' },
