@@ -19,15 +19,15 @@ module.exports = {
         onDelete: 'cascade',
         hooks: true
       },
-      SpotId: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
       spotId: {
         type: Sequelize.INTEGER,
         references: { model: 'Spots' },
         onDelete: 'cascade',
         hooks: true
+      },
+      SpotId: {
+        type: Sequelize.INTEGER,
+        allowNull: true
       },
       startDate: {
         type: Sequelize.DATEONLY
