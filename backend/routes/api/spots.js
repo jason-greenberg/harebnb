@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { query } = require('express');
 const sequelize = require('sequelize');
 const { Op } = require('sequelize');
-const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
 const { validateStartAndEndDates, ValidationError, BookingError } = require('../../utils/validation');
 
@@ -24,6 +24,33 @@ router.get(
     }
   }
 );
+
+// Return all reviews that belong to a spot specified by id
+router.get(
+  '/:spotId/reviews',
+  async (req, res, next) => {
+    const spotId = +req.params.spotId;
+
+    const reviews = await Review.findAll({
+      attributes: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt'],
+      where: {
+        spotId
+      }
+    });
+    const reviewsJSON = JSON.parse(JSON.stringify(reviews));
+
+    for (const review of reviewsJSON) {
+      review.ReviewImages = await ReviewImage.scope('getReviewsView').findAll({
+        where: { reviewId: review.id }
+      });
+      review.User = await User.scope('spotOwner').findOne({
+        where: { id: review.userId }
+      });
+    }
+
+    res.json({ Reviews: reviewsJSON });
+  }
+)
 
 // Get all bookings for a spot based on the spot's id
 router.get(
