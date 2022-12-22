@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isNotOverlapping: async function(value) {
           // Check if the new booking's start date overlaps with any existing bookings for the same spot
-          const spotId = this.spotId;
+          const spotId = this.get('spotId');
           const existingBookingsStart = await Booking.findAll({
             where: {
               spotId,
