@@ -39,4 +39,70 @@ router.get(
   }
 );
 
+// Create and return a new image for a review specified by id
+router.post(
+  '/:reviewId/images',
+  requireAuth,
+  async (req, res, next) => {
+    const reviewId = +req.params.reviewId;
+    const userId = req.user.id;
+    const { url } = req.body;
+    const review = await Review.findByPk(reviewId);
+
+    // Return 404 Error if review not found
+    if (!review) {
+      return res.status(404).json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      });
+    }
+
+    // Return 403 Not authorized Error if review does not belong to user
+    if (review.userId !== userId) {
+      return res.status(403).json({
+        message: "Review must belong to user in order to add images",
+        statusCode: 403
+      });
+    }
+
+    // Return 403 Error if max of 10 images already reached
+    const allReviewImages = await ReviewImage.count({
+      where: { reviewId }
+    });
+    if (allReviewImages >= 10) {
+      return res.status(403).json({
+        message: "Maximum number of images for this resource was reached",
+        statusCode: 403
+      });
+    }
+
+    // Add a review image, checking for validation errors
+    try {
+      const newReviewImage = await ReviewImage.create({ url, reviewId });
+      const savedReviewImage = await ReviewImage.scope('getReviewsView').findOne({
+        where: { reviewId, url }
+      });
+      res.status(201).json(savedReviewImage);
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        const errors = error.errors.reduce((acc, curr) => {
+          acc[curr.path] = curr.message;
+          return acc;
+        }, {});
+        res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors
+        });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          message: 'An error occurred',
+          statusCode: 500
+        });
+      }
+    }    
+  }
+)
+
 module.exports = router;

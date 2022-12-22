@@ -298,7 +298,7 @@ router.post(
 
     // Return 403 Not authorized Error if spot is OWNED by current user
     if (spot.ownerId === userId) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: "Spot cannot be reviewed by the owner",
         statusCode: 403
       });
