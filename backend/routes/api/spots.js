@@ -3,6 +3,7 @@ const { query } = require('express');
 const sequelize = require('sequelize');
 const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
+const { validateStartAndEndDates } = require('../../utils/validation');
 
 // Return all the spots owned (created) by the current user.
 router.get(
@@ -202,46 +203,52 @@ router.post(
 
     const properties = {
       spotId,
-      SpotId: spotId,
+      SpotId: req.params.spotId,
       userId,
       startDate: parsedStartDate, // Use parsed startDate and endDate
       endDate: parsedEndDate
     }
 
     try {
+      // await validateStartAndEndDates(startDate, endDate, spotId);
       const newBooking = await Booking.create(properties);
-      const retreivedBooking = await Booking.findOne({
+      const retrievedBooking = await Booking.findOne({
         attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
         where: properties
       });
-
+    
       res.status(201)
-      res.json(retreivedBooking);
-    } catch(e) {
-      const errorResponse = {
+      res.json(retrievedBooking);
+    } catch(error) {
+      // Initialize the error response object
+      let errorResponse = {
         message: 'Validation Error',
         statusCode: 400,
         errors: {}
       };
-
-      if (e.name === 'SequelizeValidationError') {
-        e.errors.forEach(error => {
-          errorResponse.errors[error.path] = error.message;
-          if (
-            error.message.includes('Start date conflicts')
-            || error.message.includes('End date conflicts')
-          ) {
-            errorResponse.message = 'Sorry, this spot is already booked for the specified dates';
-            errorResponse.statusCode = 403;
-          }
-        });
+    
+      // Check if the error is a custom error object that looks like an errorResponse constant
+      if (error.message && error.statusCode && error.errors) {
+        errorResponse = error;
       } else {
-        errorResponse.errors.server = 'Server error';
+        // Handle the validation error here
+        if (error.errors) {
+          error.errors.forEach(validationError => {
+            errorResponse.errors[validationError] = validationError;
+            if (
+              validationError.message.includes('Start date conflicts')
+              || validationError.message.includes('End date conflicts')
+            ) {
+              errorResponse.message = 'Sorry, this spot is already booked for the specified dates';
+              errorResponse.statusCode = 403;
+            }
+          });
+        }
       }
-
+      // Send the errorResponse object as a response to the client
       res.status(errorResponse.statusCode);
       res.json(errorResponse);
-    }
+    }  
   }
 );
 
