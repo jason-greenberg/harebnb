@@ -202,6 +202,7 @@ router.post(
 
     const properties = {
       spotId,
+      SpotId: spotId,
       userId,
       startDate: parsedStartDate, // Use parsed startDate and endDate
       endDate: parsedEndDate
