@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth');
 const { Booking, Spot, User, Review, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
+const { SequelizeUniqueConstraintError } = require('sequelize');
 
 // Return all reviews written by the current user
 router.get(
@@ -47,7 +48,9 @@ router.post(
     const reviewId = +req.params.reviewId;
     const userId = req.user.id;
     const { url } = req.body;
-    const review = await Review.findByPk(reviewId);
+    const review = await Review.findOne({
+      where: { id: reviewId }
+    });
 
     // Return 404 Error if review not found
     if (!review) {
@@ -84,7 +87,12 @@ router.post(
       });
       res.status(201).json(savedReviewImage);
     } catch (error) {
-      if (error.name === 'SequelizeValidationError') {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        res.status(400).json({
+          message: 'Images cannot be duplicates or must have unique urls / file names',
+          statusCode: 400
+        });
+      } else if (error.name === 'SequelizeValidationError') {
         const errors = error.errors.reduce((acc, curr) => {
           acc[curr.path] = curr.message;
           return acc;
@@ -101,7 +109,7 @@ router.post(
           statusCode: 500
         });
       }
-    }    
+    }        
   }
 )
 
