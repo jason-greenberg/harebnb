@@ -196,23 +196,7 @@ router.post(
 
     try {
       // Validate startDate and endDate
-      const validationErrors = await validateStartAndEndDates(startDate, endDate, spotId);
-      if (validationErrors) {
-        return res.status(400).json({
-          message: "Validation error",
-          statusCode: 400,
-          errors: validationErrors
-        });
-      }
-      // Create booking
-      const booking = await Booking.create({
-        userId: req.user.id,
-        spotId,
-        startDate: new Date(startDate.split('-').join('/')),
-        endDate: new Date(endDate.split('-').join('/'))
-      });
-    
-      res.status(200).json(booking);
+      await validateStartAndEndDates(startDate, endDate, spotId);
     } catch (error) {
       if (error instanceof ValidationError) {
         return res.status(400).json({
@@ -233,6 +217,36 @@ router.post(
           statusCode: 500
         });
       }
+    }
+
+    try {
+      // Create booking
+      console.log('Creating booking with data:', { userId: req.user.id, spotId, startDate, endDate });
+      const booking = await Booking.create({
+        userId,
+        spotId,
+        startDate,
+        endDate
+      });
+      
+      const mostRecentBooking = await Booking.findOne({
+        where: {
+          userId: user.id,
+          spotId: spot.id
+        },
+        attributes: ['id', 'userId', 'spotId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        limit: 1
+      });
+      return res.status(201).json(mostRecentBooking);      
+    } catch (error) {
+      console.error('Error occurred when creating booking:', error);
+      return res.status(500).json({
+        message: "An unexpected error occurred",
+        statusCode: 500
+      });
     }
   }
 );
