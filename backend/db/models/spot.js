@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Spot.hasMany(
+        models.Booking,
+        { foreignKey: 'spotId' }
+      ),
       Spot.belongsToMany(
         models.User,
         { through: models.Booking, foreignKey: 'spotId' }
@@ -121,7 +125,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Spot'
+    modelName: 'Spot',
+    defaultScope: {
+      attributes: {}
+    },
+    scopes: {
+      bookingView: {
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      }
+    }
   });
   return Spot;
 };
