@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
           const spotId = this.spotId;
           const existingBookingsStart = await Booking.findAll({
             where: {
-              spotId: spotId,
+              spotId,
               startDate: { [Op.lte]: this.startDate },
               endDate: { [Op.gte]: this.startDate }
             }
@@ -63,13 +63,18 @@ module.exports = (sequelize, DataTypes) => {
           const spotId = this.spotId;
           const existingBookingsEnd = await Booking.findAll({
             where: {
-              spotId: spotId,
+              spotId,
               startDate: { [Op.lte]: this.endDate },
               endDate: { [Op.gte]: this.endDate }
             }
           });
           if (existingBookingsEnd.length > 0) {
             throw new Error('End date conflicts with an existing booking');
+          }
+        },
+        isPast: function(value) {
+          if (new Date(value) < new Date()) {
+            throw new Error('Cannot edit a booking in the past');
           }
         }
       }

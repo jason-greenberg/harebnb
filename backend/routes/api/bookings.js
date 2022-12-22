@@ -38,5 +38,82 @@ router.get(
   }
 );
 
+// Update and return an existing booking
+router.put(
+  '/:bookingId',
+  requireAuth,
+  async (req, res, next) => {
+    const { user } = req;
+    const userId = user.id;
+    const bookingId = +req.params.bookingId;
+    const { startDate, endDate } = req.body;
+    const booking = await Booking.findOne({
+      where: { id: bookingId }
+    });
+
+    console.log(bookingId);
+    // Return 404 Error if booking not found
+    if (!booking) {
+      res.status(404);
+      return res.json({
+        message: "Booking couldn't be found",
+        statusCode: 404
+      });
+    }
+
+    // Return 403 Forbidden if booking does not belong to user
+    if (booking.userId !== userId) {
+      res.status(403);
+      return res.json({
+        message: 'Forbidden',
+        statusCode: 403
+      });
+    }
+
+    const parsedStartDate = new Date(startDate.split('-').join('/')).toISOString(); //fixes JS bug that makes date one day off
+    const parsedEndDate = new Date(endDate.split('-').join('/')).toISOString();
+
+    try {
+      await Booking.update({
+        startDate: parsedStartDate,
+        endDate: parsedEndDate,
+        spotId: booking.spotId
+      }, { where: { id: bookingId }
+      });
+
+      const updatedBooking = await Booking.findOne({
+        attributes: ['id', 'userId', 'spotId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+        where: { id: bookingId }
+      });
+
+      res.json(updatedBooking);
+    } catch(e) {
+      const errorResponse = {
+        message: 'Validation Error',
+        statusCode: 400,
+        errors: {}
+      };
+
+      if (e.name === 'SequelizeValidationError') {
+        e.errors.forEach(error => {
+          errorResponse.errors[error.path] = error.message;
+          if (
+            error.message.includes('Start date conflicts')
+            || error.message.includes('End date conflicts')
+          ) {
+            errorResponse.message = 'Sorry, this spot is already booked for the specified dates';
+            errorResponse.statusCode = 403;
+          }
+        });
+      } else {
+        errorResponse.errors.server = 'Server error';
+      }
+
+      res.status(errorResponse.statusCode);
+      res.json(errorResponse);
+    }
+  }
+);
+
 
 module.exports = router;
