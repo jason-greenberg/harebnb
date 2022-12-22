@@ -111,6 +111,63 @@ router.post(
       }
     }        
   }
+);
+
+// Update and return an existing review
+router.put(
+  '/:reviewId',
+  requireAuth,
+  async (req, res, next) => {
+    const reviewId = +req.params.reviewId;
+    const userId = req.user.id;
+    const { review, stars } = req.body;
+    const reviewToEdit = await Review.findOne({
+      where: { id: reviewId }
+    });
+
+    // Return 404 Error if review not found
+    if (!reviewToEdit) {
+      return res.status(404).json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      });
+    }
+
+    // Return 403 Not authorized Error if review does not belong to user
+    if (reviewToEdit.userId !== userId) {
+      return res.status(403).json({
+        message: "Review must belong to user in order to edit",
+        statusCode: 403
+      });
+    }
+
+    // Create review, checking for validation errors
+    try {
+      await Review.update({ review, stars }, { where: { id: reviewId } });
+      const savedReview = await Review.scope('createReview').findOne({
+        where: { id: reviewId }
+      });
+      res.status(200).json(savedReview);
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        const errors = error.errors.reduce((acc, curr) => {
+          acc[curr.path] = curr.message;
+          return acc;
+        }, {});
+        res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors
+        });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          message: 'An error occurred',
+          statusCode: 500
+        });
+      }
+    }  
+  }
 )
 
 module.exports = router;
