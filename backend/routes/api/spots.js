@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const { query } = require('express');
 const sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
-const { validateStartAndEndDates } = require('../../utils/validation');
+const { validateStartAndEndDates, ValidationError, BookingError } = require('../../utils/validation');
 
 // Return all the spots owned (created) by the current user.
 router.get(
@@ -14,7 +15,6 @@ router.get(
     if (user) {
       const query = { where: {} }
       query.where = { ownerId: user.id };
-      console.log(query);
 
       const userSpots = await Spot.findAll(query);
 
@@ -56,7 +56,6 @@ router.get(
           where: booking.userId 
         });
         booking.User = user;
-        console.log(user);
         booking.startDate = new Date(booking.startDate).toISOString().slice(0, 10); // format date output
         booking.endDate = new Date(booking.endDate).toISOString().slice(0, 10);
       }
@@ -173,82 +172,72 @@ router.post(
   '/:spotId/bookings',
   requireAuth,
   async (req, res, next) => {
-    try {
-      const { user } = req;
-      const userId = user.id;
-      const { startDate, endDate } = req.body;
-      const spotId = parseInt(req.params.spotId);
-      const spot = await Spot.findByPk(spotId);
+    const { user } = req;
+    const userId = user.id;
+    const { startDate, endDate } = req.body;
+    const spotId = parseInt(req.params.spotId);
+    const spot = await Spot.findByPk(spotId);
 
-      // Return 404 Error if spot not found
-      if (!spot) {
-        return res.status(404).json({
-          message: "Spot couldn't be found",
-          statusCode: 404
-        });
-      }
-
-      // Return 403 Not authorized Error if spot is OWNED by current user
-      if (spot.ownerId === userId) {
-        return res.status(401).json({
-          message: "Forbidden",
-          statusCode: 403
-        });
-      }
-
-      // Parse startDate and endDate to Date objects
-      const parsedStartDate = new Date(startDate.split('-').join('/')); //fixes JS bug that makes date one day off
-      const parsedEndDate = new Date(endDate.split('-').join('/'));
-
-      const properties = {
-        spotId,
-        userId,
-        startDate: parsedStartDate, // Use parsed startDate and endDate
-        endDate: parsedEndDate
-      };
-
-      // await validateStartAndEndDates(startDate, endDate, spotId);
-      const newBooking = await Booking.create(properties);
-      const retrievedBooking = await Booking.findOne({
-        attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
-        where: properties
+    // Return 404 Error if spot not found
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+        statusCode: 404
       });
+    }
 
-      res.status(201).json(retrievedBooking);
-    } catch(error) {
-      console.error(error);
+    // Return 403 Not authorized Error if spot is OWNED by current user
+    if (spot.ownerId === userId) {
+      return res.status(401).json({
+        message: "Forbidden",
+        statusCode: 403
+      });
+    }
 
-      // Initialize the error response object
-      let errorResponse = {
-        message: 'Error creating booking',
-        statusCode: 500,
-        errors: {}
-      };
-
-      // Check if the error is a custom error object that looks like an errorResponse constant
-      if (error.message && error.statusCode && error.errors) {
-        errorResponse = error;
-      } else {
-        // Handle the validation error here
-        if (error.errors) {
-          error.errors.forEach(validationError => {
-            errorResponse.errors[validationError] = validationError;
-            if (
-              validationError.message.includes('Start date conflicts')
-              || validationError.message.includes('End date conflicts')
-            ) {
-              errorResponse.message = 'Sorry, this spot is already booked for the specified dates';
-              errorResponse.statusCode = 403;
-            }
-          });
-        }
+    try {
+      // Validate startDate and endDate
+      const validationErrors = await validateStartAndEndDates(startDate, endDate, spotId);
+      if (validationErrors) {
+        return res.status(400).json({
+          message: "Validation error",
+          statusCode: 400,
+          errors: validationErrors
+        });
       }
-
-      // Send the errorResponse object as a response to the client
-      res.status(errorResponse.statusCode).json(errorResponse);
-    }  
+      // Create booking
+      const booking = await Booking.create({
+        userId: req.user.id,
+        spotId,
+        startDate,
+        endDate
+      });
+    
+      res.status(200).json(booking);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).json({
+          message: "Validation error",
+          statusCode: 400,
+          errors: error.errors
+        });
+      } else if (error instanceof BookingError) {
+        return res.status(400).json({
+          message: "Sorry, this spot is already booked for the specified dates",
+          statusCode: 403,
+          errors: error.errors
+        });
+      } else {
+        // Return 500 Internal Server Error for unexpected errors
+        return res.status(500).json({
+          message: "An unexpected error occurred",
+          statusCode: 500
+        });
+      }
+    }
   }
 );
+
+
 
 
 
