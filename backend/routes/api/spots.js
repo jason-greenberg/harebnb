@@ -168,65 +168,64 @@ router.post(
   }
 );
 
-// Create and return a new booking from a spot specified by id
+// Create and return a new booking from a spot specified by id.
 router.post(
   '/:spotId/bookings',
   requireAuth,
   async (req, res, next) => {
-    const { user } = req;
-    const userId = user.id;
-    const { startDate, endDate } = req.body;
-    const spotId = parseInt(req.params.spotId);
-    const spot = await Spot.findByPk(spotId);
-
-    // Return 404 Error if spot not found
-    if (!spot) {
-      res.status(404);
-      return res.json({
-        message: "Spot couldn't be found",
-        statusCode: 404
-      })
-    }
-
-    // Return 403 Not authorized Error if spot is OWNED by current user
-    if (spot.ownerId === userId) {
-      res.status(401);
-      return res.json({
-        message: "Forbidden",
-        statusCode: 403
-      })
-    }
-
-    // Parse startDate and endDate to Date objects
-    const parsedStartDate = new Date(startDate.split('-').join('/')); //fixes JS bug that makes date one day off
-    const parsedEndDate = new Date(endDate.split('-').join('/'));
-
-    const properties = {
-      spotId,
-      SpotId: req.params.spotId,
-      userId,
-      startDate: parsedStartDate, // Use parsed startDate and endDate
-      endDate: parsedEndDate
-    }
-
     try {
+      const { user } = req;
+      const userId = user.id;
+      const { startDate, endDate } = req.body;
+      const spotId = parseInt(req.params.spotId);
+      const spot = await Spot.findByPk(spotId);
+
+      // Return 404 Error if spot not found
+      if (!spot) {
+        return res.status(404).json({
+          message: "Spot couldn't be found",
+          statusCode: 404
+        });
+      }
+
+      // Return 403 Not authorized Error if spot is OWNED by current user
+      if (spot.ownerId === userId) {
+        return res.status(401).json({
+          message: "Forbidden",
+          statusCode: 403
+        });
+      }
+
+      // Parse startDate and endDate to Date objects
+      const parsedStartDate = new Date(startDate.split('-').join('/')); //fixes JS bug that makes date one day off
+      const parsedEndDate = new Date(endDate.split('-').join('/'));
+
+      const properties = {
+        spotId,
+        SpotId: req.params.spotId,
+        userId,
+        startDate: parsedStartDate, // Use parsed startDate and endDate
+        endDate: parsedEndDate
+      };
+
       // await validateStartAndEndDates(startDate, endDate, spotId);
       const newBooking = await Booking.create(properties);
       const retrievedBooking = await Booking.findOne({
         attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
         where: properties
       });
-    
-      res.status(201)
-      res.json(retrievedBooking);
+
+      res.status(201).json(retrievedBooking);
     } catch(error) {
+      console.error(error);
+
       // Initialize the error response object
       let errorResponse = {
-        message: 'Validation Error',
-        statusCode: 400,
+        message: 'Error creating booking',
+        statusCode: 500,
         errors: {}
       };
-    
+
       // Check if the error is a custom error object that looks like an errorResponse constant
       if (error.message && error.statusCode && error.errors) {
         errorResponse = error;
@@ -245,12 +244,13 @@ router.post(
           });
         }
       }
+
       // Send the errorResponse object as a response to the client
-      res.status(errorResponse.statusCode);
-      res.json(errorResponse);
+      res.status(errorResponse.statusCode).json(errorResponse);
     }  
   }
 );
+
 
 
 // Create and return a new spot
