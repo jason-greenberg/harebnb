@@ -51,7 +51,6 @@ router.put(
       where: { id: bookingId }
     });
 
-    console.log(bookingId);
     // Return 404 Error if booking not found
     if (!booking) {
       res.status(404);
@@ -112,6 +111,73 @@ router.put(
       res.status(errorResponse.statusCode);
       res.json(errorResponse);
     }
+  }
+);
+
+// Delete an existing booking
+router.delete(
+  '/:bookingId',
+  requireAuth,
+  async (req, res, next) => {
+    const { user } = req;
+    const userId = user.id;
+    const bookingId = +req.params.bookingId;
+    const { startDate, endDate } = req.body;
+    const booking = await Booking.findOne({
+      where: { id: bookingId }
+    });
+
+    // Return 404 Error if booking not found
+    if (!booking) {
+      res.status(404);
+      return res.json({
+        message: "Booking couldn't be found",
+        statusCode: 404
+      });
+    }
+
+    const spot = await Spot.findOne({
+      attributes: ['id', 'ownerId'],
+      where: { id: booking.spotId }
+    });
+    const ownerId = spot.ownerId;
+    console.log(ownerId);
+
+    // Return 403 Forbidden if booking does not belong to user, or if user is not the spot owner
+    if (booking.userId !== userId && ownerId !== userId) {
+      res.status(403);
+      return res.json({
+        message: 'Forbidden',
+        statusCode: 403
+      });
+    }
+
+    // Return 403 Error if booking has already started
+    if (booking.startDate < new Date()) {
+      res.status(403);
+      return res.json({
+        message: "Bookings that have been started can't be deleted",
+        statusCode: 403
+      });
+    }
+
+    try {
+      await Booking.destroy({
+        where: { id: bookingId }
+      });
+      res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+      });
+    } catch (error) {
+      res.status(500);
+      res.json({
+        message: "There was an error deleting the booking",
+        statusCode: 500,
+        error: error
+      });
+    }
+
   }
 );
 
