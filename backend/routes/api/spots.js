@@ -199,7 +199,7 @@ router.post(
       console.log('Creating booking with data:', { userId: req.user.id, spotId, startDate, endDate });
       const booking = await Booking.create({
         userId: req.user.id,
-        spotId,
+        spotId: req.params.spotId,
         startDate,
         endDate
       });
