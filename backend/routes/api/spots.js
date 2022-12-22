@@ -225,7 +225,7 @@ router.post(
       const booking = await Booking.create({
         userId: req.user.id,
         spotId,
-        startDate: new Date(startDate.split('-').join('/'));
+        startDate: new Date(startDate.split('-').join('/')),
         endDate: new Date(endDate.split('-').join('/'))
       });
     
