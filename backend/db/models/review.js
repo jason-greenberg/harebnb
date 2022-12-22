@@ -29,11 +29,37 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       hooks: true
     },
-    review: DataTypes.TEXT,
-    stars: DataTypes.INTEGER
+    review: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          msg: 'Review text is required'
+        }
+      }
+    },
+    stars: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: {
+          msg: 'Stars must be an integer'
+        },
+        isIn: {
+          args: [[1, 2, 3, 4, 5]],
+          msg: 'Stars must be an integer from 1 to 5'
+        }
+      }
+    }    
   }, {
     sequelize,
     modelName: 'Review',
+    defaultScope: {},
+    scopes: {
+      createReview: {
+        attributes: {
+          include: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt']
+        }
+      }
+    }
   });
   return Review;
 };
