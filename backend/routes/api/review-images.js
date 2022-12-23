@@ -16,7 +16,7 @@ router.delete(
     // Return 404 Error if review image not found
     if (!reviewImage) {
       return res.status(404).json({
-        message: "Review couldn't be found",
+        message: "Review Image couldn't be found",
         statusCode: 404
       });
     }
@@ -27,7 +27,7 @@ router.delete(
     // Return 403 Not authorized Error if review image does not belong to user
     if (review.userId !== userId) {
       return res.status(403).json({
-        message: "Review must belong to user in order to add images",
+        message: "Review must belong to user in order to delete images",
         statusCode: 403
       });
     }

@@ -68,6 +68,17 @@ router.post(
       });
     }
 
+    // Check for existing review image with the same url and reviewId combination
+    const existingReviewImage = await ReviewImage.findOne({
+      where: { reviewId, url }
+    });
+    if (existingReviewImage) {
+      return res.status(409).json({
+        message: 'This combination of reviewId and url is already in use',
+        statusCode: 409
+      });
+    }
+
     // Return 403 Error if max of 10 images already reached
     const allReviewImages = await ReviewImage.count({
       where: { reviewId }
