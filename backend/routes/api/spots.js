@@ -30,6 +30,15 @@ router.get(
   '/:spotId/reviews',
   async (req, res, next) => {
     const spotId = +req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    // Return 404 error if spot does not exist
+    if (!spot) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      })
+    }
 
     const reviews = await Review.findAll({
       attributes: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt'],
