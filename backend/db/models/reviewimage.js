@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   ReviewImage.init({
     reviewId: {
       type: DataTypes.INTEGER,
-      references: { model: 'Reviews' },
+      references: { model: 'Reviews', onDelete: 'cascade', hooks: true },
       allowNull: false
     },
     url: {

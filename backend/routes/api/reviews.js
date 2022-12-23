@@ -168,6 +168,70 @@ router.put(
       }
     }  
   }
-)
+);
+
+// Delete an existing review
+router.delete(
+  '/:reviewId',
+  requireAuth,
+  async (req, res, next) => {
+    const reviewId = +req.params.reviewId;
+    const userId = req.user.id;
+
+    const reviewToDelete = await Review.findByPk(reviewId)
+
+    // Return 404 Error if review not found
+    if (!reviewToDelete) {
+      return res.status(404).json({
+        message: "Review couldn't be found",
+        statusCode: 404
+      });
+    }
+
+    // Return 403 Not authorized Error if review does not belong to user
+    if (reviewToDelete.userId !== userId) {
+      return res.status(403).json({
+        message: "Review must belong to user in order to delete",
+        statusCode: 403
+      });
+    }
+    // Delete review, checking for sequelize errors
+    try {
+      // Delete all review images that have a foreign key reference to the review
+      await ReviewImage.destroy({
+        where: { reviewId: reviewId }
+      });
+
+      // Then delete the review itself
+      await Review.destroy({
+        where: { id: reviewId }
+      });
+
+      res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+      })
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        const errors = error.errors.reduce((acc, curr) => {
+          acc[curr.path] = curr.message;
+          return acc;
+        }, {});
+        res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors
+        });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          message: 'An error occurred',
+          statusCode: 500
+        });
+      }
+    }
+
+  }
+);
 
 module.exports = router;
