@@ -18,8 +18,11 @@ router.get(
         userId
       }
     });
+
+    // Convert the spots array to a plain JavaScript object
     const reviewsJSON = JSON.parse(JSON.stringify(reviews));
 
+    // Iterate over the spotsJSON array and add avgRating properties to each spot object
     for (const review of reviewsJSON) {
       const spot = await Spot.scope('bookingView').findOne({ where: { id: review.spotId } });
       const previewImage = await spot.getSpotImages();
