@@ -33,8 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           msg: 'Review text is required'
         },
-        isString: {
-          msg: 'Review must be a string'
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Review must be a string');
+          }
         }
       }
     },
