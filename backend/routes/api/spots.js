@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { query } = require('express');
 const sequelize = require('sequelize');
 const { Op } = require('sequelize');
-const { Spot, Review, SpotImage, User, Booking } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 const { requireAuth, restoreUser } = require('../../utils/auth');
 const { validateStartAndEndDates, ValidationError, BookingError } = require('../../utils/validation');
 
@@ -24,6 +24,33 @@ router.get(
     }
   }
 );
+
+// Return all reviews that belong to a spot specified by id
+router.get(
+  '/:spotId/reviews',
+  async (req, res, next) => {
+    const spotId = +req.params.spotId;
+
+    const reviews = await Review.findAll({
+      attributes: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt'],
+      where: {
+        spotId
+      }
+    });
+    const reviewsJSON = JSON.parse(JSON.stringify(reviews));
+
+    for (const review of reviewsJSON) {
+      review.ReviewImages = await ReviewImage.scope('getReviewsView').findAll({
+        where: { reviewId: review.id }
+      });
+      review.User = await User.scope('spotOwner').findOne({
+        where: { id: review.userId }
+      });
+    }
+
+    res.json({ Reviews: reviewsJSON });
+  }
+)
 
 // Get all bookings for a spot based on the spot's id
 router.get(
@@ -251,9 +278,71 @@ router.post(
   }
 );
 
+// Create and return a review for a spot specified by id
+router.post(
+  '/:spotId/reviews',
+  requireAuth,
+  async (req, res, next) => {
+    const spotId = +req.params.spotId;
+    const userId = req.user.id;
+    const { review, stars } = req.body;
+    const spot = await Spot.findByPk(spotId);
 
+    // Return 404 Error if spot not found
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+        statusCode: 404
+      });
+    }
 
+    // Return 403 Not authorized Error if spot is OWNED by current user
+    if (spot.ownerId === userId) {
+      return res.status(403).json({
+        message: "Spot cannot be reviewed by the owner",
+        statusCode: 403
+      });
+    }
 
+    // Return 403 Not authorized Error if user has already reviewed spot
+    const userReviews = await Review.findAll({
+      where: { spotId, userId }
+    });
+    if (userReviews.length > 0) {
+      return res.status(401).json({
+        message: "User already has a review for this spot",
+        statusCode: 403
+      });
+    }
+
+    // Create review, checking for validation errors
+    try {
+      const completeReview = await Review.create({ review, stars, spotId, userId });
+      const savedReview = await Review.scope('createReview').findOne({
+        where: { review, userId, spotId }
+      });
+      res.status(201).json(savedReview);
+    } catch (error) {
+      if (error.name === 'SequelizeValidationError') {
+        const errors = error.errors.reduce((acc, curr) => {
+          acc[curr.path] = curr.message;
+          return acc;
+        }, {});
+        res.status(400).json({
+          message: 'Validation error',
+          statusCode: 400,
+          errors
+        });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          message: 'An error occurred',
+          statusCode: 500
+        });
+      }
+    }        
+  }
+);
 
 // Create and return a new spot
 router.post(

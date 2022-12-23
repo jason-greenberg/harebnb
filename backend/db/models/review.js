@@ -13,27 +13,51 @@ module.exports = (sequelize, DataTypes) => {
       Review.hasMany(
         models.ReviewImage,
         { foreignKey: 'reviewId', onDelete: 'cascade', hooks: true }
-      )
-    }
+      );        
+    }       
   }
   Review.init({
     userId: {
       type: DataTypes.INTEGER,
       references: { model: 'Users' },
-      onDelete: 'cascade',
-      hooks: true
+      onDelete: 'cascade'
     },
     spotId: {
       type: DataTypes.INTEGER,
       references: { model: 'Spots' },
-      onDelete: 'cascade',
-      hooks: true
+      onDelete: 'cascade'
     },
-    review: DataTypes.TEXT,
-    stars: DataTypes.INTEGER
+    review: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          msg: 'Review text is required'
+        }
+      }
+    },
+    stars: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isInt: {
+          msg: 'Stars must be an integer'
+        },
+        isIn: {
+          args: [[1, 2, 3, 4, 5]],
+          msg: 'Stars must be an integer from 1 to 5'
+        }
+      }
+    }    
   }, {
     sequelize,
     modelName: 'Review',
+    defaultScope: {},
+    scopes: {
+      createReview: {
+        attributes: {
+          include: ['id', 'userId', 'spotId', 'review', 'stars', 'createdAt', 'updatedAt']
+        }
+      }
+    }
   });
   return Review;
 };

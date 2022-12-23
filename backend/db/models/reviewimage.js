@@ -19,14 +19,31 @@ module.exports = (sequelize, DataTypes) => {
   ReviewImage.init({
     reviewId: {
       type: DataTypes.INTEGER,
-      references: { model: 'Reviews' }
+      references: { model: 'Reviews', onDelete: 'cascade', hooks: true },
+      allowNull: false
     },
     url: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: 'compositeIndex',
+      validate: {
+        notEmpty: {
+          msg: 'url text is required'
+        }
+      }
     }
   }, {
     sequelize,
     modelName: 'ReviewImage',
+    defaultScope: {},
+    scopes: {
+      getReviewsView: {
+        attributes: {
+          include: ['id', 'url'],
+          exclude: ['reviewId', 'createdAt', 'updatedAt']
+        }
+      }
+    }
   });
   return ReviewImage;
 };

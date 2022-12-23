@@ -15,10 +15,12 @@ module.exports = {
       },
       reviewId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Reviews' }
+        references: { model: 'Reviews' },
+        allowNull: false
       },
       url: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +33,10 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
+    await queryInterface.addIndex('ReviewImages', ['reviewId', 'url'], {
+      name: 'compositeIndex',
+      unique: true
+    });
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "ReviewImages";

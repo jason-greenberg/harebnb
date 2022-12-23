@@ -27,6 +27,24 @@ module.exports = {
         review: 'Charming and cozy home. Would stay again.',
         stars: 4
       },
+      {
+        userId: 2,
+        spotId: 1,
+        review: 'I had a great time here! The basket-weaving classes were so much fun.',
+        stars: 5
+      },
+      {
+        userId: 2,
+        spotId: 2,
+        review: 'This was a great place to stay. The location was convenient and the home was comfortable.',
+        stars: 4
+      },
+      {
+        userId: 2,
+        spotId: 3,
+        review: 'I loved staying at this cozy home. It was charming and I would definitely stay here again.',
+        stars: 4
+      },
   ], {});
 },
 
