@@ -216,7 +216,7 @@ router.get(
       const reviews = await Review.findAll({
         where: { spotId: spot.id }
       });
-      
+
       const avgRating = reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length;
       return {
         ...spot.dataValues,
@@ -327,7 +327,8 @@ router.post(
         // Return 500 Internal Server Error for unexpected errors
         return res.status(500).json({
           message: "An unexpected error occurred",
-          statusCode: 500
+          statusCode: 500,
+          error
         });
       }
     }
