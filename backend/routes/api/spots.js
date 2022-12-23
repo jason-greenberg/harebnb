@@ -11,17 +11,33 @@ router.get(
   '/current',
   requireAuth,
   async (req, res, next) => {
-    const { user } = req;
-    if (user) {
-      const query = { where: {} }
-      query.where = { ownerId: user.id };
+    const user = req.user;
+    const query = { where: {} }
+    query.where = { ownerId: user.id };
 
-      const userSpots = await Spot.findAll(query);
+    const userSpots = await Spot.findAll(query);
 
-      res.json({
-        Spots: userSpots
-      });
-    }
+    // Map each spot to an object with its average rating and preview image
+    const spotsWithAvgRatingAndPreviewImage = await Promise.all(
+      userSpots.map(async (spot) => {
+        const spotId = spot.id;
+        const previewImages = await SpotImage.findAll({ where: { spotId: spotId } });
+        const spotJSON = spot.toJSON();
+        spotJSON.previewImage = previewImages[0].url;
+
+        // Calculate the average rating for the spot
+        const reviews = await Review.findAll({
+          where: { spotId: spot.id }
+        });
+        const avgRating = reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length;
+        spotJSON.avgRating = avgRating;
+
+        return spotJSON;
+      })
+    );
+
+    // Return the modified spotsJSON array in the response
+    res.json({ Spots: spotsWithAvgRatingAndPreviewImage });
   }
 );
 
@@ -128,8 +144,11 @@ router.get(
         group: ['spotId']
       });
 
+      // Add aggregated and lazy loaded properties to spot object numReviews, avgStarRating, SpotImages
+      const previewImages = await spot.getSpotImages();
       spotJSON.numReviews = await Review.count({ where: { spotId }});
       spotJSON.avgStarRating = result[0].dataValues.averageStars;
+      spotJSON.previewImage = previewImages[0].url;
       spotJSON.SpotImages = await spot.getSpotImages();
       spotJSON.Owner = await spot.getUser({
         through: {
@@ -211,27 +230,27 @@ router.get(
       order: [['createdAt', 'DESC']]
     });
 
-    // Map each spot to an object with its average rating
-    const spotsWithAvgRating = spots.map(async (spot) => {
-      const reviews = await Review.findAll({
-        where: { spotId: spot.id }
-      });
+    // Map each spot to an object with its average rating and preview image
+    const spotsWithAvgRatingAndPreviewImage = await Promise.all(
+      spots.map(async (spot) => {
+        const spotId = spot.id;
+        const previewImages = await SpotImage.findAll({ where: { spotId: spotId } });
+        const spotJSON = spot.toJSON();
+        spotJSON.previewImage = previewImages[0].url;
 
-      const avgRating = reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length;
-      return {
-        ...spot.dataValues,
-        avgRating
-      };
-    });
+        // Calculate the average rating for the spot
+        const reviews = await Review.findAll({
+          where: { spotId: spot.id }
+        });
+        const avgRating = reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length;
+        spotJSON.avgRating = avgRating;
 
-    // Wait for all mappings to complete
-    const mappedSpots = await Promise.all(spotsWithAvgRating);
+        return spotJSON;
+      })
+    );
 
-    res.json({
-      Spots: mappedSpots,
-      page,
-      size
-    });
+    // Return the modified spotsJSON array in the response
+    res.json({ Spots: spotsWithAvgRatingAndPreviewImage, page, size });
 });
 
 // Create and return a new image for a spot specified by id
