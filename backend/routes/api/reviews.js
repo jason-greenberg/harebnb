@@ -189,7 +189,9 @@ router.delete(
     const reviewId = +req.params.reviewId;
     const userId = req.user.id;
 
-    const reviewToDelete = await Review.findByPk(reviewId)
+    const reviewToDelete = await Review.findOne({
+      where: { id: reviewId }
+    });
 
     // Return 404 Error if review not found
     if (!reviewToDelete) {

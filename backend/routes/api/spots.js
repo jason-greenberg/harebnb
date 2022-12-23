@@ -31,6 +31,7 @@ router.get(
   async (req, res, next) => {
     const spotId = +req.params.spotId;
     const spot = await Spot.findByPk(spotId);
+    
     // Return 404 error if spot does not exist
     if (!spot) {
       res.status(404);
