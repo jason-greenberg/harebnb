@@ -33,10 +33,6 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-    await queryInterface.addIndex('ReviewImages', ['reviewId', 'url'], {
-      name: 'compositeIndex',
-      unique: true
-    }, options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "ReviewImages";
