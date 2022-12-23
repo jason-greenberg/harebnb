@@ -384,21 +384,6 @@ router.post(
       });
     }
 
-    // Validate review field to make sure it is a string
-    const errors = {};
-    if (review && typeof review !== 'string') {
-      errors.review = "Review must be a string";
-    }
-
-    // If there are any validation errors, return a 400 response with the errors
-    if (Object.keys(errors).length > 0) {
-      return res.status(400).json({
-        message: "Validation error",
-        statusCode: 400,
-        errors
-      });
-    }
-
     // Create review, checking for validation errors
     try {
       const completeReview = await Review.create({ review, stars, spotId, userId });

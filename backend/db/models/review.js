@@ -32,6 +32,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'Review text is required'
+        },
+        isString: {
+          msg: 'Review must be a string'
         }
       }
     },
