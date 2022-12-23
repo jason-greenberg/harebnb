@@ -5,29 +5,26 @@ const { Spot, SpotImage } = require('../../db/models');
 // Delete an existing image for a spot
 router.delete(
   '/:imageId',
-  restoreUser,
   requireAuth,
   async (req, res, next) => {
     const imageId = +req.params.imageId;
+    console.log(imageId);
     const userId = req.user.id;
-    const spotImage = await SpotImage.findOne({
-      where: { id: imageId }
-    });
-    const spotId = spotImage.spotId;
+    const spotImage = await SpotImage.scope('spotImageView').findByPk(imageId);
     console.log(spotImage);
 
     // Return 404 Error if spot image not found
     if (!spotImage) {
       return res.status(404).json({
-        message: "Spot image couldn't be found",
+        message: "Spot Image couldn't be found",
         statusCode: 404
       });
     }
 
     // Retreive spot the image belongs to
-    const spot = await Spot.findOne({
-      where: { id: spotId }
-    });
+    const spotId = spotImage.spotId;
+    console.log(spotId);
+    const spot = await Spot.findByPk(spotId);
     console.log(spot);
 
     // Return 403 Not authorized Error if spot image does not belong to user
@@ -40,10 +37,10 @@ router.delete(
 
     // Delete spot image, checking for sequelize errors
     try {
-      // // Delete spot image by id
-      // await SpotImage.destroy({
-      //   where: { id: imageId }
-      // });
+      // Delete spot image by id
+      await SpotImage.destroy({
+        where: { id: imageId }
+      });
 
       res.json({
         message: "Successfully deleted",
