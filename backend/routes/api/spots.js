@@ -164,7 +164,7 @@ router.get(
       maxPrice
     } = req.query;
 
-    // Convert query parameters to numbers if they are not already
+    // Convert query parameters to numbers
     page = parseInt(page);
     size = parseInt(size);
     minLat = minLat ? parseFloat(minLat) : undefined;
@@ -203,24 +203,32 @@ router.get(
     if (minPrice) where.price = { [Op.gte]: minPrice };
     if (maxPrice) where.price = { [Op.lte]: maxPrice };
 
-    const allSpots = await Spot.findAll({
+    // Query all spots
+    const spots = await Spot.findAll({
       where,
       limit: size,
       offset: (page - 1) * size,
       order: [['createdAt', 'DESC']]
     });
 
-    // Cast 'lat', 'lng', and 'price' values to numbers before returning them in the response
-    // This is only necessary for using postgreSQL in prod, as normally these appear as numbers in sqlite for eg.
-    const formattedSpots = allSpots.map(spot => ({
-      ...spot,
-      lat: Number(spot.lat),
-      lng: Number(spot.lng),
-      price: Number(spot.price)
-    }));
+    // Map each spot to an object with its average rating
+    const spotsWithAvgRating = spots.map(async (spot) => {
+      const reviews = await Review.findAll({
+        where: { spotId: spot.id }
+      });
+      
+      const avgRating = reviews.reduce((acc, review) => acc + review.stars, 0) / reviews.length;
+      return {
+        ...spot.dataValues,
+        avgRating
+      };
+    });
+
+    // Wait for all mappings to complete
+    const mappedSpots = await Promise.all(spotsWithAvgRating);
 
     res.json({
-      Spots: allSpots,
+      Spots: mappedSpots,
       page,
       size
     });
