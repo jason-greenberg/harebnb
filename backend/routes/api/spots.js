@@ -143,9 +143,68 @@ router.get(
 router.get(
   '/',
   async (req, res, next) => {
-    const allSpots = await Spot.findAll();
+    let {
+      page = 1,
+      size = 20,
+      minLat,
+      maxLat,
+      minLng,
+      maxLng,
+      minPrice,
+      maxPrice
+    } = req.query;
 
-    res.json({Spots: allSpots});
+    // Convert query parameters to numbers if they are not already
+    page = parseInt(page);
+    size = parseInt(size);
+    minLat = minLat ? parseFloat(minLat) : undefined;
+    maxLat = maxLat ? parseFloat(maxLat) : undefined;
+    minLng = minLng ? parseFloat(minLng) : undefined;
+    maxLng = maxLng ? parseFloat(maxLng) : undefined;
+    minPrice = minPrice ? parseFloat(minPrice) : undefined;
+    maxPrice = maxPrice ? parseFloat(maxPrice) : undefined;
+
+    
+    // Validate query parameters
+    const errors = {};
+    if (page && (page < 1 || page > 10)) errors.page = "Page must be between 1 and 10";
+    if (size && (size < 1 || size > 20)) errors.size = "Size must be between 1 and 20";
+    if (minLat && (minLat < -90 || minLat > 90)) errors.minLat = "Minimum latitude is invalid";
+    if (maxLat && (maxLat < -90 || maxLat > 90)) errors.maxLat = "Maximum latitude is invalid";
+    if (minLng && (minLng < -180 || minLng > 180)) errors.minLng = "Minimum longitude is invalid";
+    if (maxLng && (maxLng < -180 || maxLng > 180)) errors.maxLng = "Maximum longitude is invalid";
+    if (minPrice && (minPrice < 0)) errors.minPrice = "Minimum price must be greater than or equal to 0";
+    if (maxPrice && (maxPrice < 0)) errors.maxPrice = "Maximum price must be greater than or equal to 0";
+
+    // If there are any validation errors, return a 400 response with the errors
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        message: "Validation error",
+        statusCode: 400,
+        errors
+      });
+    }
+
+    const where = {};
+    if (minLat) where.lat = { [Op.gte]: minLat };
+    if (maxLat) where.lat = { [Op.lte]: maxLat };
+    if (minLng) where.lng = { [Op.gte]: minLng };
+    if (maxLng) where.lng = { [Op.lte]: maxLng };
+    if (minPrice) where.price = { [Op.gte]: minPrice };
+    if (maxPrice) where.price = { [Op.lte]: maxPrice };
+
+    const allSpots = await Spot.findAll({
+      where,
+      limit: size,
+      offset: (page - 1) * size,
+      order: [['createdAt', 'DESC']]
+    });
+
+    res.json({
+      Spots: allSpots,
+      page,
+      size
+    });
 });
 
 // Create and return a new image for a spot specified by id
