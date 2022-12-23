@@ -359,7 +359,8 @@ router.post(
       console.error('Error occurred when creating booking:', error);
       return res.status(500).json({
         message: "An unexpected error occurred",
-        statusCode: 500
+        statusCode: 500,
+        error
       });
     }
   }
