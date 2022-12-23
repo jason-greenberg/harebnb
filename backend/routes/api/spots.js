@@ -31,7 +31,7 @@ router.get(
   async (req, res, next) => {
     const spotId = +req.params.spotId;
     const spot = await Spot.findByPk(spotId);
-    
+
     // Return 404 error if spot does not exist
     if (!spot) {
       res.status(404);
@@ -365,14 +365,6 @@ router.post(
       });
     }
 
-    // Return 403 Not authorized Error if spot is OWNED by current user
-    if (spot.ownerId === userId) {
-      return res.status(403).json({
-        message: "Spot cannot be reviewed by the owner",
-        statusCode: 403
-      });
-    }
-
     // Return 403 Not authorized Error if user has already reviewed spot
     const userReviews = await Review.findAll({
       where: { spotId, userId }
@@ -381,6 +373,29 @@ router.post(
       return res.status(401).json({
         message: "User already has a review for this spot",
         statusCode: 403
+      });
+    }
+
+    // Return 403 Not authorized Error if spot is OWNED by current user
+    if (spot.ownerId === userId) {
+      return res.status(403).json({
+        message: "Spot cannot be reviewed by the owner",
+        statusCode: 403
+      });
+    }
+
+    // Validate review field to make sure it is a string
+    const errors = {};
+    if (review && typeof review !== 'string') {
+      errors.review = "Review must be a string";
+    }
+
+    // If there are any validation errors, return a 400 response with the errors
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        message: "Validation error",
+        statusCode: 400,
+        errors
       });
     }
 
