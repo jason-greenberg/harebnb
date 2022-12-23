@@ -13,6 +13,8 @@ router.delete(
     const spotImage = await SpotImage.findOne({
       where: { id: imageId }
     });
+    const spotId = spotImage.spotId;
+    console.log(spotImage);
 
     // Return 404 Error if spot image not found
     if (!spotImage) {
@@ -22,11 +24,14 @@ router.delete(
       });
     }
 
-    // Retreive spot image belongs to
-    const spot = await spotImage.getSpot();
+    // Retreive spot the image belongs to
+    const spot = await Spot.findOne({
+      where: { id: spotId }
+    });
+    console.log(spot);
 
     // Return 403 Not authorized Error if spot image does not belong to user
-    if (spot.userId !== userId) {
+    if (spot.ownerId !== userId) {
       return res.status(403).json({
         message: "Spot must belong to user in order to delete images",
         statusCode: 403
@@ -35,10 +40,10 @@ router.delete(
 
     // Delete spot image, checking for sequelize errors
     try {
-      // Delete spot image by id
-      await SpotImage.destroy({
-        where: { id: imageId }
-      });
+      // // Delete spot image by id
+      // await SpotImage.destroy({
+      //   where: { id: imageId }
+      // });
 
       res.json({
         message: "Successfully deleted",
