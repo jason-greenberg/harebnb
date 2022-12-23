@@ -210,6 +210,15 @@ router.get(
       order: [['createdAt', 'DESC']]
     });
 
+    // Cast 'lat', 'lng', and 'price' values to numbers before returning them in the response
+    // This is only necessary for using postgreSQL in prod, as normally these appear as numbers in sqlite for eg.
+    const formattedSpots = allSpots.map(spot => ({
+      ...spot,
+      lat: Number(spot.lat),
+      lng: Number(spot.lng),
+      price: Number(spot.price)
+    }));
+
     res.json({
       Spots: allSpots,
       page,
@@ -370,7 +379,7 @@ router.post(
       where: { spotId, userId }
     });
     if (userReviews.length > 0) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: "User already has a review for this spot",
         statusCode: 403
       });
