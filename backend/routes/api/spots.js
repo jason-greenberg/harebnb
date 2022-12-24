@@ -354,7 +354,6 @@ router.post(
 
     try {
       // Create booking
-      console.log('Creating booking with data:', { userId: req.user.id, spotId, startDate, endDate });
       const booking = await Booking.create({
         userId,
         spotId,
