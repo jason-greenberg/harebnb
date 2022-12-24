@@ -8,10 +8,8 @@ router.delete(
   requireAuth,
   async (req, res, next) => {
     const imageId = +req.params.imageId;
-    console.log(imageId);
     const userId = req.user.id;
     const spotImage = await SpotImage.scope('spotImageView').findByPk(imageId);
-    console.log(spotImage);
 
     // Return 404 Error if spot image not found
     if (!spotImage) {
@@ -23,9 +21,7 @@ router.delete(
 
     // Retreive spot the image belongs to
     const spotId = spotImage.spotId;
-    console.log(spotId);
     const spot = await Spot.findByPk(spotId);
-    console.log(spot);
 
     // Return 403 Not authorized Error if spot image does not belong to user
     if (spot.ownerId !== userId) {

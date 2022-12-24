@@ -141,7 +141,6 @@ router.delete(
       where: { id: booking.spotId }
     });
     const ownerId = spot.ownerId;
-    console.log(ownerId);
 
     // Return 403 Forbidden if booking does not belong to user, or if user is not the spot owner
     if (booking.userId !== userId && ownerId !== userId) {
