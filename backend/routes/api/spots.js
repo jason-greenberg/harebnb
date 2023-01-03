@@ -23,7 +23,11 @@ router.get(
         const spotId = spot.id;
         const previewImages = await SpotImage.findAll({ where: { spotId: spotId } });
         const spotJSON = spot.toJSON();
-        spotJSON.previewImage = previewImages[0].url;
+        if (previewImages.length > 0) {
+          spotJSON.previewImage = previewImages[0].url;
+        } else {
+          spotJSON.previewImage = null;
+        }
 
         // Calculate the average rating for the spot
         const reviews = await Review.findAll({
@@ -148,7 +152,11 @@ router.get(
       const previewImages = await spot.getSpotImages();
       spotJSON.numReviews = await Review.count({ where: { spotId }});
       spotJSON.avgStarRating = result[0].dataValues.averageStars;
-      spotJSON.previewImage = previewImages[0].url;
+      if (previewImages.length > 0) {
+        spotJSON.previewImage = previewImages[0].url;
+      } else {
+        spotJSON.previewImage = null;
+      }
       spotJSON.SpotImages = await spot.getSpotImages();
       spotJSON.Owner = await spot.getUser({
         through: {
@@ -236,7 +244,11 @@ router.get(
         const spotId = spot.id;
         const previewImages = await SpotImage.findAll({ where: { spotId: spotId } });
         const spotJSON = spot.toJSON();
-        spotJSON.previewImage = previewImages[0].url;
+        if (previewImages.length > 0) {
+          spotJSON.previewImage = previewImages[0].url;
+        } else {
+          spotJSON.previewImage = null;
+        }
 
         // Calculate the average rating for the spot
         const reviews = await Review.findAll({
