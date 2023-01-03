@@ -24,11 +24,17 @@ router.delete(
     // Retreive review image belongs to
     const review = await reviewImage.getReview();
 
-    // Return 403 Not authorized Error if review image does not belong to user
-    if (review.userId !== userId) {
-      return res.status(403).json({
-        message: "Review must belong to user in order to delete images",
-        statusCode: 403
+    if (review) {
+      if (review.userId !== userId) {
+        return res.status(403).json({
+          message: "Review must belong to user in order to delete images",
+          statusCode: 403
+        });
+      }
+    } else {
+      return res.status(404).json({
+        message: "Review couldn't be found",
+        statusCode: 404
       });
     }
 
