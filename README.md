@@ -150,16 +150,3 @@ router.post(
   }
 );
 ```
-
-## Best Practices
-• Input validation: The code includes checks to validate the query parameters passed to the API. This helps prevent errors and ensure that the API is used correctly. It is a good practice to validate all user input to prevent malicious or incorrect data from being passed to the API.
-
-• Query optimization: The code uses the limit and offset options in the findAll method to implement pagination and retrieve a specific number of results per page. This helps improve the performance of the API and reduce the load on the database. It is a good practice to use pagination and other query optimization techniques when working with large datasets.
-
-• Async/await: The code uses the async/await syntax to handle asynchronous operations, such as querying the database. This helps improve the readability and maintainability of the code, as well as avoid callback hell. It is a good practice to use async/await when working with asynchronous code in Node.js.
-
-• Sequelize ORM: The code uses the Sequelize ORM to interact with the database. Sequelize provides a convenient and intuitive way to query the database and map results to models. It is a good practice to use an ORM when working with a database, as it can help reduce the complexity of the code and improve maintainability.
-
-• Model associations: The code uses model associations to define relationships between models in the database. For example, the Spot model has a hasMany association with the SpotImage model, indicating that a spot can have many images. Model associations can be used to simplify queries and improve performance by reducing the number of database calls needed. It is a good practice to use model associations to define relationships between models in the database.
-
-• Error handling: The code includes try-catch blocks to handle errors and prevent the app from crashing. It is a good practice to handle errors properly to prevent unintended consequences and provide a better user experience.

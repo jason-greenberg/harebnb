@@ -142,7 +142,7 @@ router.get(
 
     if (spot) {
       const spotJSON = spot.toJSON();
-      const result = await Review.findAll({
+      const reviews = await Review.findAll({
         attributes: [[sequelize.fn('AVG', sequelize.col('stars')), 'averageStars']],
         where: { spotId },
         group: ['spotId']
@@ -151,11 +151,15 @@ router.get(
       // Add aggregated and lazy loaded properties to spot object numReviews, avgStarRating, SpotImages
       const previewImages = await spot.getSpotImages();
       spotJSON.numReviews = await Review.count({ where: { spotId }});
-      spotJSON.avgStarRating = result[0].dataValues.averageStars;
-      if (previewImages.length > 0) {
+      if (previewImages.length) {
         spotJSON.previewImage = previewImages[0].url;
       } else {
         spotJSON.previewImage = null;
+      }
+      if (reviews.length) {
+        spotJSON.avgStarRating = reviews[0].dataValues.averageStars;
+      } else {
+        spotJSON.avgStarRating = null;
       }
       spotJSON.SpotImages = await spot.getSpotImages();
       spotJSON.Owner = await spot.getUser({
