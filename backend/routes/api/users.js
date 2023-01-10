@@ -4,10 +4,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { SequelizeUniqueConstraintError, SequelizeValidationError } = require('sequelize');
 
-
-// ...
 const validateSignup = [
   check('firstName')
     .exists({ checkFalsy: true })
@@ -50,13 +47,15 @@ router.post(
       });
     } catch (error) {
       if (error.original && error.original.code === '23505') {
-        // Handle unique constraint error
+        // Handle unique constraint error (code 23505)
         const field = error.original.constraint;
+        const formattedField = field.includes('_') ? field.split('_')[1] : field; // Format field for readability from Postgres Error Object eg. "Users_username_key" becomes "username"
+
         return res.status(403).json({
           message: 'User already exists',
           statusCode: 403,
           errors: {
-            [field]: `User with that ${field} already exists`
+            [formattedField]: `User with that ${formattedField} already exists`
           }
         });
       } else if (error.errors) {
