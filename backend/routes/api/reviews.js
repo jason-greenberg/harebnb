@@ -157,6 +157,18 @@ router.put(
       });
     }
 
+    // Check if review and stars exist in request body
+    if( req.body.review === undefined || req.body.stars === undefined ){
+      return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors: {
+          review: req.body.review !== undefined ? undefined : 'Review text is required',
+          stars: req.body.stars !== undefined ? undefined : 'Stars are required'
+        }
+      });
+    }
+
     // Create review, checking for validation errors
     try {
       await Review.update({ review, stars }, { where: { id: reviewId } });
