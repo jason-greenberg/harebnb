@@ -418,11 +418,11 @@ router.post(
       });
     }
 
-    // Return 403 Not authorized Error if user has already reviewed spot
+    // Return 403 Error if user has already reviewed spot
     const userReviews = await Review.findAll({
       where: { spotId, userId }
     });
-    if (userReviews.length > 0) {
+    if (userReviews.length) {
       return res.status(403).json({
         message: "User already has a review for this spot",
         statusCode: 403
@@ -437,9 +437,21 @@ router.post(
       });
     }
 
+    // Check if review and stars exist in request body
+    if(!req.body.review || !req.body.stars){
+      return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors: {
+          review: req.body.review ? undefined : 'Review text is required',
+          stars: req.body.stars ? undefined : 'Stars are required'
+        }
+      });
+    }
+
     // Create review, checking for validation errors
     try {
-      const completeReview = await Review.create({ review, stars, spotId, userId });
+      await Review.create({ review, stars, spotId, userId }, { defaults: {} });
       const savedReview = await Review.scope('createReview').findOne({
         where: { review, userId, spotId }
       });
