@@ -26,10 +26,18 @@ module.exports = {
         hooks: true
       },
       review: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: {
+          args: false,
+          msg: "Review text is required"
+        }
       },
       stars: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: {
+          args: false,
+          msg: "Stars must be an integer from 1 to 5"
+        }
       },
       createdAt: {
         allowNull: false,
