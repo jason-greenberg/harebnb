@@ -37,26 +37,39 @@ class ValidationError extends Error {
   }
 }
 
+// Custom booking request body validation function
 async function validateStartAndEndDates(startDate, endDate, spotId) {
+  const dateRegex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
   const errors = {};
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // Check if startDate comes before endDate
+  if (start >= end) {
+    errors.endDate = 'endDate cannot come before startDate';
+  }
+
   // Check if startDate and endDate are in the future
-  if (startDate < new Date()) {
+  if (start < new Date()) {
     errors.startDate = 'Start date must be in the future';
   }
-  if (endDate < new Date()) {
+  if (end < new Date()) {
     errors.endDate = 'End date must be in the future';
   }
 
-  // Check if startDate comes before endDate
-  if (startDate >= endDate) {
-    errors.endDate = 'endDate cannot come before startDate';
+  // Check if startDate and endDate are in the correct format
+  if (!dateRegex.test(startDate)) {
+    errors.startDate = 'Start date must be in the format YYYY-MM-DD and be a valid date';
+  }
+  if (!dateRegex.test(endDate)) {
+    errors.endDate = 'End date must be in the format YYYY-MM-DD and be a valid date';
   }
 
   if (Object.keys(errors).length > 0) {
     throw new ValidationError(errors);
   }
 
-  // Check if the spot is available for the specified dates
+  // Check if the spot is available for the specified dates with efficient query
   const existingBookings = await Booking.findAll({
     where: {
       spotId,
@@ -88,7 +101,8 @@ async function validateStartAndEndDates(startDate, endDate, spotId) {
       ]
     }
   });
-  if (existingBookings.length > 0) {
+
+  if (existingBookings.length) {
     let startDateConflict = false;
     let endDateConflict = false;
     for (const booking of existingBookings) {

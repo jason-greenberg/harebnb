@@ -323,7 +323,7 @@ router.post(
     const { user } = req;
     const userId = user.id;
     const { startDate, endDate } = req.body;
-    const spotId = parseInt(req.params.spotId);
+    const spotId = +req.params.spotId;
     const spot = await Spot.findByPk(spotId);
 
     // Return 404 Error if spot not found
@@ -337,8 +337,20 @@ router.post(
     // Return 403 Not authorized Error if spot is OWNED by current user
     if (spot.ownerId === userId) {
       return res.status(401).json({
-        message: "Forbidden",
+        message: "Owner cannot book their own rental property",
         statusCode: 403
+      });
+    }
+
+    // Check if startDate and endDate exist in request body
+    if( req.body.startDate === undefined || req.body.endDate === undefined ){
+      return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors: {
+          startDate: req.body.startDate !== undefined ? undefined : 'Start date is required',
+          endDate: req.body.endDate !== undefined ? undefined : 'End date is required'
+        }
       });
     }
 
