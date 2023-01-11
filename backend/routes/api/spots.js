@@ -23,7 +23,7 @@ router.get(
         const spotId = spot.id;
         const previewImages = await SpotImage.findAll({ where: { spotId: spotId } });
         const spotJSON = spot.toJSON();
-        if (previewImages.length > 0) {
+        if (previewImages.length) {
           spotJSON.previewImage = previewImages[0].url;
         } else {
           spotJSON.previewImage = null;
