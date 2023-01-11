@@ -47,7 +47,46 @@ module.exports = {
         description: 'Relax and recharge in this cute and charming home.',
         price: 174.99,
         previewImage: 'preview-url-3'
-        },
+      },
+      {
+        ownerId: 3,
+        address: '13 Hopscotch Road',
+        city: 'Lapin Town',
+        state: 'Montana',
+        country: 'United States',
+        lat: 46.879682,
+        lng: 110.362566,
+        name: 'Rabbit Retreat',
+        description: 'Escape to the peacefulness of the countryside.',
+        price: 129.99,
+        previewImage: 'preview-url-4'
+      },
+      {
+        ownerId: 2,
+        address: '57 Bunny Lane',
+        city: 'Bounce City',
+        state: 'Florida',
+        country: 'United States',
+        lat: 30.267153,
+        lng: -97.743061,
+        name: 'Rabbits Lair',
+        description: 'Feel like a part of the magical kingdom of bunnies',
+        price: 199.99,
+        previewImage: 'preview-url-5'
+      },
+      {
+        ownerId: 1,
+        address: '341 Rabbit Run',
+        city: 'Leap Town',
+        state: 'New Jersey',
+        country: 'United States',
+        lat: 40.058324,
+        lng: -74.405661,
+        name: 'Bunny Bungalow',
+        description: 'A unique and adorable home',
+        price: 149.99,
+        previewImage: 'preview-url-6'
+      }
     ], {});
   },
 
