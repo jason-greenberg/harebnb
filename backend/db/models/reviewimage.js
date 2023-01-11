@@ -29,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'url text is required'
+        },
+        isString(value) {
+          if (typeof value !== 'string') {
+            throw new Error('Review must be a string');
+          }
         }
       }
     }
