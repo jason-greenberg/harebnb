@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth');
+const { validateStartAndEndDates, ValidationError, BookingError } = require('../../utils/validation');
 const { Booking, Spot, User } = require('../../db/models');
 const sequelize = require('sequelize');
 
@@ -67,6 +68,44 @@ router.put(
         message: 'Forbidden',
         statusCode: 403
       });
+    }
+
+    // Check if startDate and endDate exist in request body
+    if( req.body.startDate === undefined || req.body.endDate === undefined ){
+      return res.status(400).json({
+        message: 'Validation error',
+        statusCode: 400,
+        errors: {
+          startDate: req.body.startDate !== undefined ? undefined : 'Start date is required',
+          endDate: req.body.endDate !== undefined ? undefined : 'End date is required'
+        }
+      });
+    }
+
+    try {
+      // Validate new startDate and endDate
+      await validateStartAndEndDates(startDate, endDate, booking.spotId);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return res.status(400).json({
+          message: "Validation error",
+          statusCode: 400,
+          errors: error.errors
+        });
+      } else if (error instanceof BookingError) {
+        return res.status(403).json({
+          message: "Sorry, this spot is already booked for the specified dates",
+          statusCode: 403,
+          errors: error.errors
+        });
+      } else {
+        // Return 500 Internal Server Error for unexpected errors
+        return res.status(500).json({
+          message: "An unexpected error occurred",
+          statusCode: 500,
+          error
+        });
+      }
     }
 
     const parsedStartDate = new Date(startDate.split('-').join('/')).toISOString(); //fixes JS bug that makes date one day off
