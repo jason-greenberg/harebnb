@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth');
 const { validateUrl } = require('../../utils/validation');
-const { Booking, Spot, User, Review, ReviewImage } = require('../../db/models');
-const sequelize = require('sequelize');
-const { SequelizeUniqueConstraintError } = require('sequelize');
+const { Spot, SpotImage, Review, ReviewImage } = require('../../db/models');
 
 // Return all reviews written by the current user
 router.get(
@@ -26,7 +24,7 @@ router.get(
     // Iterate over the spotsJSON array and add avgRating properties to each spot object
     for (const review of reviewsJSON) {
       const spot = await Spot.scope('bookingView').findOne({ where: { id: review.spotId } });
-      const previewImages = await spot.getSpotImages();
+      const previewImages = await SpotImage.findAll({ where: { spotId: spot.id } });
       const spotJSON = spot.toJSON();
       if (previewImages.length) {
         spotJSON.previewImage = previewImages[0].url;
