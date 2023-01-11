@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth');
+const { validateUrl } = require('../../utils/validation');
 const { Booking, Spot, User, Review, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
 const { SequelizeUniqueConstraintError } = require('sequelize');
@@ -47,6 +48,7 @@ router.get(
 router.post(
   '/:reviewId/images',
   requireAuth,
+  validateUrl,
   async (req, res, next) => {
     const reviewId = +req.params.reviewId;
     const userId = req.user.id;
@@ -77,7 +79,7 @@ router.post(
     });
     if (existingReviewImage) {
       return res.status(409).json({
-        message: 'This combination of reviewId and url is already in use',
+        message: 'Images cannot be duplicates or must have unique urls / file name for each review',
         statusCode: 409
       });
     }
@@ -95,16 +97,16 @@ router.post(
 
     // Add a review image, checking for validation errors
     try {
-      const newReviewImage = await ReviewImage.create({ url, reviewId });
+      await ReviewImage.create({ url, reviewId });
       const savedReviewImage = await ReviewImage.scope('getReviewsView').findOne({
         where: { reviewId, url }
       });
       res.status(201).json(savedReviewImage);
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
-        res.status(400).json({
+        res.status(409).json({
           message: 'Images cannot be duplicates or must have unique urls / file names',
-          statusCode: 400
+          statusCode: 409
         });
       } else if (error.name === 'SequelizeValidationError') {
         const errors = error.errors.reduce((acc, curr) => {

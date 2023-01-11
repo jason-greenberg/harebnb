@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         isString(value) {
           if (typeof value !== 'string') {
-            throw new Error('Review must be a string');
+            throw new Error('Url must be a string');
           }
         }
       }

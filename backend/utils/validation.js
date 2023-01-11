@@ -111,10 +111,25 @@ async function validateStartAndEndDates(startDate, endDate, spotId) {
   }
 }
 
+// Custom middleware function to check the type of the `url` field
+const validateUrl = (req, res, next) => {
+  if (typeof req.body.url !== 'string') {
+    return res.status(400).json({
+      message: "Validation error",
+      statusCode: 400,
+      errors: {
+        url: "Review must be a string"
+      }
+    });
+  }
+  next();
+}
+
 
 module.exports = {
   handleValidationErrors,
   validateStartAndEndDates,
+  validateUrl,
   ValidationError,
   BookingError
 };
