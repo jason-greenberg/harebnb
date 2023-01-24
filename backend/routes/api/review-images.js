@@ -9,9 +9,7 @@ router.delete(
   async (req, res, next) => {
     const imageId = +req.params.imageId;
     const userId = req.user.id;
-    const reviewImage = await ReviewImage.findOne({
-      where: { id: imageId }
-    });
+    const reviewImage = await ReviewImage.findByPk(imageId)
 
     // Return 404 Error if review image not found
     if (!reviewImage) {
@@ -23,6 +21,7 @@ router.delete(
 
     // Retreive review image belongs to
     const review = await reviewImage.getReview();
+    console.log(review);
 
     if (review) {
       if (review.userId !== userId) {
@@ -31,11 +30,6 @@ router.delete(
           statusCode: 403
         });
       }
-    } else {
-      return res.status(404).json({
-        message: "Review couldn't be found",
-        statusCode: 404
-      });
     }
 
     // Delete review image, checking for sequelize errors

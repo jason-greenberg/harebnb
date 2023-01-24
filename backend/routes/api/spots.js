@@ -204,7 +204,6 @@ router.get(
     maxLng = maxLng ? parseFloat(maxLng) : undefined;
     minPrice = minPrice ? parseFloat(minPrice) : undefined;
     maxPrice = maxPrice ? parseFloat(maxPrice) : undefined;
-
     
     // Validate query parameters
     const errors = {};
