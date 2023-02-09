@@ -296,7 +296,7 @@ router.post(
       })
     }
 
-    const newSpotImage = await SpotImage.create({
+    await SpotImage.create({
       spotId,
       url,
       preview
@@ -310,7 +310,7 @@ router.post(
       }
     });
 
-    res.json(responseSpotImage);
+    res.status(201).json(responseSpotImage);
   }
 );
 
