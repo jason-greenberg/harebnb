@@ -1,11 +1,18 @@
 import { csrfFetch } from './csrf';
 
 const LOGIN_USER = 'session/LOGIN_USER';
+const LOGOUT_USER = 'session/LOGOUT_USER';
 
 export const setUser = (user) => {
   return {
     type: LOGIN_USER,
     user
+  }
+}
+
+export const removeUser = () => {
+  return {
+    type: LOGOUT_USER
   }
 }
 
@@ -25,15 +32,30 @@ export const login = (user) => async (dispatch) => {
   dispatch(setUser(data));
 }
 
+export const logout = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE'
+  });
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(removeUser());
+  } else {
+    throw new Error('Logout failed');
+  }
+}
+
 // -------------- REDUCER -----------------------
 
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
-  const newState = { ...state }
+  let newState = { ...state }
   switch (action.type) {
     case LOGIN_USER:
-      newState.user = action.user;
+      newState = { ...action.user };
+      return newState;
+    case LOGOUT_USER:
+      newState = { ...initialState };
       return newState;
     default:
       return state;
