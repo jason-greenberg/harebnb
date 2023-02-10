@@ -24,7 +24,8 @@ function App() {
           <Route path='/login' component={LoginFormPage} />
           <Route path='/signup' component={SignupFormPage} />
           <h1>Home</h1>
-        </Switch>)}
+        </Switch>
+      )}
     </>
   );
 }
