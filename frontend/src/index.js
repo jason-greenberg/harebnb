@@ -6,7 +6,7 @@ import './index.css';
 import App from './App';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
-import { login, logout } from './store/session';
+import * as session from './store/session';
 
 const store = configureStore();
 
@@ -15,8 +15,9 @@ if (process.env.NODE_ENV !== "production") {
 
   window.csrfFetch = csrfFetch;
   window.store = store;
-  window.login = login;
-  window.logout = logout;
+  window.login = session.login;
+  window.logout = session.logout;
+  window.restoreUser = session.restoreUser;
 }
 
 function Root() {
