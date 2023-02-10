@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom'
 import LoginFormPage from './components/LoginFormPage';
+import SignupFormPage from './components/SignupFormPage';
 import { restoreUser } from './store/session';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
   return (
     <Switch>
       <Route path='/login' component={LoginFormPage} />
+      <Route path='/signup' component={SignupFormPage} />
       <h1>Home</h1>
     </Switch>
   );

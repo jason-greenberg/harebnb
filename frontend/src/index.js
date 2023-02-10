@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== "production") {
   window.login = session.login;
   window.logout = session.logout;
   window.restoreUser = session.restoreUser;
+  window.signup = session.signup;
 }
 
 function Root() {
