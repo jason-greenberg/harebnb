@@ -37,10 +37,31 @@ export const logout = () => async (dispatch) => {
     method: 'DELETE'
   });
   if (response.ok) {
-    const data = await response.json();
     dispatch(removeUser());
   } else {
     throw new Error('Logout failed');
+  }
+}
+
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session');
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
+  }
+}
+
+export const signup = (user) => async (dispatch) => {
+  const response = await csrfFetch('/api/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  });
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
   }
 }
 
