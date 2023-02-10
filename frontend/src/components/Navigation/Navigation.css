@@ -1,7 +1,45 @@
-ul {
+.navigation-bar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  width: 95vw;
+  padding-left: 0;
+}
+
+.dropdown {
+  position: fixed;
+  right: 25px;
+  top: 65px;
+}
+
+.session-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95vw;
-  list-style: none;
+  width: 45px;
+  border: solid 1px #DDDDDD;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.dropdown {
+  border: 1px #DDDDDD solid;
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+  border: none;
+}
+
+.user-setup-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-link {
+  margin: 5px 0px;
+  width: 100%;
 }
