@@ -37,10 +37,17 @@ export const logout = () => async (dispatch) => {
     method: 'DELETE'
   });
   if (response.ok) {
-    const data = await response.json();
     dispatch(removeUser());
   } else {
     throw new Error('Logout failed');
+  }
+}
+
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session');
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
   }
 }
 
