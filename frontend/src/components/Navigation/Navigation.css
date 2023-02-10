@@ -13,18 +13,22 @@
   top: 65px;
 }
 
-.session-menu {
+.profile-dropdown {
   display: flex;
+  position: fixed;
+  right: 25px;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  width: 45px;
+  width: 240px;
   border: solid 1px #DDDDDD;
   border-radius: 20px;
   padding: 5px 15px;
+  list-style: none;
+  font-size: 14px;
 }
 
-.dropdown {
-  border: 1px #DDDDDD solid;
+.dropdown-details {
   padding: 10px;
 }
 
@@ -33,10 +37,8 @@
   border: none;
 }
 
-.user-setup-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.icon {
+  margin: 5px;
 }
 
 .nav-link {
