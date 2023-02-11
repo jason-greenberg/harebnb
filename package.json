@@ -1,25 +1,27 @@
 {
-  "name": "authenticate-me-for-render-deployment",
+  "name": "harebnb",
   "version": "1.0.0",
-  "description": "",
+  "description": "Welcome to HareBnB, a vacation booking service designed specifically for bunnies and rabbits (and their humans)! Our platform allows users to search for and book bunny and rabbit-friendly properties, or list their own property for others to rent. With a user-friendly interface and a wide range of options to choose from, HareBnB makes it easy for bunny and rabbit lovers to find the perfect vacation spot. Whether you're looking to rent out your bunny-approved home or searching for the perfect getaway, HareBnB has you covered.",
   "main": "index.js",
   "scripts": {
-    "install": "npm --prefix backend install backend",
+    "render-postbuild": "npm run build --prefix frontend",
+    "install": "npm --prefix backend install backend && npm --prefix frontend install frontend",
     "dev:backend": "npm install --prefix backend start",
+    "dev:frontend": "npm install --prefix frontend start",
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend",
-    "build": "npm run --prefix backend build"
+    "build": "npm run build --prefix backend"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jason-greenberg/authenticate-me-for-render-deployment.git"
+    "url": "git+https://github.com/jason-greenberg/harebnb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jason-greenberg/authenticate-me-for-render-deployment/issues"
+    "url": "https://github.com/jason-greenberg/harebnb/issues"
   },
-  "homepage": "https://github.com/jason-greenberg/authenticate-me-for-render-deployment#readme"
+  "homepage": "https://github.com/jason-greenberg/harebnb#readme"
 }
