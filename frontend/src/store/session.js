@@ -65,6 +65,23 @@ export const signup = (user) => async (dispatch) => {
   }
 }
 
+export const loginDemoUser = () => async (dispatch) => {
+  const response = await csrfFetch('/api/session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      credential: 'Demo-lition',
+      password: 'password'
+    })
+  });
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
+  }
+}
+
 // -------------- REDUCER -----------------------
 
 const initialState = { user: null };

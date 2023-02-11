@@ -40,8 +40,7 @@ function ProfileButton({ user }) {
         <i class="fa-regular fa-user icon"></i>
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        <li className="dropdown-details">{user.username}</li>
-        <li className="dropdown-details">{user.firstName} {user.lastName}</li>
+        <li className="dropdown-details">Hello, {user.firstName} {user.lastName}</li>
         <li className="dropdown-details">{user.email}</li>
         <li>
           <button onClick={logout} className="logout-button">Log Out</button>

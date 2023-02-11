@@ -17,7 +17,7 @@ function App() {
 
 
   return (
-    <>
+    <div className="page-container">
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
@@ -26,7 +26,7 @@ function App() {
           <h1>Home</h1>
         </Switch>
       )}
-    </>
+    </div>
   );
 }
 
