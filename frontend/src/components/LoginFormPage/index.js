@@ -15,6 +15,12 @@ function LoginFormPage() {
     <Redirect to="/" />
   );
 
+  const signInAsDemoUser = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.loginDemoUser());
+    <Redirect to="/" />
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -49,6 +55,12 @@ function LoginFormPage() {
           autoComplete='current-password'
         />
         <button type="submit" className="login-button">LogIn</button>
+        <button 
+          className="login-demo-button"
+          onClick={signInAsDemoUser}
+        >
+          Log in as Demo User
+        </button>
       </form>
     </div>
   );

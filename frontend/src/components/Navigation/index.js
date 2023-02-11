@@ -16,9 +16,17 @@ function Navigation({ isLoaded }){
     );
   } else {
     sessionLinks = (
-      <li>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
+      <li className="login-signup-nav-links">
+        <NavLink 
+          to="/login"
+          className="login-signup-nav-links"
+        >
+          Log In</NavLink>
+        <NavLink 
+          to="/signup"
+          className="login-signup-nav-links"
+        >
+          Sign Up</NavLink>
       </li>
     );
   }
@@ -26,7 +34,7 @@ function Navigation({ isLoaded }){
   return (
     <ul className="navigation-bar">
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/">HareBnB</NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
