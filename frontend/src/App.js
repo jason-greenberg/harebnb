@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom'
 import LoginFormModal from './components/LoginFormModal';
 import Navigation from './components/Navigation';
-import SignupFormPage from './components/SignupFormPage';
+import SignupFormPage from './components/SignupFormModal';
 import { restoreUser } from './store/session';
 
 function App() {
