@@ -19,7 +19,8 @@ function LoginFormModal() {
 
   const signInAsDemoUser = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.loginDemoUser());
+    dispatch(sessionActions.loginDemoUser())
+      .then(closeModal);
     <Redirect to="/" />
   }
 
