@@ -23,7 +23,7 @@ function App() {
         <Switch>
           <Route path='/login' component={LoginFormPage} />
           <Route path='/signup' component={SignupFormPage} />
-          <h1>Home</h1>
+          <h1>HareBnB</h1>
         </Switch>
       )}
     </div>
