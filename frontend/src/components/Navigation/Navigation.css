@@ -1,0 +1,47 @@
+.navigation-bar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  width: 95vw;
+  padding-left: 0;
+}
+
+.dropdown {
+  position: fixed;
+  right: 25px;
+  top: 65px;
+}
+
+.profile-dropdown {
+  display: flex;
+  position: fixed;
+  right: 25px;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 240px;
+  border: solid 1px #DDDDDD;
+  border-radius: 20px;
+  padding: 5px 15px;
+  list-style: none;
+  font-size: 14px;
+}
+
+.dropdown-details {
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+  border: none;
+}
+
+.icon {
+  margin: 5px;
+}
+
+.nav-link {
+  margin: 5px 0px;
+  width: 100%;
+}
