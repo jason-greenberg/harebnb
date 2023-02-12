@@ -1,3 +1,15 @@
+.disabled {
+  background-color: rgb(177, 177, 177);
+  border: rgb(177, 177, 177);
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  background-color: rgb(177, 177, 177);
+  border: rgb(177, 177, 177);
+  cursor: not-allowed;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;

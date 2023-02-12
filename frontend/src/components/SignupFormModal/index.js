@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { Redirect } from "react-router-dom";
@@ -15,9 +15,56 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [disabled, setDisabled] = useState(false);
   const { closeModal } = useModal();
 
+  useEffect(() => {
+    isDisabled();
+    const validationErrors = validate();
+    if (validationErrors.length > 0) setErrors(validationErrors);
+    else setErrors([]);
+  }, [
+    email,
+    username,
+    firstName,
+    lastName,
+    password,
+    confirmPassword
+  ])
+
   if (sessionUser) return <Redirect to="/" />;
+
+  const isDisabled = () => {
+    if (
+      email
+      && username
+      && firstName
+      && lastName
+      && password
+      && confirmPassword
+      && username.length >= 4
+      && password.length >= 6
+      && password === confirmPassword
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }
+
+  const validate = () => {
+    const validationErrors = [];
+    if (username && username.length < 4) {
+      validationErrors.push('Username must be 4 characters or longer');
+    }
+    if (password && password.length < 6) {
+      validationErrors.push('Password must be 6 characters or longer');
+    }
+    if (password && confirmPassword && password !== confirmPassword) {
+      validationErrors.push('Passwords do not match');
+    }
+    return validationErrors;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,7 +141,13 @@ function SignupFormModal() {
             placeholder="Confirm Password"
           />
         </label>
-        <button type="submit" className="signup-button">Sign Up</button>
+        <button 
+          type="submit" 
+          className={`signup-button ${disabled ? 'disabled' : ''} `}
+          disabled={disabled}
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );
