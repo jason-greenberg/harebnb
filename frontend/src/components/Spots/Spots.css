@@ -1,8 +1,8 @@
 .spots-list {
   display: flex;
   flex-wrap: wrap;
-  padding: 1.4em;
-  }
+  padding: 0em 1em 0em 1.4em;
+}
   
 .spot-card {
   background: white;
@@ -11,6 +11,9 @@
   height: 350px;
   list-style: none;
   margin: 1rem .25em;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
   width: 270px;
 }
   
@@ -46,5 +49,15 @@
 @media screen and (min-width: 60em) {
   .spot-card {
     max-width: calc(25% - 1em);
+  }
+}
+
+@media screen and (max-width: 39.9em) {
+  .spots-list {
+    padding: 0em 2.5em 0em 0.2em;
+  }
+  .spot-card {
+    max-width: 100%;
+    width: 100%;
   }
 }
