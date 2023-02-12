@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from "../../context/Modal";
@@ -11,7 +11,12 @@ function LoginFormModal() {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  const [disabled, setDisabled] = useState(false);
   const { closeModal } = useModal();
+
+  useEffect(() => {
+    setDisabled(credential.length < 4 || password.length < 6);
+  }, [credential, password]);
 
   if (sessionUser) return (
     <Redirect to="/" />
@@ -58,7 +63,13 @@ function LoginFormModal() {
           placeholder='Password'
           autoComplete='current-password'
         />
-        <button type="submit" className="login-button">LogIn</button>
+        <button 
+          type="submit" 
+          className={`login-button ${disabled ? 'disabled' : ''} `}
+          disabled={disabled}
+        >
+          LogIn
+        </button>
         <button 
           className="login-demo-button"
           onClick={signInAsDemoUser}
