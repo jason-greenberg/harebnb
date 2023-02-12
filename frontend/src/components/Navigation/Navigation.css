@@ -25,7 +25,8 @@
   font-size: 14px;
 }
 
-.dropdown-details {
+.dropdown-details,
+.dropdown-details-logged-in {
   width: 114%;
   height: 100%;
   margin: 0;
@@ -36,6 +37,10 @@
 
 .dropdown-details:hover {
   background-color: #F7F7F7;
+}
+
+img {
+  width: 35px;
 }
 
 .logout-button {
