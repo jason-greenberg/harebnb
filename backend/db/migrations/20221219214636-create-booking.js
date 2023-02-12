@@ -25,7 +25,7 @@ module.exports = {
         onDelete: 'cascade',
         hooks: true
       },
-      SpotId: {
+      SpotId: { // necessary for PostgreSQL, comment out if using SQLite
         type: Sequelize.INTEGER,
         allowNull: true
       },
