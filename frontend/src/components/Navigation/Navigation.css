@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 .navigation-bar {
   align-items: center;
   display: flex;
@@ -6,6 +10,18 @@
   margin-top: 0;
   width: 97vw;
   padding-left: 0;
+}
+
+.disabled {
+  background-color: rgb(177, 177, 177);
+  border: rgb(177, 177, 177);
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  background-color: rgb(177, 177, 177);
+  border: rgb(177, 177, 177);
+  cursor: not-allowed;
 }
 
 .profile-dropdown {
@@ -86,10 +102,6 @@ img {
 
 #site-name {
   color: #FF385C;
-  text-decoration: none;
-}
-
-a {
   text-decoration: none;
 }
 
