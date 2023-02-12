@@ -40,7 +40,17 @@
 }
 
 img {
-  width: 35px;
+  width: 45px;
+  height: 42px;
+}
+
+.logo-and-name {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+  width: 130px;
+  height: 42px;
+  align-items: center;
 }
 
 .logout-button {
@@ -72,6 +82,15 @@ img {
 .nav-link {
   margin: 5px 0px;
   width: 100%;
+}
+
+#site-name {
+  color: #FF385C;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
 }
 
 .user-menu-button {
