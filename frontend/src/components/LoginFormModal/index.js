@@ -45,7 +45,7 @@ function LoginFormModal() {
       <h2>LOGIN</h2>
       <form onSubmit={handleSubmit}>
         <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          {errors.length > 0 && errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
         <input
           type="text"
