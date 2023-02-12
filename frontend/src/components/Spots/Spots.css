@@ -1,3 +1,26 @@
+.bold {
+  font-weight: 600;
+}
+
+.location-text-and-stars {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-image {
+  border-radius: 15px;
+  height: auto;
+  width: 100%;
+}
+
+.price {
+  display: flex;
+  justify-content: space-between;
+  max-width: 102px;
+  width: 100%;
+}
+
 .spots-list {
   display: flex;
   flex-wrap: wrap;
@@ -6,8 +29,11 @@
   
 .spot-card {
   background: white;
-  border: 1px solid #222222;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   flex: 1 0 500px;
+  font-family: inherit;
   height: 350px;
   list-style: none;
   margin: 1rem .25em;
@@ -57,7 +83,7 @@
     padding: 0em 2.5em 0em 0.2em;
   }
   .spot-card {
-    max-width: 100%;
+    max-width: 420px;
     width: 100%;
   }
 }
