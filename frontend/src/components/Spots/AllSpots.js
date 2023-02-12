@@ -13,7 +13,7 @@ function AllSpots() {
         {
           allSpotsArray.length > 0
           && allSpotsArray.map(spot => (
-            <li>
+            <li className="spot-card">
               <SpotDetail spot={spot} />
             </li>
           ))
