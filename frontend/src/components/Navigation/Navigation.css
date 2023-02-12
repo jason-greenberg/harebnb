@@ -39,6 +39,10 @@
   background-color: #F7F7F7;
 }
 
+img {
+  width: 35px;
+}
+
 .logout-button {
   display: flex;
   align-self: center;

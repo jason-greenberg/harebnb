@@ -10,7 +10,9 @@ function Navigation({ isLoaded }){
   return (
     <ul className="navigation-bar">
       <li>
-        <NavLink exact to="/">HareBnB</NavLink>
+        <NavLink exact to="/">
+          <img src="/assets/harebnb-logo.png" alt="logo" />
+        </NavLink>
       </li>
       {isLoaded && (
         <li>
