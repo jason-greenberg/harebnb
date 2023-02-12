@@ -7,6 +7,7 @@ import App from './App';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as session from './store/session';
+import * as spots from './store/spots';
 import { ModalProvider, Modal } from './context/Modal';
 
 const store = configureStore();
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV !== "production") {
   window.logout = session.logout;
   window.restoreUser = session.restoreUser;
   window.signup = session.signup;
+  window.getAllSpots = spots.getAllSpotsData;
 }
 
 function Root() {

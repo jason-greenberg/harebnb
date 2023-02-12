@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom'
-import LoginFormModal from './components/LoginFormModal';
 import Navigation from './components/Navigation';
-import SignupFormPage from './components/SignupFormModal';
 import { restoreUser } from './store/session';
+import AllSpots from './components/Spots/AllSpots';
+import { getAllSpotsData } from './store/spots';
 
 function App() {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ function App() {
   useEffect(() => {
     dispatch(restoreUser())
       .then(() => setIsLoaded(true));
+    dispatch(getAllSpotsData());
   }, [dispatch])
 
 
@@ -21,8 +22,8 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path='/signup' component={SignupFormPage} />
-          <h1>HareBnB</h1>
+          <Route path='/' component={AllSpots} />
+          <h1>Page Not Found</h1>
         </Switch>
       )}
     </div>
