@@ -20,7 +20,7 @@ module.exports = {
         name: 'Basket House',
         description: 'Bound to have a good time.',
         price: 199.99,
-        previewImage: 'preview-url'
+        previewImage: 'https://www.flemishgiantrabbit.com/wp-content/uploads/2018/09/outdoor-rabbit-hutch.jpg'
       },
       {
         ownerId: 2,
