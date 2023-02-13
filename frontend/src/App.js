@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import { restoreUser } from './store/session';
 import AllSpots from './components/Spots/AllSpots';
 import { getAllSpotsData } from './store/spots';
+import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,8 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path='/' component={AllSpots} />
+          <Route exact path='/' component={AllSpots} />
+          <Route path='/spots/:spotId' component={SpotDetails} />
           <h1>Page Not Found</h1>
         </Switch>
       )}

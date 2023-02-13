@@ -1,0 +1,9 @@
+.spot-detail-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 10px;
+  max-width: 90vw;
+  width: 100%;
+}
