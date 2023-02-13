@@ -1,9 +1,85 @@
-.spot-detail-container {
-  align-items: flex-start;
+.spot-details-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 48px 10px;
-  max-width: 90vw;
   width: 100%;
+  max-width: 90vw;
+  padding: 48px 10px;
+}
+  
+.spot-details-images-container {
+  display: grid;
+  grid-template-areas:
+  "a b";
+  gap: 5px;
+  max-height: 412px;
+  width: 100%;
+}
+  
+.large-preview-image {
+  width: 100%;
+  height: 100%;
+}
+  
+.large-preview-image-container {
+  grid-area: "a";
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  max-width: 50%;
+  position: relative;
+}
+  
+.large-preview-image-container::before {
+  content: "";
+  display: block;
+  padding-bottom: 75%; /* Maintains aspect ratio of preview image */
+}
+  
+.large-preview-image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+}
+  
+.small-preview-images-container {
+  grid-area: "b";
+  display: grid;
+  grid-template-areas: 
+    "a b"
+    "c d";
+  grid-auto-flow: row;
+  gap: 5px;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+  
+.small-preview-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+  
+.small-preview-image::before {
+  content: "";
+  display: block;
+  padding-bottom: 75%; /* Maintains aspect ratio of preview image */
+}
+  
+.small-preview-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
 }

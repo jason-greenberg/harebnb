@@ -10,6 +10,10 @@
   padding: 10px 0px;
 }
 
+.not-found {
+  padding: 50px 0px;
+}
+
 .preview-image {
   border-radius: 15px;
   position: absolute;
@@ -91,7 +95,7 @@
     width: 100%;
   }
   .spots-list {
-    padding-left: calc(5% - 1em);
+    padding-left: calc(5% - .4em);
     padding-right: 0;
   }
 }

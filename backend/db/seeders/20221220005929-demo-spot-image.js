@@ -16,17 +16,22 @@ module.exports = {
       },
       {
         spotId: 1,
-        url: 'image-url-2',
+        url: 'https://www.ruralking.com/media/catalog/product/7/d/7d005b89b167f190ec83c0b508cd2c5234c37357_62282_n.jpg',
         preview: false
       },
       {
         spotId: 1,
-        url: 'image-url-3',
-        preview: true
+        url: 'https://www.ruralking.com/media/catalog/product/8/0/806b90d3867309477f34bffb389ed9dc6d852ac2_62281_2.jpg',
+        preview: false
       },
       {
         spotId: 1,
-        url: 'image-url-4',
+        url: 'https://static.wixstatic.com/media/3a13fe_e899c21af5034757b4e338a67b47339d.jpg/v1/fill/w_800,h_536,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/3a13fe_e899c21af5034757b4e338a67b47339d.jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://s3-ap-southeast-2.amazonaws.com/container-door-touch/marketing_images/images/40294/large/Pet_Hutch_-_Web1.jpg',
         preview: false
       },
       {

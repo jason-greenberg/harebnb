@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 function SpotCard({ spot }) {
   return (
     <>
-      <Link to={`/spots/${spot.id}`}>
+      <Link 
+        to={`/spots/${spot.id}`}
+      >
         <div className="image-container">
           <img 
             src={spot.previewImage} 
