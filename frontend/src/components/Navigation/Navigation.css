@@ -15,9 +15,9 @@ a {
   margin: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  width: 95vw;
-  padding: 10px 0px 8px 30px;
+  right: 0;
+  width: 92vw;
+  padding: 10px calc(4% - 1em) 8px 40px;
   z-index: 999;
 }
 
