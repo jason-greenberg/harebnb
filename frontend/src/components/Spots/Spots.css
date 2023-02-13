@@ -95,7 +95,7 @@
 
 @media screen and (max-width: 39.9em) {
   .spots-list {
-    padding: 4em 2.5em 0em 0.9em;
+    padding: 4em 2.5em 0em 0.2em;
     max-width: 90vw;
   }
   .spot-card {
