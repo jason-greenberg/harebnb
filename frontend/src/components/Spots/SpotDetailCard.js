@@ -1,11 +1,13 @@
 function SpotDetail({ spot }) {
   return (
     <>
-      <img 
-        src={spot.previewImage} 
-        alt="preview-image"
-        className="preview-image" 
-      />
+      <div className="image-container">
+        <img 
+          src={spot.previewImage} 
+          alt="preview-image"
+          className="preview-image" 
+        />
+      </div>
       <div className="spot-description">
         <div className="location-text-and-stars">
           <div className="location-text bold">{spot.city}, {spot.state}</div>
