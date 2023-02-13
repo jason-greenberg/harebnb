@@ -12,7 +12,7 @@ function SpotCard({ spot }) {
         <div className="location-text-and-stars">
           <div className="location-text bold">{spot.city}, {spot.state}</div>
           <div className="stars">
-            ★{spot.avgRating}
+            {spot.avgRating ? '★' + spot.avgRating : 'New!'}
           </div>
         </div>
         <div className="price">
