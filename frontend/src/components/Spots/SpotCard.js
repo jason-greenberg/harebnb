@@ -1,4 +1,4 @@
-function SpotDetail({ spot }) {
+function SpotCard({ spot }) {
   return (
     <>
       <div className="image-container">
@@ -23,4 +23,4 @@ function SpotDetail({ spot }) {
   )
 }
 
-export default SpotDetail;
+export default SpotCard;

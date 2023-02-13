@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import SpotDetail from './SpotDetailCard';
+import SpotCard from './SpotCard';
 import './Spots.css'
 
 function AllSpots() {
@@ -8,13 +8,12 @@ function AllSpots() {
 
   return (
     <>
-      <h1>All Spots</h1>
       <ul className="spots-list">
         {
           allSpotsArray.length > 0
           && allSpotsArray.map(spot => (
             <li className="spot-card">
-              <SpotDetail spot={spot} />
+              <SpotCard spot={spot} />
             </li>
           ))
         }

@@ -76,7 +76,7 @@ function ProfileButton({ user }) {
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
-          </li>
+            </li>
           </>
         )}
       </ul>
