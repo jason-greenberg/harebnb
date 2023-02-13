@@ -133,10 +133,18 @@ img {
 }
 
 @media screen and (max-width: 500px) {
-  .fa-solid {
+  .fa-bars {
     display: none;
   }
+  .fa-user {
+    font-size: 15px;
+    padding: none;
+  }
   .user-menu-button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: none;
     width: 44px;
   }
 }
