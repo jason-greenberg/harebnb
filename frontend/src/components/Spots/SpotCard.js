@@ -16,7 +16,8 @@ function SpotCard({ spot }) {
           </div>
         </div>
         <div className="price">
-          <span className="bold">${spot.price}</span><span className="light">night</span>
+          <span className="bold price-component">${Math.trunc(spot.price)}</span>
+          <span className="light price-component">night</span>
         </div>
       </div>
     </>
