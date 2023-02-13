@@ -24,8 +24,11 @@
 .price {
   display: flex;
   justify-content: space-between;
-  max-width: 102px;
-  width: 100%;
+  width: fit-content;
+}
+
+.price-component {
+  margin: 0 3px 0 0;
 }
 
 .spots-list {
