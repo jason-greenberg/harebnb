@@ -17,11 +17,8 @@ if (process.env.NODE_ENV !== "production") {
 
   window.csrfFetch = csrfFetch;
   window.store = store;
-  window.login = session.login;
-  window.logout = session.logout;
-  window.restoreUser = session.restoreUser;
-  window.signup = session.signup;
-  window.getAllSpots = spots.getAllSpotsData;
+  window.session = session;
+  window.spots = spots;
 }
 
 function Root() {

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import SpotCard from './SpotCard';
-import './Spots.css'
+import './AllSpots.css'
 
 function AllSpots() {
   const allSpots = useSelector(state => state.spots.allSpots);
@@ -12,7 +12,10 @@ function AllSpots() {
         {
           allSpotsArray.length > 0
           && allSpotsArray.map(spot => (
-            <li className="spot-card">
+            <li 
+              className="spot-card"
+              key={spot.id}
+            >
               <SpotCard spot={spot} />
             </li>
           ))
