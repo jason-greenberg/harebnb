@@ -8,26 +8,29 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul className="navigation-bar">
-      <li>
-        <NavLink exact to="/">
-          <div className="logo-and-name">
-            <img src="/assets/harebnb-logo.png" alt="logo" />
-            <h3 
-              id="site-name"
-              style={{ textDecoration: 'none' }}
-            >
-              Harebnb
-            </h3>
-          </div>
-        </NavLink>
-      </li>
-      {isLoaded && (
+    <div className="navigation-container">
+      <ul className="navigation-bar">
         <li>
-          <ProfileButton user={sessionUser} />
+          <NavLink exact to="/">
+            <div className="logo-and-name">
+              <img src="/assets/harebnb-logo.png" alt="logo" />
+              <h3 
+                id="site-name"
+                style={{ textDecoration: 'none' }}
+              >
+                Harebnb
+              </h3>
+            </div>
+          </NavLink>
         </li>
-      )}
-    </ul>
+        {isLoaded && (
+          <li>
+            <ProfileButton user={sessionUser} />
+          </li>
+        )}
+      </ul>
+      <hr className="hr"/>
+    </div>
   );
 }
 

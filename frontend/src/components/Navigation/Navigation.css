@@ -8,12 +8,17 @@ a {
 
 .navigation-bar {
   align-items: center;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   list-style: none;
-  margin-top: 0;
-  width: 97vw;
-  padding-left: 10px;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 95vw;
+  padding: 10px 0px 10px 30px;
+  z-index: 999;
 }
 
 .disabled {
