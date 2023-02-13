@@ -16,7 +16,7 @@ a {
   position: fixed;
   top: 0;
   right: 0;
-  width: 92vw;
+  width: 93vw;
   padding: 10px calc(4% - 1em) 8px 40px;
   z-index: 999;
 }
