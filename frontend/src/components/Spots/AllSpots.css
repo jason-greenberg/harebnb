@@ -92,6 +92,7 @@
   }
   .spots-list {
     padding-left: calc(5% - 1em);
+    padding-right: 0;
   }
 }
 
