@@ -1,0 +1,23 @@
+.break {
+  border-top: 1px solid #DDDDDD;
+  margin-top: 15px;
+  height: 15px;
+  width: 90%;
+  z-index: 997;
+}
+
+.create-spot-container {
+  padding-top: 50px;
+}
+
+.dollar-sign {
+  margin: 0px 10px 0px 0px;
+}
+
+input {
+  margin: 10px 0px;
+  height: 14px;
+  font-size: 14px;
+  text-indent: 5px;
+  font-weight: 400;
+}

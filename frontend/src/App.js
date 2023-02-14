@@ -6,6 +6,7 @@ import { restoreUser } from './store/session';
 import AllSpots from './components/Spots/AllSpots';
 import { getAllSpotsData } from './store/spots';
 import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
+import CreateSpot from './components/Spots/CreateSpot';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,8 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path='/' component={AllSpots} />
-          <Route path='/spots/:spotId' component={SpotDetails} />
+          <Route path='/spots/new' component={CreateSpot} />
+          <Route exact path='/spots/:spotId' component={SpotDetails} />
           <h1>Page Not Found</h1>
         </Switch>
       )}
