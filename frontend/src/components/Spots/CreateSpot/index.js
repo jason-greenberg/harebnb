@@ -59,24 +59,28 @@ function CreateSpot() {
     return validationErrors;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors(validate());
+    console.log('singlespot before thunk', spot);
 
     if (!Object.keys(errors).length) {
       const newSpot = {
-        country,
         address,
         city,
-        latitude,
-        longitude,
-        description,
+        state,
+        country,
+        lat: parseFloat(latitude),
+        lng: parseFloat(longitude),
         name,
-        price
+        description,
+        price: parseFloat(price)
       }
 
-      dispatch(createSingleSpot(newSpot));
+      await dispatch(createSingleSpot(newSpot));
+      console.log('singlespot after thunk', spot);
       console.log('spot created successfully;')
+      history.push(`spot/${spot?.id}`)
 
       const newSpotImages = [
         previewImageUrl, 
@@ -86,7 +90,6 @@ function CreateSpot() {
         imageUrl5
       ]
       console.log('newImages', )
-      history.push(`spot/${spot?.id}`)
     } else {
       return;
     }
