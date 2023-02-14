@@ -19,13 +19,15 @@ function SpotDetails() {
   }
 
   const preview = spot.SpotImages[0].url;
-
+  const reserveClick = () => {
+    alert('Feature Coming Soon...')
+  }
 
   return (
     <div className="spot-details-container">
       <div className="name-location">
         <h2>{spot.name}</h2>
-        <h3>{`${spot.city}, ${spot.state}, ${spot.country}`}</h3>
+        <div className="location">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
       </div>
       <div className="spot-details-images-container">
         <div className="large-preview-image-contanier">
@@ -49,9 +51,36 @@ function SpotDetails() {
         </div>
       </div>
       <div className="description-container">
-        <div className="host-name-description"></div>
-        <div className="price-reviews-reserve"></div>
+        <div className="host-name-description">
+          <h3 className="host-name">Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h3>
+          <p className="description">{spot.description}</p>
+        </div>
+        <div className="price-reviews-reserve">
+          <div className="price-review-stats">
+            <div className="price">
+              <span className="bold price-component">${Math.trunc(spot.price)}</span>
+              <span className="light price-component">night</span>
+            </div>
+            <div className="review-stats">
+              <div className="star-stats">
+                { spot.avgStarRating ? '★' + spot.avgStarRating.toFixed(1) : 'New!' }
+              </div>
+              <div className="num-reviews">
+                { spot.numReviews ? spot.numReviews : '0' } reviews
+              </div>
+            </div>
+          </div>
+          <div className="reserve-button-container">
+            <button 
+              className="reserve-button"
+              onClick={reserveClick}
+            >
+              Reserve
+            </button>
+          </div>
+        </div>
       </div>
+      <div className="reviews-container"></div>
       <hr className="hr"/>
 
     </div>

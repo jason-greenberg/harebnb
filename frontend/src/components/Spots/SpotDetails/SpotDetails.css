@@ -1,3 +1,64 @@
+.description-container {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+  width: 100%;
+}
+
+h2 {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.host-name {
+  margin: 0;
+}
+
+.host-name-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.location {
+  font-size: 16px;
+}
+
+.name-location {
+  margin-bottom: 20px;
+}
+
+.price-reviews-reserve {
+  align-items: center;
+  border: solid 1px #DDDDDD;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 15px;
+  width: 35%;
+}
+
+.price-review-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  width: 90%;
+}
+
+.review-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 8em;
+}
+
 .spot-details-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +80,8 @@
 .large-preview-image {
   width: 100%;
   height: 100%;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
   
 .large-preview-image-container {
@@ -46,9 +109,74 @@
   max-height: 100%;
   margin: auto;
 }
+
+button {
+  border-radius: 6px;
+  border: none;
+}
+
+.reserve-button {
+  align-items: center;
+  background-color: #FF385C;
+  border: 2px solid #FF385C;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-size: 16px;
+  font-weight: 600;
+  height: 62px;
+  justify-content: center;
+  letter-spacing: -.8px;
+  line-height: 24px;
+  min-width: 140px;
+  outline: 0;
+  padding: 0 17px;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 420px;
+  touch-action: manipulation;
+}
+
+.reserve-button:focus {
+  color: #171e29;
+}
+
+.reserve-button:hover {
+  background-color: #DB0F64;
+  border-color: #DB0F64;
+  fill: #FF385C;
+}
+
+.reserve-button:active {
+  background-color: #e60965;
+  border-color: #e60965;
+  fill: #FF385C;
+}
+
+.reserve-button-container {
+  display: flex;
+  justify-content: center;
+  grid-area: "c";
+  width: 100%;
+}
+
+.review-stats {
+  grid-area: "b"
+}
+
+.price {
+  grid-area: "a"
+}
   
 .small-preview-images-container {
   grid-area: "b";
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
   display: grid;
   grid-template-areas: 
     "a b"
