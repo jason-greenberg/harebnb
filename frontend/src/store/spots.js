@@ -4,6 +4,7 @@ const CREATE = 'spots/CREATE_SPOT';
 const DELETE = 'spots/DELETE_SPOT';
 const POPULATE = 'spots/POPULATE_SPOTS';
 const READ = 'spots/READ_SPOT';
+const UPDATE = 'spots/UPDATE_SPOT';
 
 // ---------- Actions --------------
 
@@ -31,6 +32,13 @@ const populateAllSpots = (spots) => {
 const readSingleSpot = (spot) => {
   return {
     type: READ,
+    spot
+  }
+}
+
+const updateSpot = (spot) => {
+  return {
+    type: UPDATE,
     spot
   }
 }
@@ -88,6 +96,22 @@ export const getSingleSpotData = (spotId) => async (dispatch) => {
   }
 }
 
+export const updateSingleSpot = (spot) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spot.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(spot)
+  });
+  if (response.ok) {
+    const spotData = await response.json();
+    dispatch(updateSpot(spotData))
+  } else {
+    throw new Error('Error updating spot');
+  }
+}
+
 // ---------- REDUCER --------------
 
 
@@ -98,12 +122,12 @@ const initialState = {
 
 const spotsReducer = (state = initialState, action) => {
   const newState = { ...state };
+  newState.allSpots = { ...state.allSpots }
   switch (action.type) {
     case CREATE: 
-      newState.allSpots = { ...state.allSpots, [action.spot.id]: action.spot }
+      newState.allSpots[action.spot.id] = action.spot
       return newState;
     case DELETE:
-      newState.allSpots = { ...state.allSpots }
       delete newState.allSpots[action.spotId];
       return newState;
     case POPULATE:
@@ -111,6 +135,9 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
     case READ:
       newState.singleSpot = action.spot;
+      return newState;
+    case UPDATE:
+      newState.allSpots[action.spot.id] = action.spot;
       return newState;
     default:
       return state;
