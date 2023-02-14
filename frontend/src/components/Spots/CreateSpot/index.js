@@ -18,8 +18,51 @@ function CreateSpot() {
   const [imageUrl5, setImageUrl5] = useState('');
   const [errors, setErrors] = useState([]);
 
+  const validate = () => {
+    const validationErrors = {};
+    if (!country) validationErrors.country = 'Country is required';
+    if (!address) validationErrors.address = 'Address is required';
+    if (!city) validationErrors.city = 'City is required';
+    if (!state) validationErrors.state = 'State is required';
+    if (!latitude) validationErrors.latitude = 'Latitude is required';
+    if (!longitude) validationErrors.longitude = 'Longitude is required';
+    if (!description) validationErrors.description = 'Description is required';
+    if (description && description.length < 30) {
+      validationErrors.description = 'Description needs a minimum of 30 characters';
+    }
+    if (!name) validationErrors.name = 'Name is required';
+    if (!price) validationErrors.price = 'Price is required';
+    if (!previewImageUrl) validationErrors.previewImageUrl = 'Preview Image is required';
+    // validate image urls
+    if (previewImageUrl && !/\.(jpe?g|png)$/i.test(previewImageUrl)) {
+      validationErrors.previewImageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+    if (imageUrl2 && !/\.(jpe?g|png)$/i.test(imageUrl2)) {
+      validationErrors.imageUrl2 = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+    if (imageUrl3 && !/\.(jpe?g|png)$/i.test(imageUrl3)) {
+      validationErrors.imageUrl3 = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+    if (imageUrl4 && !/\.(jpe?g|png)$/i.test(imageUrl4)) {
+      validationErrors.imageUrl4 = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+    if (imageUrl5 && !/\.(jpe?g|png)$/i.test(imageUrl5)) {
+      validationErrors.imageUrl5 = 'Image URL must end in .png, .jpg, or .jpeg';
+    }
+
+    return validationErrors;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors(validate());
+    console.log(errors);
+
+    if (!Object.keys(errors).length) {
+      // Submit form if no validation errors
+    } else {
+      return;
+    }
   }
 
   return (
@@ -27,70 +70,61 @@ function CreateSpot() {
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <h2 className="form-header">Create a new Spot</h2>
-          <ul className="errors">
-            {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-          </ul>
           <div className="location-header">
             <h3>Where's your place located?</h3>
             <h5>Guests will only get your exact address once they booked a reservation.</h5>
           </div>
           <label>
-            Country: <br/>
+            Country { errors.country && <span className="error-message">{errors.country}</span>}<br/>
             <input
               type="text"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              required
               placeholder="Country"
             />
           </label>
           <label>
-            Address: <br/>
+            Address { errors.address && <span className="error-message">{errors.address}</span>}<br/>
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              required
               placeholder="Address"
             />
           </label>
           <label>
-            City: <br/>
+            City { errors.city && <span className="error-message">{errors.city}</span>}<br/>
             <input
               type="text"
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              required
               placeholder="City"
             />
           </label>
           <label>
-            State: <br/>
+            State { errors.state && <span className="error-message">{errors.state}</span>}<br/>
             <input
               type="text"
               value={state}
               onChange={(e) => setState(e.target.value)}
-              required
               placeholder="State"
             />
           </label>
           <label>
-            Latitude: <br/>
+            Latitude { errors.latitude && <span className="error-message">{errors.latitude}</span>}<br/>
             <input
               type="text"
               value={latitude}
               onChange={(e) => setLatitude(e.target.value)}
-              required
               placeholder="Latitude"
             />
           </label>
           <label>
-            Longitude: <br/>
+            Longitude { errors.longitude && <span className="error-message">{errors.longitude}</span>}<br/>
             <input
               type="text"
               value={longitude}
               onChange={(e) => setLongitude(e.target.value)}
-              required
               placeholder="Longitude"
             />
           </label>
@@ -107,9 +141,9 @@ function CreateSpot() {
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              required
               placeholder="Please write at least 30 characters"
             />
+            <div className="error-message">{errors.description}</div>
           </label>
           <div className="break"></div>
           <div className="title-header">
@@ -124,9 +158,9 @@ function CreateSpot() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
               placeholder="Name of your spot"
             />
+            <div className="error-message">{errors.name}</div>
           </label>
           <div className="break"></div>
           <div className="price-header">
@@ -142,9 +176,9 @@ function CreateSpot() {
               type="text"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              required
               placeholder="Price"
             />
+            <div className="error-message">{errors.price}</div>
           </label>
           <div className="break"></div>
           <div className="images-header">
@@ -152,51 +186,51 @@ function CreateSpot() {
             <h5>Submit a link to at least one photo to publish your spot.</h5>
           </div>
           <label>
-            Preview Image URL: <br/>
             <input
               type="text"
               value={previewImageUrl}
               onChange={(e) => setPreviewImageUrl(e.target.value)}
-              required
               placeholder="Preview Image URL"
             />
+            <div className="error-message">{errors.previewImageUrl}</div>
           </label>
           <label>
-            Image URL 2: <br/>
             <input
               type="text"
               value={imageUrl2}
               onChange={(e) => setImageUrl2(e.target.value)}
               placeholder="Image URL 2"
             />
+            <div className="error-message">{errors.imageUrl2}</div>
           </label>
           <label>
-            Image URL 3: <br/>
             <input
               type="text"
               value={imageUrl3}
               onChange={(e) => setImageUrl3(e.target.value)}
               placeholder="Image URL 3"
             />
+            <div className="error-message">{errors.imageUrl3}</div>
           </label>
           <label>
-            Image URL 4: <br/>
             <input
               type="text"
               value={imageUrl4}
               onChange={(e) => setImageUrl4(e.target.value)}
               placeholder="Image URL 4"
             />
+            <div className="error-message">{errors.imageUrl4}</div>
           </label>
           <label>
-            Image URL 5: <br/>
             <input
               type="text"
               value={imageUrl5}
               onChange={(e) => setImageUrl5(e.target.value)}
               placeholder="Image URL 5"
             />
+            <div className="error-message">{errors.imageUrl5}</div>
           </label>
+          <button className="create-spot-button">Create Spot</button>
       </form>
       </div>
     </div>
