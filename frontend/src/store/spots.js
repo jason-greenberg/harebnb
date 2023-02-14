@@ -56,6 +56,7 @@ export const createSingleSpot = (spot) => async (dispatch) => {
   if (response.ok) {
     const spotData = await response.json();
     dispatch(createSpot(spotData));
+    dispatch(readSingleSpot(spotData));
   } else {
     throw new Error('Error creating spot');
   }

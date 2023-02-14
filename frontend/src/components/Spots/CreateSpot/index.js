@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { createSingleSpot } from '../../../store/spots';
 import './CreateSpot.css';
 
 function CreateSpot() {
@@ -17,6 +20,9 @@ function CreateSpot() {
   const [imageUrl4, setImageUrl4] = useState('');
   const [imageUrl5, setImageUrl5] = useState('');
   const [errors, setErrors] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const spot = useSelector(state => state.singleSpot);
 
   const validate = () => {
     const validationErrors = {};
@@ -56,10 +62,31 @@ function CreateSpot() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validate());
-    console.log(errors);
 
     if (!Object.keys(errors).length) {
-      // Submit form if no validation errors
+      const newSpot = {
+        country,
+        address,
+        city,
+        latitude,
+        longitude,
+        description,
+        name,
+        price
+      }
+
+      dispatch(createSingleSpot(newSpot));
+      console.log('spot created successfully;')
+
+      const newSpotImages = [
+        previewImageUrl, 
+        imageUrl2,
+        imageUrl3,
+        imageUrl4,
+        imageUrl5
+      ]
+      console.log('newImages', )
+      history.push(`spot/${spot?.id}`)
     } else {
       return;
     }
@@ -230,6 +257,7 @@ function CreateSpot() {
             />
             <div className="error-message">{errors.imageUrl5}</div>
           </label>
+          <div className="break"></div>
           <button className="create-spot-button">Create Spot</button>
       </form>
       </div>
