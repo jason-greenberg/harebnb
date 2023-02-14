@@ -15,9 +15,9 @@ a {
   margin: 0;
   position: fixed;
   top: 0;
-  right: 0;
-  width: 93vw;
-  padding: 10px calc(4% - 1em) 8px 40px;
+  left: 0;
+  width: 94%;
+  padding: 10px 0px 8px 40px;
   z-index: 999;
 }
 
@@ -145,5 +145,8 @@ img {
     justify-content: center;
     padding: none;
     width: 44px;
+  }
+  .navigation-bar {
+    width: 90%;
   }
 }
