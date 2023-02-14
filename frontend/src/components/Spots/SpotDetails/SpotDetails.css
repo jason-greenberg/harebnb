@@ -172,7 +172,7 @@ h3 {
 .small-preview-images-container {
   grid-area: "b";
   border-bottom-right-radius: 15px;
-  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   display: grid;
   grid-template-areas: 
     "a b"
