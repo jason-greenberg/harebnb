@@ -18,7 +18,7 @@ function SpotDetails() {
     return <h1 className="not-found">Spot Not Found</h1>
   }
 
-  const preview = spot.SpotImages[0].url;
+  const preview = spot.SpotImages[0]?.url;
   const reserveClick = () => {
     alert('Feature Coming Soon...')
   }
@@ -63,11 +63,11 @@ function SpotDetails() {
             </div>
             <div className="review-stats">
               <div className="star-stats">
-                { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
+                { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★ New!' }
               </div>
-              ·
+              { spot.avgStarRating ? '·' : '' }
               <div className="num-reviews">
-                { spot.numReviews ? spot.numReviews : '0' } reviews
+                { spot.numReviews ? spot.numReviews + ' reviews' : '' }
               </div>
             </div>
           </div>
@@ -87,9 +87,9 @@ function SpotDetails() {
           <div className="headline-stars">
             { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
           </div>
-          ·
+          { spot.avgStarRating ? '·' : '' }
           <div className="headline-num-reviews">
-            { spot.numReviews ? spot.numReviews : '0' } reviews
+          { spot.numReviews ? spot.numReviews + ' reviews' : '' }
           </div>
           </div>
         <div className="reviews"></div>
