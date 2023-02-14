@@ -63,7 +63,7 @@ function SpotDetails() {
             </div>
             <div className="review-stats">
               <div className="star-stats">
-                { spot.avgStarRating ? '★' + spot.avgStarRating.toFixed(1) : 'New!' }
+                { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
               </div>
               <div className="num-reviews">
                 { spot.numReviews ? spot.numReviews : '0' } reviews
