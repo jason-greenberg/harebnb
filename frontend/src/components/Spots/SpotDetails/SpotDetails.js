@@ -65,6 +65,7 @@ function SpotDetails() {
               <div className="star-stats">
                 { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
               </div>
+              ·
               <div className="num-reviews">
                 { spot.numReviews ? spot.numReviews : '0' } reviews
               </div>
@@ -80,8 +81,19 @@ function SpotDetails() {
           </div>
         </div>
       </div>
-      <div className="reviews-container"></div>
-      <hr className="hr"/>
+      <div className="break"></div>
+      <div className="reviews-container">
+        <div className="reviews-headline">
+          <div className="headline-stars">
+            { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
+          </div>
+          ·
+          <div className="headline-num-reviews">
+            { spot.numReviews ? spot.numReviews : '0' } reviews
+          </div>
+          </div>
+        <div className="reviews"></div>
+      </div>
 
     </div>
   )
