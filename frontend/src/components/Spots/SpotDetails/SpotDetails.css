@@ -2,8 +2,15 @@
   align-items: flex-start;
   display: flex;
   justify-content: space-between;
-  margin: 45px 0px;
+  margin-top: 45px;
   width: 100%;
+}
+
+.break {
+  border-top: 1px solid #DDDDDD;
+  height: 20px;
+  width: 100%;
+  z-index: 997;
 }
 
 h2 {
@@ -34,13 +41,6 @@ h3 {
   justify-content: center;
 }
 
-.break {
-  border-top: 1px solid #DDDDDD;
-  height: 20px;
-  width: 100%;
-  z-index: 997;
-}
-
 .location {
   font-size: 16px;
 }
@@ -51,7 +51,6 @@ h3 {
 
 .price-reviews-reserve {
   align-items: center;
-  background-color: white;
   border: solid 1px #DDDDDD;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -69,13 +68,6 @@ h3 {
   width: 90%;
 }
 
-.reviews-headline {
-  align-items: center;
-  display: flex;
-  font-size: 25px;
-  width: 100%;
-}
-
 .review-stats {
   display: flex;
   justify-content: space-between;
@@ -88,17 +80,19 @@ h3 {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  max-width: 90vw;
+  max-width: 85%;
   padding: 48px 10px;
+  margin: 0px 50px;
+  z-index: 99;
 }
   
 .spot-details-images-container {
   display: grid;
-  grid-template-areas:
-  "a b";
+  grid-template-areas: "a b";
   gap: 5px;
   max-height: 412px;
   width: 100%;
+  z-index: 98;
 }
   
 .large-preview-image {
@@ -229,4 +223,10 @@ h3 {
   max-width: 100%;
   max-height: 100%;
   margin: auto;
+}
+
+@media screen and (min-width: 1400px) {
+  .spot-details-container {
+    max-width: 1200px;
+  }
 }
