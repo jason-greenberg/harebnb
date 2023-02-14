@@ -80,7 +80,7 @@ function CreateSpot() {
       await dispatch(createSingleSpot(newSpot));
       console.log('singlespot after thunk', spot);
       console.log('spot created successfully;')
-      history.push(`spot/${spot?.id}`)
+      history.push(`/spots/${spot?.id}`)
 
       const newSpotImages = [
         previewImageUrl, 
