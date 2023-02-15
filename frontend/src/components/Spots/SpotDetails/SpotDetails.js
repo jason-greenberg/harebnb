@@ -8,6 +8,7 @@ import './SpotDetails.css'
 function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
   const spot = useSelector(state => state.spots.singleSpot);
   const reviews = useSelector(state => state.reviews.spot);
   const reviewsArray = Object.values(reviews);
@@ -96,7 +97,10 @@ function SpotDetails() {
           <div className="headline-num-reviews">
           { spot.numReviews ? spot.numReviews + ' reviews' : '' }
           </div>
-          </div>
+        </div>
+        { user && spot.ownerId !== user.id && (
+          <button className="post-review-button">Post Your Review</button>
+        )}
         <div className="reviews">
           { reviewsArray && reviewsArray.map(review => (
             <div key={review.id} className="review-individual">
