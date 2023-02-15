@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createSingleSpot } from '../../../store/spots';
+import { createSingleSpot, getSingleSpotData } from '../../../store/spots';
 import './CreateSpot.css';
 
 function CreateSpot() {
@@ -22,7 +22,6 @@ function CreateSpot() {
   const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
-  const spot = useSelector(state => state.singleSpot);
 
   const validate = () => {
     const validationErrors = {};
@@ -62,7 +61,6 @@ function CreateSpot() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors(validate());
-    console.log('singlespot before thunk', spot);
 
     if (!Object.keys(errors).length) {
       const newSpot = {
@@ -77,10 +75,8 @@ function CreateSpot() {
         price: parseFloat(price)
       }
 
-      await dispatch(createSingleSpot(newSpot));
-      console.log('singlespot after thunk', spot);
-      console.log('spot created successfully;')
-      history.push(`/spots/${spot?.id}`)
+      const spotData = await dispatch(createSingleSpot(newSpot));
+      history.push(`/spots/${spotData.id}`);
 
       const newSpotImages = [
         previewImageUrl, 

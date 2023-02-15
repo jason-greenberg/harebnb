@@ -18,7 +18,7 @@ function SpotDetails() {
     return <h1 className="not-found">Spot Not Found</h1>
   }
 
-  const preview = spot.SpotImages[0]?.url;
+  const preview = spot.SpotImages[0]?.url || ''
   const reserveClick = () => {
     alert('Feature Coming Soon...')
   }
