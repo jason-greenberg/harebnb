@@ -6,6 +6,12 @@ function AllSpots() {
   const allSpots = useSelector(state => state.spots.allSpots);
   const allSpotsArray = Object.values(allSpots);
 
+  if (!allSpotsArray.length) {
+    return (
+      <h2>Unable to retrieve spots. Please try again shortly</h2>
+    )
+  }
+
   return (
     <>
       <ul className="spots-list">

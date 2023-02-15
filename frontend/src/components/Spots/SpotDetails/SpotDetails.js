@@ -15,7 +15,7 @@ function SpotDetails() {
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
   if (!spot || !Object.values(spot).length) {
-    return <h1 className="not-found">Spot Not Found</h1>
+    return <h1 className="not-found">Unable to retrieve details. Please try again shortly</h1>
   }
 
   const preview = spot.SpotImages[0]?.url || ''
@@ -63,7 +63,7 @@ function SpotDetails() {
             </div>
             <div className="review-stats">
               <div className="star-stats">
-                { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★ New!' }
+                { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
               </div>
               { spot.avgStarRating ? '·' : '' }
               <div className="num-reviews">
@@ -85,7 +85,7 @@ function SpotDetails() {
       <div className="reviews-container">
         <div className="reviews-headline">
           <div className="headline-stars">
-            { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : 'New!' }
+            { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
           </div>
           { spot.avgStarRating ? '·' : '' }
           <div className="headline-num-reviews">

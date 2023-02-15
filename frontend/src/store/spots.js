@@ -4,6 +4,7 @@ const ADD_IMAGE = 'spots/ADD_IMAGE_TO_SPOT'
 const CREATE = 'spots/CREATE_SPOT';
 const DELETE = 'spots/DELETE_SPOT';
 const POPULATE = 'spots/POPULATE_SPOTS';
+const POPULATE_USER_SPOTS = 'spot/POPULATE_USER_OWNED_SPOTS'
 const READ = 'spots/READ_SPOT';
 const UPDATE = 'spots/UPDATE_SPOT';
 
@@ -33,6 +34,13 @@ const deleteSpot = (spotId) => {
 const populateAllSpots = (spots) => {
   return {
     type: POPULATE,
+    spots
+  }
+}
+
+const populateUserOwnedSpots = (spots) => {
+  return {
+    type: POPULATE_USER_SPOTS,
     spots
   }
 }
@@ -112,6 +120,20 @@ export const getAllSpotsData = () => async (dispatch) => {
   }
 }
 
+export const getAllUserOwnedSpotsData = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/current`);
+  if (response.ok) {
+    const spotsData = await response.json();
+    const normalizedSpotsData = {};
+    spotsData.Spots.forEach(spot => {
+      normalizedSpotsData[spot.id] = spot;
+    });
+    dispatch(populateUserOwnedSpots(normalizedSpotsData));
+  } else {
+    throw new Error('Error retrieving user spots');
+  }
+}
+
 export const getSingleSpotData = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   if (response.ok) {
@@ -143,7 +165,8 @@ export const updateSingleSpot = (spot) => async (dispatch) => {
 
 const initialState = {
   allSpots: {},
-  singleSpot: {}
+  singleSpot: {},
+  userSpots: {}
 };
 
 const spotsReducer = (state = initialState, action) => {
@@ -162,6 +185,9 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
     case POPULATE:
       newState.allSpots = action.spots;
+      return newState;
+    case POPULATE_USER_SPOTS:
+      newState.userSpots = action.spots;
       return newState;
     case READ:
       newState.singleSpot = action.spot;
