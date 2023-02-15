@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { getSingleSpotData } from "../../../store/spots";
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
+import OpenModalButton from "../../OpenModalButton";
+import DeleteSpotModal from "../ManageSpots/DeleteSpotModal";
 
 function UserSpotCard({ spot }) {
   const history = useHistory();
@@ -12,8 +14,9 @@ function UserSpotCard({ spot }) {
     history.push(`/spots/${spot.id}/edit`);
   }
 
-  const deleteSpot = (spotId) => {
-    
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   return (
@@ -49,8 +52,12 @@ function UserSpotCard({ spot }) {
               </button>
               <button 
                 className="delete-button"
+                onClick={handleDelete}
               >
-                Delete
+                <OpenModalMenuItem 
+                  itemText="Delete"
+                  modalComponent={<DeleteSpotModal />}
+                />
               </button>
             </div>
           </div>
