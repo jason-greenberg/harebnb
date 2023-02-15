@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
+import { getAllReviewsSpot } from "../../../store/reviews";
 import { getSingleSpotData } from "../../../store/spots";
 import './SpotDetails.css'
 
@@ -8,9 +9,12 @@ function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot);
+  const reviews = useSelector(state => state.reviews.spot);
+  const reviewsArray = Object.values(reviews);
   
   useEffect(() => {
     dispatch(getSingleSpotData(spotId));
+    dispatch(getAllReviewsSpot(spotId));
   }, [spotId])
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
@@ -93,7 +97,15 @@ function SpotDetails() {
           { spot.numReviews ? spot.numReviews + ' reviews' : '' }
           </div>
           </div>
-        <div className="reviews"></div>
+        <div className="reviews">
+          { reviewsArray && reviewsArray.map(review => (
+            <div key={review.id} className="review-individual">
+              <div className="review-first-name review-com">{review.User.firstName}</div>
+              <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
+              <div className="review-description review-com">{review.review}</div>
+            </div>
+          ))}   
+        </div>
       </div>
 
     </div>

@@ -16,8 +16,9 @@ export const getAllReviewsSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
   if (response.ok) {
     const reviewsData = await response.json();
+    console.log(reviewsData);
     const normalizedReviewsData = {};
-    reviewsData.forEach(review => {
+    reviewsData.Reviews.forEach(review => {
       normalizedReviewsData[review.id] = review
     });
     dispatch(populateAllSpotReviews(normalizedReviewsData));

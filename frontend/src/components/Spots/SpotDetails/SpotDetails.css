@@ -68,10 +68,27 @@ h3 {
   width: 90%;
 }
 
+.review-com {
+  margin: 5px 0px;
+}
+
+.review-date {
+  color: #999999;
+}
+
+.review-first-name {
+  font-weight: 400;
+}
+
+.review-individual {
+  margin-bottom: 40px;
+}
+
 .reviews-headline {
   display: flex;
   align-items: center;
   font-size: 25px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -85,6 +102,8 @@ h3 {
 .spot-details-container {
   display: flex;
   flex-direction: column;
+  font-size: 16px;
+  font-weight: 300;
   justify-content: center;
   width: 100%;
   max-width: 85%;
