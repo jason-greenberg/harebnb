@@ -1,24 +1,25 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addImageToSpot, createSingleSpot, getSingleSpotData } from '../../../store/spots';
+import { getSingleSpotData, updateSingleSpot } from '../../../store/spots';
 import './CreateSpot.css';
 
-function CreateSpot() {
-  const [country, setCountry] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [description, setDescription] = useState('');
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [previewImageUrl, setPreviewImageUrl] = useState('');
-  const [imageUrl2, setImageUrl2] = useState('');
-  const [imageUrl3, setImageUrl3] = useState('');
-  const [imageUrl4, setImageUrl4] = useState('');
-  const [imageUrl5, setImageUrl5] = useState('');
+function UpdateSpot() {
+  const spot = useSelector(state => state.spots.singleSpot);
+  const [country, setCountry] = useState(spot.country);
+  const [address, setAddress] = useState(spot.address);
+  const [city, setCity] = useState(spot.city);
+  const [state, setState] = useState(spot.state);
+  const [latitude, setLatitude] = useState(spot.lat);
+  const [longitude, setLongitude] = useState(spot.lng);
+  const [description, setDescription] = useState(spot.description);
+  const [name, setName] = useState(spot.name);
+  const [price, setPrice] = useState(spot.price);
+  // const [previewImageUrl, setPreviewImageUrl] = useState('');
+  // const [imageUrl2, setImageUrl2] = useState('');
+  // const [imageUrl3, setImageUrl3] = useState('');
+  // const [imageUrl4, setImageUrl4] = useState('');
+  // const [imageUrl5, setImageUrl5] = useState('');
   const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -37,23 +38,23 @@ function CreateSpot() {
     }
     if (!name) validationErrors.name = 'Name is required';
     if (!price) validationErrors.price = 'Price is required';
-    if (!previewImageUrl) validationErrors.previewImageUrl = 'Preview Image is required';
-    // validate image urls
-    if (previewImageUrl && !/\.(jpe?g|png)$/i.test(previewImageUrl)) {
-      validationErrors.previewImageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
-    }
-    if (imageUrl2 && !/\.(jpe?g|png)$/i.test(imageUrl2)) {
-      validationErrors.imageUrl2 = 'Image URL must end in .png, .jpg, or .jpeg';
-    }
-    if (imageUrl3 && !/\.(jpe?g|png)$/i.test(imageUrl3)) {
-      validationErrors.imageUrl3 = 'Image URL must end in .png, .jpg, or .jpeg';
-    }
-    if (imageUrl4 && !/\.(jpe?g|png)$/i.test(imageUrl4)) {
-      validationErrors.imageUrl4 = 'Image URL must end in .png, .jpg, or .jpeg';
-    }
-    if (imageUrl5 && !/\.(jpe?g|png)$/i.test(imageUrl5)) {
-      validationErrors.imageUrl5 = 'Image URL must end in .png, .jpg, or .jpeg';
-    }
+    // if (!previewImageUrl) validationErrors.previewImageUrl = 'Preview Image is required';
+    // // validate image urls
+    // if (previewImageUrl && !/\.(jpe?g|png)$/i.test(previewImageUrl)) {
+    //   validationErrors.previewImageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+    // }
+    // if (imageUrl2 && !/\.(jpe?g|png)$/i.test(imageUrl2)) {
+    //   validationErrors.imageUrl2 = 'Image URL must end in .png, .jpg, or .jpeg';
+    // }
+    // if (imageUrl3 && !/\.(jpe?g|png)$/i.test(imageUrl3)) {
+    //   validationErrors.imageUrl3 = 'Image URL must end in .png, .jpg, or .jpeg';
+    // }
+    // if (imageUrl4 && !/\.(jpe?g|png)$/i.test(imageUrl4)) {
+    //   validationErrors.imageUrl4 = 'Image URL must end in .png, .jpg, or .jpeg';
+    // }
+    // if (imageUrl5 && !/\.(jpe?g|png)$/i.test(imageUrl5)) {
+    //   validationErrors.imageUrl5 = 'Image URL must end in .png, .jpg, or .jpeg';
+    // }
 
     return validationErrors;
   }
@@ -64,6 +65,7 @@ function CreateSpot() {
 
     if (!Object.keys(errors).length) {
       const newSpot = {
+        id: spot.id,
         address,
         city,
         state,
@@ -74,21 +76,21 @@ function CreateSpot() {
         description,
         price: parseFloat(price)
       }
-      // Create new Spot and add to spots.singleSpot slice of state
-      const spotData = await dispatch(createSingleSpot(newSpot));
+      // Update Spot and add to spots.singleSpot slice of state
+      await dispatch(updateSingleSpot(newSpot));
       
       // Add any images to new spot and to spots.singleSpot slice of state
-      const newSpotImages = []
-      if (previewImageUrl) newSpotImages.push(previewImageUrl); 
-      if (imageUrl2) newSpotImages.push(imageUrl2); 
-      if (imageUrl3) newSpotImages.push(imageUrl3); 
-      if (imageUrl4) newSpotImages.push(imageUrl4); 
-      if (imageUrl5) newSpotImages.push(imageUrl5); 
+      // const newSpotImages = []
+      // if (previewImageUrl) newSpotImages.push(previewImageUrl); 
+      // if (imageUrl2) newSpotImages.push(imageUrl2); 
+      // if (imageUrl3) newSpotImages.push(imageUrl3); 
+      // if (imageUrl4) newSpotImages.push(imageUrl4); 
+      // if (imageUrl5) newSpotImages.push(imageUrl5); 
 
-      newSpotImages.forEach(image => dispatch(addImageToSpot({ url: image, preview: false }, spotData.id)));
+      // newSpotImages.forEach(image => dispatch(addImageToSpot({ url: image, preview: false }, spotData.id)));
 
       // Redirect user to newly created spot details page
-      history.push(`/spots/${spotData.id}`);
+      history.push(`/spots/${spot.id}`);
     } else {
       return;
     }
@@ -98,7 +100,7 @@ function CreateSpot() {
     <div className="create-spot-container">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <h2 className="form-header">Create a new Spot</h2>
+          <h2 className="form-header">Update your Spot</h2>
           <div className="location-header">
             <h3>Where's your place located?</h3>
             <h5>Guests will only get your exact address once they booked a reservation.</h5>
@@ -210,7 +212,7 @@ function CreateSpot() {
             <div className="error-message">{errors.price}</div>
           </label>
           <div className="break"></div>
-          <div className="images-header">
+          {/* <div className="images-header">
             <h3>Liven up your spot with photos</h3>
             <h5>Submit a link to at least one photo to publish your spot.</h5>
           </div>
@@ -258,13 +260,13 @@ function CreateSpot() {
               placeholder="Image URL 5"
             />
             <div className="error-message">{errors.imageUrl5}</div>
-          </label>
-          <div className="break"></div>
-          <button className="create-spot-button">Create Spot</button>
+          </label> */}
+          {/* <div className="break"></div> */}
+          <button className="create-spot-button">Update Spot</button>
       </form>
       </div>
     </div>
   )
 }
 
-export default CreateSpot;
+export default UpdateSpot;

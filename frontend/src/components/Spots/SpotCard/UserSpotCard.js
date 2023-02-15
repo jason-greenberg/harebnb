@@ -1,9 +1,16 @@
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { getSingleSpotData } from "../../../store/spots";
 
 function UserSpotCard({ spot }) {
   const history = useHistory();
-  const redirectToUpdate = (spotId) => {
-    history.push(`/spots/${spotId}/edit`);
+  const dispatch = useDispatch();
+
+  const redirectToUpdate = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(getSingleSpotData(spot.id));
+    history.push(`/spots/${spot.id}/edit`);
   }
 
   const deleteSpot = (spotId) => {
@@ -35,8 +42,17 @@ function UserSpotCard({ spot }) {
               <span className="light price-component">night</span>
             </div>
             <div className="manage-buttons">
-              <button className="update-button">Update</button>
-              <button className="delete-button">Delete</button>
+              <button 
+                className="update-button"
+                onClick={redirectToUpdate}
+              >
+                Update
+              </button>
+              <button 
+                className="delete-button"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

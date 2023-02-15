@@ -2,6 +2,7 @@
 .delete-button {
   background-color: #FF385C;
   color: white;
+  cursor: pointer;
   font-size: 12px;
   margin: 0px 1px;
   padding: 5px 4px;

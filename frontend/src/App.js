@@ -4,10 +4,11 @@ import { Switch, Route } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import { restoreUser } from './store/session';
 import AllSpots from './components/Spots/AllSpots';
-import { getAllSpotsData, getAllUserOwnedSpotsData } from './store/spots';
+import { getAllSpotsData } from './store/spots';
 import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
 import CreateSpot from './components/Spots/CreateSpot';
 import ManageSpots from './components/Spots/ManageSpots';
+import UpdateSpot from './components/Spots/CreateSpot/UpdateSpot';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
           <Route exact path='/' component={AllSpots} />
           <Route path='/spots/new' component={CreateSpot} />
           <Route path='/spots/current' component={ManageSpots} />
+          <Route path='/spots/:spotId/edit' component={UpdateSpot} />
           <Route exact path='/spots/:spotId' component={SpotDetails} />
           <h1>Page Not Found</h1>
         </Switch>
