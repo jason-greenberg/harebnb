@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import { restoreUser } from './store/session';
 import AllSpots from './components/Spots/AllSpots';
-import { getAllSpotsData } from './store/spots';
+import { getAllSpotsData, getAllUserOwnedSpotsData } from './store/spots';
 import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
 import CreateSpot from './components/Spots/CreateSpot';
 import ManageSpots from './components/Spots/ManageSpots';
