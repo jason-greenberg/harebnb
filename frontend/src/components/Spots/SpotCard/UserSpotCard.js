@@ -55,6 +55,7 @@ function UserSpotCard({ spot }) {
               >
                 <OpenModalMenuItem 
                   itemText="Delete"
+                  itemTextClassName="delete"
                   modalComponent={<DeleteSpotModal spot={spot}/>}
                 />
               </button>
