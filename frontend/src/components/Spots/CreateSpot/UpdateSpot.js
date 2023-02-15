@@ -120,6 +120,7 @@ function UpdateSpot() {
 
   // Prevent users from attempting to view edit page for spot they don't own
   if (spot.ownerId !== user.id || !user ) {
+    history.push('/');
     return (
       <div className="create-spot-container">
           <h1>Forbidden</h1>

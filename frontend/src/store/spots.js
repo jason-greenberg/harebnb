@@ -100,7 +100,8 @@ export const deleteSingleSpot = (spotId) => async (dispatch) => {
     method: 'DELETE'
   });
   if (response.ok) {
-    dispatch(deleteSpot(spotId));
+    await dispatch(deleteSpot(spotId));
+    await dispatch(getAllUserOwnedSpotsData());
   } else {
     throw new Error('Error deleting spot');
   }

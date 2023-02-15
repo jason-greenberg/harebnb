@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import OpenModalButton from "../../OpenModalButton";
 import DeleteSpotModal from "../ManageSpots/DeleteSpotModal";
 
 function UserSpotCard({ spot }) {
@@ -56,7 +55,7 @@ function UserSpotCard({ spot }) {
               >
                 <OpenModalMenuItem 
                   itemText="Delete"
-                  modalComponent={<DeleteSpotModal />}
+                  modalComponent={<DeleteSpotModal spot={spot}/>}
                 />
               </button>
             </div>
