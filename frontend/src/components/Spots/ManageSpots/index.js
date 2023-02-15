@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { getAllUserOwnedSpotsData } from '../../../store/spots';
 import UserSpotCard from '../SpotCard/UserSpotCard';
 import './ManageSpots.css'
@@ -8,12 +9,17 @@ function ManageSpots() {
   const userSpots = useSelector(state => state.spots.userSpots);
   const userSpotsArray = Object.values(userSpots);
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(getAllUserOwnedSpotsData())
       .then(() => setIsLoaded(true));
   }, [dispatch])
+
+  const redirectToCreate = () => {
+    history.push('/spots/new');
+  }
 
   if (!userSpotsArray.length) {
     return (
@@ -23,9 +29,12 @@ function ManageSpots() {
 
   return (
     <div className="manage-spots-container">
-      <div>
-        <h1 className="header">Manage Your Spots</h1>
-        <button className="create-new-spot-button">
+      <div className="header">
+        <h1>Manage Your Spots</h1>
+        <button 
+          className="create-new-spot-button"
+          onClick={redirectToCreate}
+        >
           Create A New Spot
         </button>
       </div>

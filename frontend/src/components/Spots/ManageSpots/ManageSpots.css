@@ -1,4 +1,3 @@
-
 button {
   border-radius: 6px;
   border: none;
@@ -55,7 +54,7 @@ button {
 }
 
 .header {
-  margin-bottom: 0;
+  margin: 20px 0px 0px 55px;
 }
 
 
@@ -64,7 +63,7 @@ button {
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  max-width: 85%;
+  max-width: 100%;
   padding: 48px 10px;
   margin: 0px 50px;
   z-index: 99;

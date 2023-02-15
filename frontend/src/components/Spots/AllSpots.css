@@ -1,3 +1,12 @@
+.update-button,
+.delete-button {
+  background-color: #FF385C;
+  color: white;
+  font-size: 12px;
+  margin: 0px 1px;
+  padding: 5px 4px;
+}
+
 .image-container {
   position: relative;
   padding-bottom: 75%; /* Maintains aspect ratio of preview image */
@@ -8,6 +17,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0px;
+}
+
+.manage-buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 8em;
 }
 
 .not-found {
@@ -33,6 +48,11 @@
 
 .price-component {
   margin: 0 3px 0 0;
+}
+
+.price-manage {
+  display: flex;
+  justify-content: space-between;
 }
 
 .spots-list {
