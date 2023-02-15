@@ -1,3 +1,7 @@
+.delete {
+  color: white
+}
+
 .delete-button,
 .update-button {
   background-color: #FF385C;
@@ -25,6 +29,10 @@
   background-color: #e60965;
   border-color: #e60965;
   fill: #FF385C;
+}
+
+.delete-button {
+  margin-left: 4px;
 }
 
 .image-container {
