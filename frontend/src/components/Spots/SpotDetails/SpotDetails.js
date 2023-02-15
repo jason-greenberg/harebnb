@@ -67,7 +67,8 @@ function SpotDetails() {
               </div>
               { spot.avgStarRating ? '·' : '' }
               <div className="num-reviews">
-                { spot.numReviews ? spot.numReviews + ' reviews' : '' }
+                { spot.numReviews && spot.numReviews === 1 ? spot.numReviews + ' review' : ''  }
+                { spot.numReviews && spot.numReviews !== 1 ? spot.numReviews + ' reviews' : '' }
               </div>
             </div>
           </div>
