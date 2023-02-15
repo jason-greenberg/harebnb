@@ -68,3 +68,7 @@ button {
   margin: 0px 50px;
   z-index: 99;
 }
+
+.no-spots-yet {
+  font-weight: 400;
+}

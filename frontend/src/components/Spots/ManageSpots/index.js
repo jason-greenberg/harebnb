@@ -27,7 +27,19 @@ function ManageSpots() {
 
   if (!userSpotsArray.length) {
     return (
-      <h2>No Spots yet.</h2>
+      <div className="manage-spots-container">
+        <div className="header">
+          <h1>Manage Your Spots</h1>
+          <button 
+            className="create-new-spot-button"
+            onClick={redirectToCreate}
+          >
+            Create A New Spot
+          </button>
+          <h3 className="no-spots-yet">{`(No Spots yet)`}</h3>
+        </div>
+        
+      </div>
     )
   }
 
