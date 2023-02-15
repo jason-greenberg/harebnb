@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createSingleSpot, getSingleSpotData } from '../../../store/spots';
+import { addImageToSpot, createSingleSpot, getSingleSpotData } from '../../../store/spots';
 import './CreateSpot.css';
 
 function CreateSpot() {
@@ -74,18 +74,21 @@ function CreateSpot() {
         description,
         price: parseFloat(price)
       }
-
+      // Create new Spot and add to spots.singleSpot slice of state
       const spotData = await dispatch(createSingleSpot(newSpot));
-      history.push(`/spots/${spotData.id}`);
+      
+      // Add any images to new spot and to spots.singleSpot slice of state
+      const newSpotImages = []
+      if (previewImageUrl) newSpotImages.push(previewImageUrl); 
+      if (imageUrl2) newSpotImages.push(imageUrl2); 
+      if (imageUrl3) newSpotImages.push(imageUrl3); 
+      if (imageUrl4) newSpotImages.push(imageUrl4); 
+      if (imageUrl5) newSpotImages.push(imageUrl5); 
 
-      const newSpotImages = [
-        previewImageUrl, 
-        imageUrl2,
-        imageUrl3,
-        imageUrl4,
-        imageUrl5
-      ]
-      console.log('newImages', )
+      newSpotImages.forEach(image => dispatch(addImageToSpot({ url: image, preview: false }, spotData.id)));
+
+      // Redirect user to newly created spot details page
+      history.push(`/spots/${spotData.id}`);
     } else {
       return;
     }

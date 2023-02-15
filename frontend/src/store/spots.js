@@ -1,5 +1,6 @@
 import { csrfFetch } from "./csrf";
 
+const ADD_IMAGE = 'spots/ADD_IMAGE_TO_SPOT'
 const CREATE = 'spots/CREATE_SPOT';
 const DELETE = 'spots/DELETE_SPOT';
 const POPULATE = 'spots/POPULATE_SPOTS';
@@ -7,6 +8,13 @@ const READ = 'spots/READ_SPOT';
 const UPDATE = 'spots/UPDATE_SPOT';
 
 // ---------- Actions --------------
+
+const addImage = (image) => {
+  return {
+    type: ADD_IMAGE,
+    image
+  }
+}
 
 const createSpot = (spot) => {
   return {
@@ -44,6 +52,22 @@ const updateSpot = (spot) => {
 }
 
 // ---------- Thunk Actions --------
+
+export const addImageToSpot = (image, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(image)
+  });
+  if (response.ok) {
+    const imageData = await response.json();
+    dispatch(addImage(imageData));
+  } else {
+    throw new Error('Error adding image to spot');
+  }
+}
 
 export const createSingleSpot = (spot) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots`, {
@@ -126,6 +150,10 @@ const spotsReducer = (state = initialState, action) => {
   const newState = { ...state };
   newState.allSpots = { ...state.allSpots }
   switch (action.type) {
+    case ADD_IMAGE:
+      newState.singleSpot = { ...state.singleSpot };
+      newState.singleSpot.SpotImages = [ ...state.singleSpot.SpotImages, action.image ];
+      return newState;
     case CREATE: 
       newState.allSpots[action.spot.id] = action.spot
       return newState;
