@@ -1,11 +1,30 @@
-.update-button,
-.delete-button {
+.delete-button,
+.update-button {
   background-color: #FF385C;
   color: white;
   cursor: pointer;
   font-size: 12px;
   margin: 0px 1px;
   padding: 5px 4px;
+}
+
+.delete-button:focus,
+.update-button:focus {
+  color: #171e29;
+}
+
+.delete-button:hover,
+.update-button:hover {
+  background-color: #DB0F64;
+  border-color: #DB0F64;
+  fill: #FF385C;
+}
+
+.delete-button:active,
+.update-button:active {
+  background-color: #e60965;
+  border-color: #e60965;
+  fill: #FF385C;
 }
 
 .image-container {

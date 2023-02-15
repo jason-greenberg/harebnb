@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
+import OpenModalButton from "../../OpenModalButton";
+import DeleteSpotModal from "../ManageSpots/DeleteSpotModal";
 
 function UserSpotCard({ spot }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const redirectToUpdate = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    history.push(`/spots/${spot.id}/edit`);
+  }
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   return (
     <>
       <Link 
@@ -26,8 +44,21 @@ function UserSpotCard({ spot }) {
               <span className="light price-component">night</span>
             </div>
             <div className="manage-buttons">
-              <button className="update-button">Update</button>
-              <button className="delete-button">Delete</button>
+              <button 
+                className="update-button"
+                onClick={redirectToUpdate}
+              >
+                Update
+              </button>
+              <button 
+                className="delete-button"
+                onClick={handleDelete}
+              >
+                <OpenModalMenuItem 
+                  itemText="Delete"
+                  modalComponent={<DeleteSpotModal />}
+                />
+              </button>
             </div>
           </div>
         </div>

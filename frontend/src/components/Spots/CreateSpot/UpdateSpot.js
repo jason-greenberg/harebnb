@@ -21,7 +21,6 @@ function UpdateSpot() {
     setName(spotData.name);
     setPrice(spotData.price);
     setIsLoaded(true);
-    console.log(spotData);
   }
 
   useEffect(() => {
