@@ -138,7 +138,8 @@ export const getSingleSpotData = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`);
   if (response.ok) {
     const spotData = await response.json();
-    dispatch(readSingleSpot(spotData));
+    await dispatch(readSingleSpot(spotData));
+    return spotData;
   } else {
     throw new Error('Error retrieving single spot data');
   }
