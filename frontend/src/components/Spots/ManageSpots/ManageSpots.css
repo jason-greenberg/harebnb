@@ -1,0 +1,71 @@
+
+button {
+  border-radius: 6px;
+  border: none;
+}
+
+.create-new-spot-button {
+  align-items: center;
+  background-color: #FF385C;
+  border: 2px solid #FF385C;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-size: 16px;
+  font-weight: 600;
+  height: 32px;
+  justify-content: center;
+  letter-spacing: -.8px;
+  line-height: 24px;
+  margin-left: 0;
+  min-width: 140px;
+  outline: 0;
+  padding: 0 17px;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 200px;
+  touch-action: manipulation;
+}
+
+.create-new-spot-button:focus {
+  color: #171e29;
+}
+
+.create-new-spot-button:hover {
+  background-color: #DB0F64;
+  border-color: #DB0F64;
+  fill: #FF385C;
+}
+
+.create-new-spot-button:active {
+  background-color: #e60965;
+  border-color: #e60965;
+  fill: #FF385C;
+}
+
+@media (min-width: 768px) {
+  .create-new-spot-button {
+    min-width: 170px;
+  }
+}
+
+.header {
+  margin-bottom: 0;
+}
+
+
+.manage-spots-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 85%;
+  padding: 48px 10px;
+  margin: 0px 50px;
+  z-index: 99;
+}

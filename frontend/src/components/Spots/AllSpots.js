@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import SpotCard from './SpotCard';
+import SpotCard from './SpotCard/SpotCard';
 import './AllSpots.css'
 
 function AllSpots() {
