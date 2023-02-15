@@ -7,6 +7,7 @@ import AllSpots from './components/Spots/AllSpots';
 import { getAllSpotsData } from './store/spots';
 import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
 import CreateSpot from './components/Spots/CreateSpot';
+import ManageSpots from './components/Spots/ManageSpots';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={AllSpots} />
           <Route path='/spots/new' component={CreateSpot} />
+          <Route path='/spots/current' component={ManageSpots} />
           <Route exact path='/spots/:spotId' component={SpotDetails} />
           <h1>Page Not Found</h1>
         </Switch>
