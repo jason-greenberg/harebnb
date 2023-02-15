@@ -21,10 +21,6 @@ function ManageSpots() {
     history.push('/spots/new');
   }
 
-  const redirectToUpdate = (spotId) => {
-    history.push(`/spots/${spotId}/edit`);
-  }
-
   if (!userSpotsArray.length) {
     return (
       <div className="manage-spots-container">

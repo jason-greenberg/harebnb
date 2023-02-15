@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function UserSpotCard({ spot }) {
+  const history = useHistory();
+  const redirectToUpdate = (spotId) => {
+    history.push(`/spots/${spotId}/edit`);
+  }
+
+  const deleteSpot = (spotId) => {
+    
+  }
+
   return (
     <>
       <Link 
