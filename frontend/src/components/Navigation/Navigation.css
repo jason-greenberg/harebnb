@@ -6,6 +6,10 @@ a {
   text-decoration: none;
 }
 
+.create-new-spot-link {
+  font-size: 14px;
+}
+
 .navigation-bar {
   align-items: center;
   background-color: white;
