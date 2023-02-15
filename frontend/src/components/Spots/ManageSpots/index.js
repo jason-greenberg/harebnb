@@ -21,6 +21,10 @@ function ManageSpots() {
     history.push('/spots/new');
   }
 
+  const redirectToUpdate = (spotId) => {
+    history.push(`/spots/${spotId}/edit`);
+  }
+
   if (!userSpotsArray.length) {
     return (
       <h2>No Spots yet.</h2>
@@ -41,7 +45,7 @@ function ManageSpots() {
       {
         isLoaded && 
         <div className="user-spots-container">
-          <ul className="spots-list">
+          <ul className="user-spots-list">
         {
           userSpotsArray.length > 0
           && userSpotsArray.map(spot => (

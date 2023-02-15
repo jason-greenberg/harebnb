@@ -99,6 +99,14 @@
 .spot-card-content p {
   font-size: 80%;
 }
+
+.user-spots-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 25px;
+  margin-top: 0;
+  padding: 20px 1em 0em 1.4em;
+}
   
 @media screen and (min-width: 40em) {
   .spot-card {
