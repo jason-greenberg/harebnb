@@ -24,9 +24,14 @@ function Navigation({ isLoaded }){
           </NavLink>
         </li>
         {isLoaded && (
+          <>
+          {sessionUser && (
+            <NavLink to="/spots/new">Create a New Spot</NavLink>
+          )}
           <li>
             <ProfileButton user={sessionUser} />
           </li>
+          </>
         )}
       </ul>
       <hr className="hr"/>
