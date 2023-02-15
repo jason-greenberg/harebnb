@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUserOwnedSpotsData } from '../../../store/spots';
-import SpotCard from '../SpotCard';
+import UserSpotCard from '../SpotCard/UserSpotCard';
 import './ManageSpots.css'
 
 function ManageSpots() {
@@ -40,7 +40,7 @@ function ManageSpots() {
               className="spot-card"
               key={spot.id}
             >
-              <SpotCard spot={spot} />
+              <UserSpotCard spot={spot} />
             </li>
           ))
         }
