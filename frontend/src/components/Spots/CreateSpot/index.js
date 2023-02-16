@@ -144,24 +144,29 @@ function CreateSpot() {
               />
             </label>
           </div>
-          <label>
-            Latitude { errors.latitude && <span className="error-message">{errors.latitude}</span>}<br/>
-            <input
-              type="text"
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-              placeholder="Latitude"
-            />
-          </label>
-          <label>
-            Longitude { errors.longitude && <span className="error-message">{errors.longitude}</span>}<br/>
-            <input
-              type="text"
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-              placeholder="Longitude"
-            />
-          </label>
+          <div className="lat-lng">
+            <label>
+              Latitude { errors.latitude && <span className="error-message">{errors.latitude}</span>}<br/>
+              <input
+                className="lat-input"
+                type="text"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+                placeholder="Latitude"
+              />
+            </label>
+            <div className="comma">,</div>
+            <label>
+              Longitude { errors.longitude && <span className="error-message">{errors.longitude}</span>}<br/>
+              <input
+                className="lng-input"
+                type="text"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+                placeholder="Longitude"
+              />
+            </label>
+          </div>
           <div className="break"></div>
           <div className="description-header">
             <h3>Describe your place to guests</h3>

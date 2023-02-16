@@ -16,6 +16,20 @@
   width: 100%;
 }
 
+.lat-lng {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.lat-input {
+  width: 12.75em;
+}
+
+.lng-input {
+  width: 12.75em;
+}
+
 .comma {
   display: flex;
   justify-content: flex-start;
