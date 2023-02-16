@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { getAllReviewsSpot } from "../../../store/reviews";
+import { getAllReviewsSpot, getAllReviewsUser } from "../../../store/reviews";
 import { getSingleSpotData } from "../../../store/spots";
 import './SpotDetails.css'
 
@@ -9,14 +9,29 @@ function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user);
+  const userReviews = useSelector(state => state.reviews.user);
   const spot = useSelector(state => state.spots.singleSpot);
-  const reviews = useSelector(state => state.reviews.spot);
-  const reviewsArray = Object.values(reviews);
-  
+  const spotReviews = useSelector(state => state.reviews.spot);
+  const reviewsArray = Object.values(spotReviews);
+  const userReviewsArray = Object.values(userReviews);
+  const [userHasReviewed, setUserHasReviewed] = useState(false);
+
+  // Populate store with focused spot and user data
   useEffect(() => {
     dispatch(getSingleSpotData(spotId));
     dispatch(getAllReviewsSpot(spotId));
+    dispatch(getAllReviewsUser())
+      .then(checkIfUserHasReviewedSpot)
   }, [spotId])
+
+  const checkIfUserHasReviewedSpot = () => {
+    for (let i = 0; i < userReviewsArray.length; i += 1) {
+      const review = userReviewsArray[i];
+      if (review.spotId === +spotId) {
+        return setUserHasReviewed(true);
+      }
+    }
+  }
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
   if (!spot || !Object.values(spot).length) {
@@ -98,7 +113,8 @@ function SpotDetails() {
           { spot.numReviews ? spot.numReviews + ' reviews' : '' }
           </div>
         </div>
-        { user && spot.ownerId !== user.id && (
+        {/* Check has not reviewed, or does not own spot */}
+        { (user && spot.ownerId !== user.id && !userHasReviewed) && (
           <button className="post-review-button">Post Your Review</button>
         )}
         <div className="reviews">

@@ -44,6 +44,7 @@ export const getAllReviewsUser = () => async (dispatch) => {
       normalizedReviewsData[review.id] = review;
     });
     dispatch(populateAllUserReviews(normalizedReviewsData));
+    return normalizedReviewsData;
   } else {
     throw new Error('Error retrieving user reviews');
   }
