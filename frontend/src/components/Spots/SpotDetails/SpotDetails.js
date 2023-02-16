@@ -15,18 +15,21 @@ function SpotDetails() {
   const reviewsArray = Object.values(spotReviews);
   const userReviewsArray = Object.values(userReviews);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Populate store with focused spot and user data
   useEffect(() => {
     dispatch(getSingleSpotData(spotId));
-    dispatch(getAllReviewsSpot(spotId));
+    dispatch(getAllReviewsSpot(spotId))
     dispatch(getAllReviewsUser())
-      .then(checkIfUserHasReviewedSpot)
-  }, [spotId])
+    if (Object.keys(spotReviews).length) setIsLoaded(true);
+    checkIfUserHasReviewedSpot();
+  }, [spotId, spot.numReviews])
 
   const checkIfUserHasReviewedSpot = () => {
     for (let i = 0; i < userReviewsArray.length; i += 1) {
       const review = userReviewsArray[i];
+      console.log('review', review);
       if (review.spotId === +spotId) {
         return setUserHasReviewed(true);
       }
@@ -103,30 +106,32 @@ function SpotDetails() {
         </div>
       </div>
       <div className="break"></div>
-      <div className="reviews-container">
-        <div className="reviews-headline">
-          <div className="headline-stars">
-            { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
-          </div>
-          { spot.avgStarRating ? '·' : '' }
-          <div className="headline-num-reviews">
-          { spot.numReviews ? spot.numReviews + ' reviews' : '' }
-          </div>
-        </div>
-        {/* Check has not reviewed, or does not own spot */}
-        { (user && spot.ownerId !== user.id && !userHasReviewed) && (
-          <button className="post-review-button">Post Your Review</button>
-        )}
-        <div className="reviews">
-          { reviewsArray && reviewsArray.map(review => (
-            <div key={review.id} className="review-individual">
-              <div className="review-first-name review-com">{review.User.firstName}</div>
-              <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
-              <div className="review-description review-com">{review.review}</div>
+      { isLoaded && (
+        <div className="reviews-container">
+          <div className="reviews-headline">
+            <div className="headline-stars">
+              { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
             </div>
-          ))}   
+            { spot.avgStarRating ? '·' : '' }
+            <div className="headline-num-reviews">
+            { spot.numReviews ? spot.numReviews + ' reviews' : '' }
+            </div>
+          </div>
+          {/* Check has not reviewed, or does not own spot */}
+          { (user && spot.ownerId !== user.id && !userHasReviewed) && (
+            <button className="post-review-button">Post Your Review</button>
+          )}
+          <div className="reviews">
+            { (reviewsArray && isLoaded) && reviewsArray.map(review => (
+              <div key={review.id} className="review-individual">
+                <div className="review-first-name review-com">{review.User?.firstName}</div>
+                <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
+                <div className="review-description review-com">{review.review}</div>
+              </div>
+            ))}   
+          </div>
         </div>
-      </div>
+      )}
 
     </div>
   )
