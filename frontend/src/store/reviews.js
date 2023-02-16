@@ -1,9 +1,25 @@
 import { csrfFetch } from "./csrf";
 
+const CREATE = 'reviews/CREATE_REVIEW';
+const DELETE = 'reviews/DELETE_REVIEW';
 const POPULATE_REVIEWS_SPOT = 'reviews/POPULATE_ALL_REVIEWS_SPOT';
 const POPULATE_REVIEWS_USER = 'reviews/POPULATE_ALL_REVIEWS_USER';
 
 // ------------ Actions -------------
+
+const createReview = (review) => {
+  return {
+    type: CREATE,
+    review
+  }
+}
+
+const deleteReview = (reviewId) => {
+  return {
+    type: DELETE,
+    reviewId
+  }
+}
 
 const populateAllSpotReviews = (reviews) => {
   return {
@@ -20,6 +36,33 @@ const populateAllUserReviews = (reviews) => {
 }
 
 // -------- Thunk Actions -----------
+
+export const createReviewBySpotId = (review, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(review)
+  });
+  if (response.ok) {
+    const reviewData = await response.json();
+    await dispatch(createReview(reviewData));
+  } else {
+    throw new Error('Error creating review');
+  }
+}
+
+export const deleteReviewById = (reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: 'DELETE'
+  });
+  if (response.ok) {
+    dispatch(deleteReview(reviewId));
+  } else {
+    throw new Error('Error deleting review');
+  }
+}
 
 export const getAllReviewsSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
@@ -60,12 +103,20 @@ const initialState = {
 const reviewsReducer = (state = initialState, action) => {
   const newState = { ...state }
   newState.spot = { ...state.spot }
+  newState.user = { ...state.user }
   switch (action.type) {
+    case CREATE:
+      newState.spot[action.review.id] = action.review;
+      newState.user[action.review.id] = action.review;
+      return newState;
+    case DELETE:
+      delete newState.spot[action.reviewId]
+      delete newState.user[action.reviewId]
+      return newState;
     case POPULATE_REVIEWS_SPOT:
       newState.spot = action.reviews;
       return newState;
     case POPULATE_REVIEWS_USER:
-      newState.user = { ...state.user }
       newState.user = action.reviews;
       return newState;
     default:
