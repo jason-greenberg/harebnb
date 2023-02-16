@@ -46,6 +46,8 @@ function SpotDetails() {
     alert('Feature Coming Soon...')
   }
 
+  const canPostReview = user && spot.ownerId !== user.id && !userHasReviewed;
+
   return (
     <div className="spot-details-container">
       <div className="name-location">
@@ -117,11 +119,11 @@ function SpotDetails() {
           </div>
         </div>
         {/* Check has not reviewed, or does not own spot */}
-        { (user && spot.ownerId !== user.id && !userHasReviewed) && (
+        { canPostReview && (
           <button className="post-review-button">Post Your Review</button>
         )}
         <div className="reviews">
-          { !spot.numReviews ? 'Be the first to post a review!' : ''  }
+          { !spot.numReviews && canPostReview ? 'Be the first to post a review!' : ''  }
           { reviewsArray && reviewsArray.map(review => (
             <div key={review.id} className="review-individual">
               <div className="review-first-name review-com">{review.User?.firstName}</div>
