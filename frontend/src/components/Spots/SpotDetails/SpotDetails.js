@@ -121,6 +121,7 @@ function SpotDetails() {
           <button className="post-review-button">Post Your Review</button>
         )}
         <div className="reviews">
+          { !spot.numReviews ? 'Be the first to post a review!' : ''  }
           { reviewsArray && reviewsArray.map(review => (
             <div key={review.id} className="review-individual">
               <div className="review-first-name review-com">{review.User?.firstName}</div>
