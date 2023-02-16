@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { getAllReviewsSpot, getAllReviewsUser } from "../../../store/reviews";
+import { deleteReviewById, getAllReviewsSpot, getAllReviewsUser } from "../../../store/reviews";
 import { getSingleSpotData } from "../../../store/spots";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../../Reviews/ReviewFormModal";
@@ -17,25 +17,30 @@ function SpotDetails() {
   const reviewsArray = Object.values(spotReviews);
   const userReviewsArray = Object.values(userReviews);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   // Populate store with focused spot and user data
   useEffect(() => {
     dispatch(getSingleSpotData(spotId));
-    dispatch(getAllReviewsSpot(spotId))
-    dispatch(getAllReviewsUser())
-    if (Object.keys(spotReviews).length) setIsLoaded(true);
+  }, [spotId]);
+  
+  useEffect(() => {
+    dispatch(getAllReviewsSpot(spotId));
+    dispatch(getAllReviewsUser());
+  }, [spotId]);
+  
+  useEffect(() => {
     checkIfUserHasReviewedSpot();
-  }, [spotId, spot.numReviews, reviewsArray.length])
+  }, [reviewsArray, userReviewsArray]);
+  
 
   const checkIfUserHasReviewedSpot = () => {
     for (let i = 0; i < userReviewsArray.length; i += 1) {
       const review = userReviewsArray[i];
-      console.log('review', review);
       if (review.spotId === +spotId) {
         return setUserHasReviewed(true);
       }
     }
+    return setUserHasReviewed(false)
   }
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
@@ -49,6 +54,11 @@ function SpotDetails() {
   }
 
   const canPostReview = user && spot.ownerId !== user.id && !userHasReviewed;
+
+  const handleDeleteReview = (reviewId) => {
+    dispatch(deleteReviewById(reviewId));
+    setUserHasReviewed(false);
+  }
 
   return (
     <div className="spot-details-container">
@@ -117,7 +127,8 @@ function SpotDetails() {
           </div>
           { spot.avgStarRating ? '·' : '' }
           <div className="headline-num-reviews">
-          { spot.numReviews ? spot.numReviews + ' reviews' : '' }
+          { spot.numReviews && spot.numReviews === 1 ? spot.numReviews + ' review' : ''  }
+          { spot.numReviews && spot.numReviews !== 1 ? spot.numReviews + ' reviews' : '' }
           </div>
         </div>
         {/* Check has not reviewed, or does not own spot */}
@@ -137,6 +148,13 @@ function SpotDetails() {
               <div className="review-first-name review-com">{review.User?.firstName}</div>
               <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
               <div className="review-description review-com">{review.review}</div>
+              { review.userId === user.id && (
+                <button
+                  onClick={() => handleDeleteReview(review.id)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}   
         </div>
