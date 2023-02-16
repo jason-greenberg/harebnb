@@ -119,7 +119,7 @@ function UpdateSpot() {
   }
 
   // Prevent users from attempting to view edit page for spot they don't own
-  if (spot.ownerId !== user.id || !user ) {
+  if (isLoaded && (!user || spot.ownerId !== user.id) ) {
     history.push('/');
     return (
       <div className="create-spot-container">

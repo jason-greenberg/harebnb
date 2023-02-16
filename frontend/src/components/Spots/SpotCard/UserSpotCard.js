@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
@@ -5,13 +6,17 @@ import DeleteSpotModal from "../ManageSpots/DeleteSpotModal";
 
 function UserSpotCard({ spot }) {
   const history = useHistory();
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+  }, [spot]);
+  
 
   const redirectToUpdate = (e) => {
     e.preventDefault();
     e.stopPropagation();
     history.push(`/spots/${spot.id}/edit`);
-  }
+  };
+  
 
   const handleDelete = (e) => {
     e.preventDefault();
