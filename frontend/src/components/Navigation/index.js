@@ -25,7 +25,15 @@ function Navigation({ isLoaded }){
         </li>
         <li>
         {isLoaded && (
-          <div>
+          <div className="menus">
+          {sessionUser && (
+            <NavLink 
+              to="/spots/new"
+              className="create-new-spot-link-mobile"
+            >
+              <i className="fa-regular fa-plus"></i>
+            </NavLink>
+          )}
           {sessionUser && (
             <NavLink 
               to="/spots/new"

@@ -10,6 +10,10 @@ a {
   font-size: 14px;
 }
 
+.create-new-spot-link-mobile {
+  display: none;
+}
+
 .navigation-bar {
   align-items: center;
   background-color: white;
@@ -147,11 +151,27 @@ img {
 }
 
 @media screen and (max-width: 500px) {
+  .create-new-spot-link {
+    display: none;
+  }
+  .create-new-spot-link-mobile {
+    display: block;
+  }
   .fa-bars {
     display: none;
   }
+  .fa-plus {
+    font-size: 20px;
+    color: #6e6e6e;
+    margin-right: 5px;
+  }
   .fa-user {
     padding: none;
+  }
+  .menus {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .user-menu-button {
     align-items: center;
