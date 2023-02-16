@@ -110,8 +110,8 @@ const reviewsReducer = (state = initialState, action) => {
       newState.user[action.review.id] = action.review;
       return newState;
     case DELETE:
-      delete newState.spot[action.review.id]
-      delete newState.user[action.review.id]
+      delete newState.spot[action.reviewId]
+      delete newState.user[action.reviewId]
       return newState;
     case POPULATE_REVIEWS_SPOT:
       newState.spot = action.reviews;

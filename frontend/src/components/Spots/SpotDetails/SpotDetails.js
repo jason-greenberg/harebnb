@@ -106,33 +106,30 @@ function SpotDetails() {
         </div>
       </div>
       <div className="break"></div>
-      { isLoaded && (
-        <div className="reviews-container">
-          <div className="reviews-headline">
-            <div className="headline-stars">
-              { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
-            </div>
-            { spot.avgStarRating ? '·' : '' }
-            <div className="headline-num-reviews">
-            { spot.numReviews ? spot.numReviews + ' reviews' : '' }
-            </div>
+      <div className="reviews-container">
+        <div className="reviews-headline">
+          <div className="headline-stars">
+            { spot.avgStarRating ? '★' + Number(spot.avgStarRating).toFixed(1) : '★New' }
           </div>
-          {/* Check has not reviewed, or does not own spot */}
-          { (user && spot.ownerId !== user.id && !userHasReviewed) && (
-            <button className="post-review-button">Post Your Review</button>
-          )}
-          <div className="reviews">
-            { reviewsArray && reviewsArray.map(review => (
-              <div key={review.id} className="review-individual">
-                <div className="review-first-name review-com">{review.User?.firstName}</div>
-                <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
-                <div className="review-description review-com">{review.review}</div>
-              </div>
-            ))}   
+          { spot.avgStarRating ? '·' : '' }
+          <div className="headline-num-reviews">
+          { spot.numReviews ? spot.numReviews + ' reviews' : '' }
           </div>
         </div>
-      )}
-
+        {/* Check has not reviewed, or does not own spot */}
+        { (user && spot.ownerId !== user.id && !userHasReviewed) && (
+          <button className="post-review-button">Post Your Review</button>
+        )}
+        <div className="reviews">
+          { reviewsArray && reviewsArray.map(review => (
+            <div key={review.id} className="review-individual">
+              <div className="review-first-name review-com">{review.User?.firstName}</div>
+              <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
+              <div className="review-description review-com">{review.review}</div>
+            </div>
+          ))}   
+        </div>
+      </div>
     </div>
   )
 }
