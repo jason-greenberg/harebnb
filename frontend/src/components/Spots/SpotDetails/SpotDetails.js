@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
 import { getAllReviewsSpot, getAllReviewsUser } from "../../../store/reviews";
 import { getSingleSpotData } from "../../../store/spots";
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
+import ReviewFormModal from "../../Reviews/ReviewFormModal";
 import './SpotDetails.css'
 
 function SpotDetails() {
@@ -16,6 +18,7 @@ function SpotDetails() {
   const userReviewsArray = Object.values(userReviews);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [rating, setRating] = useState(0);
 
   // Populate store with focused spot and user data
   useEffect(() => {
@@ -120,7 +123,15 @@ function SpotDetails() {
         </div>
         {/* Check has not reviewed, or does not own spot */}
         { canPostReview && (
-          <button className="post-review-button">Post Your Review</button>
+          <button className="post-review-button">
+            <OpenModalMenuItem 
+              itemText="Post your Review"
+              itemTextClassName="review-button-text"
+              modalComponent={
+              <ReviewFormModal rating={rating} setRating={setRating} 
+              />}
+            />
+          </button>
         )}
         <div className="reviews">
           { !spot.numReviews && canPostReview ? 'Be the first to post a review!' : ''  }

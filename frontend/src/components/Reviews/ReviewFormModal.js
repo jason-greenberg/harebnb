@@ -1,21 +1,27 @@
+import { useModal } from '../../context/Modal';
 import './ReviewFormModal.css';
+import StarRating from './StarRating';
 
-function ReviewFormModal() {
+function ReviewFormModal({ rating, setRating }) {
+  const { modalRef } = useModal();
+
   return (
     <div className="review-form-modal-container">
-      <h1>How was your stay?</h1>
+      <h2>How was your stay?</h2>
       <textarea 
-        cols="30" 
-        rows="10"
+        cols="60" 
+        rows="5"
         placeholder='Leave your review here...'
+        className="review-text-input"
       >
       </textarea>
-      <div className="starts-container">
-        <div className="star-symbols"></div>
-        <div>Stars</div>
-      </div>
+      <StarRating rating={rating} setRating={setRating} />
       <div className="submit">
-        <button>Submit Your Review</button>
+        <button
+          className="submit-button"
+        >
+          Submit Your Review
+        </button>
       </div>
     </div>
   )

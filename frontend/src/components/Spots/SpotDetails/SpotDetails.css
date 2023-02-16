@@ -259,6 +259,11 @@ h3 {
   grid-area: "b"
 }
 
+.review-button-text {
+  list-style: none;
+  color: white;
+}
+
 .price {
   grid-area: "a"
 }
