@@ -176,11 +176,14 @@ function CreateSpot() {
             </h5>
           </div>
           <label>
-            <input
+            <textarea
+              rows="8"
+              cols="52"
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Please write at least 30 characters"
+              className="description-input"
             />
             <div className="error-message">{errors.description}</div>
           </label>

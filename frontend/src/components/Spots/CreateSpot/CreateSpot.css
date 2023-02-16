@@ -16,6 +16,14 @@
   width: 100%;
 }
 
+.description-input {
+  background-color: #E6E6E6;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+}
+
 .lat-lng {
   display: flex;
   justify-content: space-between;
