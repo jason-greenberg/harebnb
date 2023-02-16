@@ -26,7 +26,7 @@ function SpotDetails() {
     dispatch(getAllReviewsUser())
     if (Object.keys(spotReviews).length) setIsLoaded(true);
     checkIfUserHasReviewedSpot();
-  }, [spotId, spot.numReviews])
+  }, [spotId, spot.numReviews, reviewsArray.length])
 
   const checkIfUserHasReviewedSpot = () => {
     for (let i = 0; i < userReviewsArray.length; i += 1) {
@@ -126,7 +126,7 @@ function SpotDetails() {
             <OpenModalMenuItem 
               itemText="Post your Review"
               itemTextClassName="review-button-text"
-              modalComponent={<ReviewFormModal />}
+              modalComponent={<ReviewFormModal spotId={spotId} />}
             />
           </button>
         )}

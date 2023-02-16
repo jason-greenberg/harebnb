@@ -22,7 +22,7 @@ function StarRating({ rating, setRating }) {
         </span>
       ))}
     </div>
-    <div>{rating} Stars</div>
+    <div className="stars-label">Stars</div>
   </div>
   )
 }
