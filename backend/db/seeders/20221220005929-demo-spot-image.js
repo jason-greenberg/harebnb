@@ -36,22 +36,27 @@ module.exports = {
       },
       {
         spotId: 2,
-        url: 'https://i5.walmartimages.com/asr/eafc6d78-d887-412e-9fda-0e6d9c537114.8c9ea4cfb54584641d0404514f7329e4.jpeg',
+        url: 'https://www.coziwow.com/wp-content/uploads/2022/06/CW12F0417-cj1.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'image-url-6',
+        url: 'https://i5.walmartimages.com/asr/eafc6d78-d887-412e-9fda-0e6d9c537114.8c9ea4cfb54584641d0404514f7329e4.jpeg',
         preview: false
       },
       {
         spotId: 2,
-        url: 'image-url-7',
+        url: 'https://www.coziwow.com/wp-content/uploads/2022/06/CW12F0417-cj2.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'image-url-8',
+        url: 'https://www.coziwow.com/wp-content/uploads/2022/06/CW12F0417-zt1-1.jpg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://secure.img1-fg.wfcdn.com/im/88796840/resize-h445%5Ecompr-r85/2326/232639748/Ciara-Lee+Rabbit+Hutch+With+4+Wheels.jpg',
         preview: false
       },
       {
@@ -61,17 +66,22 @@ module.exports = {
       },
       {
         spotId: 3,
-        url: 'image-url-10',
+        url: 'https://secure.img1-fg.wfcdn.com/im/31413429/resize-h445%5Ecompr-r85/1644/164489449/Burliegh+Weather+Resistant+Rabbit+with+Ramp.jpg',
         preview: false
       },
       {
         spotId: 3,
-        url: 'image-url-11',
+        url: 'https://target.scene7.com/is/image/Target/GUEST_b6f176c2-f9b9-4d0a-a8bf-1ee734c07780?wid=725&hei=725&qlt=80&fmt=pjpeg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'image-url-12',
+        url: 'https://m.media-amazon.com/images/S/aplus-media/sc/e58146ab-7935-4dbd-a7f9-c9c424882ab2.__CR0,0,300,300_PT0_SX220_V1___.png',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://m.media-amazon.com/images/S/aplus-media/sc/cc5777cb-be30-4ec6-836b-9186aa1181eb.__CR0,0,300,300_PT0_SX220_V1___.png',
         preview: false
       },
       {
@@ -81,7 +91,22 @@ module.exports = {
       },
       {
         spotId: 4,
-        url: 'image-url-14',
+        url: 'https://m.media-amazon.com/images/I/615LT0sqrML.jpg',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://m.media-amazon.com/images/I/81Rsbdf30sL.jpg',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://target.scene7.com/is/image/Target/GUEST_0e1eeaf0-0a5f-4d10-a370-b4e85a54302c?wid=825&hei=825&qlt=80&fmt=pjpeg',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://target.scene7.com/is/image/Target/GUEST_e4ea0f17-903f-4f3d-a250-be99703734b7?wid=1000&hei=1000&qlt=80&fmt=webp',
         preview: false
       },
       {
@@ -91,12 +116,22 @@ module.exports = {
       },
       {
         spotId: 5,
-        url: 'image-url-16',
+        url: 'https://www.somerzby.com.au/wp-content/uploads/2020/03/Holly-Somerzby-Chicken-Coop.jpg',
         preview: false
       },
       {
         spotId: 5,
-        url: 'image-url-17',
+        url: 'https://www.coopsandcages.com.au/wp-content/uploads/2019/09/Wire-Mesh-for-Security-and-Safety.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://www.coopsandcages.com.au/wp-content/uploads/2019/09/Lodge-Inside-Run-View.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://www.coopsandcages.com.au/wp-content/uploads/2019/09/Lodge-Sliding-Safety-Window.jpg',
         preview: true
       },
       {
@@ -106,12 +141,22 @@ module.exports = {
       },
       {
         spotId: 6,
-        url: 'image-url-19',
+        url: 'https://m.media-amazon.com/images/I/81XVz+Bx4DL._AC_SX679_.jpg',
         preview: true
       },
       {
         spotId: 6,
-        url: 'image-url-20',
+        url: 'https://m.media-amazon.com/images/S/aplus-media-library-service-media/aed3cef1-bd9e-4107-870b-c24408a4d7b5.__CR0,0,220,220_PT0_SX220_V1___.jpg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://m.media-amazon.com/images/S/aplus-media-library-service-media/1d0a05f1-1740-40d9-9aad-ef7a77351218.__CR0,0,220,220_PT0_SX220_V1___.jpg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://m.media-amazon.com/images/I/81GibKOuHUL.jpg',
         preview: false
       }
     ], {});
