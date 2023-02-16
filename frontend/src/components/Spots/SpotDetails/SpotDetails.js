@@ -17,7 +17,6 @@ function SpotDetails() {
   const reviewsArray = Object.values(spotReviews);
   const userReviewsArray = Object.values(userReviews);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   // Populate store with focused spot and user data
   useEffect(() => {
@@ -116,7 +115,8 @@ function SpotDetails() {
           </div>
           { spot.avgStarRating ? '·' : '' }
           <div className="headline-num-reviews">
-          { spot.numReviews ? spot.numReviews + ' reviews' : '' }
+          { spot.numReviews && spot.numReviews === 1 ? spot.numReviews + ' review' : ''  }
+          { spot.numReviews && spot.numReviews !== 1 ? spot.numReviews + ' reviews' : '' }
           </div>
         </div>
         {/* Check has not reviewed, or does not own spot */}
