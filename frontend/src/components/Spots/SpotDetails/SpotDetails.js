@@ -24,18 +24,17 @@ function SpotDetails() {
     dispatch(getSingleSpotData(spotId));
     dispatch(getAllReviewsSpot(spotId))
     dispatch(getAllReviewsUser())
-    if (Object.keys(spotReviews).length) setIsLoaded(true);
-    checkIfUserHasReviewedSpot();
+      .then(checkIfUserHasReviewedSpot);
   }, [spotId, spot.numReviews, reviewsArray.length])
 
   const checkIfUserHasReviewedSpot = () => {
     for (let i = 0; i < userReviewsArray.length; i += 1) {
       const review = userReviewsArray[i];
-      console.log('review', review);
       if (review.spotId === +spotId) {
         return setUserHasReviewed(true);
       }
     }
+    return setUserHasReviewed(false)
   }
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
