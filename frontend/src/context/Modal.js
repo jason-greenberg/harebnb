@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
@@ -39,9 +39,15 @@ export function ModalProvider({ children }) {
 
 export function Modal() {
   const { modalRef, modalContent, closeModal } = useContext(ModalContext);
+  
+  useEffect(() => {
+    // Force a re-render of the component when modalContent changes
+  }, [modalContent]);
+
   // If there is no div referenced by the modalRef or modalContent is not a
   // truthy value, render nothing:
   if (!modalRef || !modalRef.current || !modalContent) return null;
+
 
   // Render the following component to the div referenced by the modalRef
   return ReactDOM.createPortal(

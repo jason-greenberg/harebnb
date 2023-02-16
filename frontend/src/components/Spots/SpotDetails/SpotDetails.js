@@ -18,7 +18,6 @@ function SpotDetails() {
   const userReviewsArray = Object.values(userReviews);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [rating, setRating] = useState(0);
 
   // Populate store with focused spot and user data
   useEffect(() => {
@@ -127,9 +126,7 @@ function SpotDetails() {
             <OpenModalMenuItem 
               itemText="Post your Review"
               itemTextClassName="review-button-text"
-              modalComponent={
-              <ReviewFormModal rating={rating} setRating={setRating} 
-              />}
+              modalComponent={<ReviewFormModal />}
             />
           </button>
         )}
