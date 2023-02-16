@@ -35,15 +35,15 @@ button {
 }
 
 .button:hover {
-  background-color: #FF385C;
-  border-color: #FF385C;
+  background-color: #DB0F64;
+  border-color: #DB0F64;
   fill: #FF385C;
 }
 
 .button:active {
   background-color: #e60965;
   border-color: #e60965;
-  fill: #DB0F64;
+  fill: #FF385C;
 }
 
 .confirm-delete-buttons {
@@ -127,15 +127,11 @@ h1 {
 }
 
 .no-keep-spot-button {
-  background-color: #c08993;
-  border-color: #c08993;
+  color: #171e29;
+  background-color: #b8b8b8;
+  border-color: #b8b8b8;
 }
 
 .no-spots-yet {
   font-weight: 400;
-}
-
-.yes-delete-button {
-  background-color: #DB0F64;
-  border-color: #DB0F64;
 }

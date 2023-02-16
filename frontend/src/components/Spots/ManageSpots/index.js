@@ -27,7 +27,7 @@ function ManageSpots() {
         <div className="header">
           <h1>Manage Your Spots</h1>
           <button 
-            className="create-new-spot-button"
+            className="create-new-button"
             onClick={redirectToCreate}
           >
             Create A New Spot
