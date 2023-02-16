@@ -83,9 +83,10 @@ function UpdateSpot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(validate());
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
-    if (!Object.keys(errors).length) {
+    if (Object.keys(errors).length < 0) {
       const newSpot = {
         id: spot.id,
         address,
