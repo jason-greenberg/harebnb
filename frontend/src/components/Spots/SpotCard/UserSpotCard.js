@@ -8,8 +8,7 @@ function UserSpotCard({ spot }) {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('mount', spot.ownerId)
-  }, [spot.ownerId]);
+  }, [spot]);
   
 
   const redirectToUpdate = (e) => {
