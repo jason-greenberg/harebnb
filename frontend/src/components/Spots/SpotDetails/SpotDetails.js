@@ -21,27 +21,15 @@ function SpotDetails() {
   // Populate store with focused spot and user data
   useEffect(() => {
     dispatch(getSingleSpotData(spotId));
-  }, [spotId]);
-  
+  }, [spotId, reviewsArray.length]);
+
   useEffect(() => {
     dispatch(getAllReviewsSpot(spotId));
     dispatch(getAllReviewsUser());
-  }, [spotId]);
-  
-  useEffect(() => {
-    checkIfUserHasReviewedSpot();
-  }, [reviewsArray, userReviewsArray]);
-  
-
-  const checkIfUserHasReviewedSpot = () => {
-    for (let i = 0; i < userReviewsArray.length; i += 1) {
-      const review = userReviewsArray[i];
-      if (review.spotId === +spotId) {
-        return setUserHasReviewed(true);
-      }
-    }
-    return setUserHasReviewed(false)
-  }
+    // Check if user has reviewed spot on re-render
+    const hasReviewed = userReviewsArray.some((review) => review.spotId === +spotId);
+    setUserHasReviewed(hasReviewed);
+  }, [userReviewsArray.length])
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
   if (!spot || !Object.values(spot).length) {
@@ -53,12 +41,13 @@ function SpotDetails() {
     alert('Feature Coming Soon...')
   }
 
-  const canPostReview = user && spot.ownerId !== user.id && !userHasReviewed;
-
+  
   const handleDeleteReview = (reviewId) => {
-    dispatch(deleteReviewById(reviewId));
+    dispatch(deleteReviewById(reviewId))
     setUserHasReviewed(false);
   }
+  
+  const canPostReview = user && spot.ownerId !== user.id && !userHasReviewed;
 
   return (
     <div className="spot-details-container">
@@ -151,6 +140,7 @@ function SpotDetails() {
               { review.userId === user.id && (
                 <button
                   onClick={() => handleDeleteReview(review.id)}
+                  className="delete-button"
                 >
                   Delete
                 </button>
