@@ -325,7 +325,7 @@ h3 {
     border: none;
     border-top: 1px #DDDDDD solid;
     box-shadow: none;
-    bottom: 1px;
+    bottom: 0;
     flex-direction: row;
     left: 0;
     padding: 10px 30px 10px 30px;

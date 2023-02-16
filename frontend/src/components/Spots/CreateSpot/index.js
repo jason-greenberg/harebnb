@@ -121,24 +121,29 @@ function CreateSpot() {
               placeholder="Address"
             />
           </label>
-          <label>
-            City { errors.city && <span className="error-message">{errors.city}</span>}<br/>
-            <input
-              type="text"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="City"
-            />
-          </label>
-          <label>
-            State { errors.state && <span className="error-message">{errors.state}</span>}<br/>
-            <input
-              type="text"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              placeholder="State"
-            />
-          </label>
+          <div className="city-state">
+            <label>
+              City { errors.city && <span className="error-message">{errors.city}</span>}<br/>
+              <input
+                className="city-input"
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="City"
+              />
+            </label>
+            <div className="comma">,</div>
+            <label>
+              State { errors.state && <span className="error-message">{errors.state}</span>}<br/>
+              <input
+                className="state-input"
+                type="text"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                placeholder="State"
+              />
+            </label>
+          </div>
           <label>
             Latitude { errors.latitude && <span className="error-message">{errors.latitude}</span>}<br/>
             <input

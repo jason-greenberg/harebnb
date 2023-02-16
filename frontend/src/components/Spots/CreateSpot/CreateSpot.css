@@ -6,13 +6,36 @@
   z-index: 997;
 }
 
+.city-input {
+  width: 14.5em
+}
+
+.city-state {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.comma {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 15px;
+  height: 65px;
+}
+
 .create-spot-container {
+  max-width: 420px;
   padding-top: 50px;
   font-size: 16px;
 }
 
 .dollar-sign {
   margin: 0px 10px 0px 0px;
+}
+
+form {
+  width: 100%;
 }
 
 .error-message {
@@ -29,4 +52,8 @@ input {
 
 label {
   font-size: 15px;
+}
+
+.state-input {
+  width: 11em;
 }
