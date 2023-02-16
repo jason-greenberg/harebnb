@@ -122,7 +122,7 @@ function SpotDetails() {
             <button className="post-review-button">Post Your Review</button>
           )}
           <div className="reviews">
-            { (reviewsArray && isLoaded) && reviewsArray.map(review => (
+            { reviewsArray && reviewsArray.map(review => (
               <div key={review.id} className="review-individual">
                 <div className="review-first-name review-com">{review.User?.firstName}</div>
                 <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
