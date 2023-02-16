@@ -107,6 +107,7 @@ h3 {
   flex-direction: column;
   padding: 15px;
   width: 32%;
+  min-width: 250px;
 }
 
 .price-review-stats {
@@ -310,5 +311,41 @@ h3 {
 @media screen and (min-width: 1400px) {
   .spot-details-container {
     max-width: 1200px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .description-container {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .price-reviews-reserve {
+    background-color: white;
+    border-radius: 0;
+    border: none;
+    border-top: 1px #DDDDDD solid;
+    box-shadow: none;
+    bottom: 1px;
+    flex-direction: row;
+    left: 0;
+    padding: 10px 30px 10px 30px;
+    position: fixed;
+    width: 91%;
+    z-index: 100;
+  }
+  .price-review-stats {
+    flex-direction: column;
+  }
+  .reserve-button {
+    margin: 0;
+    height: 50px;
+    min-width: none;
+    width: 50px;
+  }
+  .reserve-button-container {
+    justify-content: flex-end;
+  }
+  .reviews-container {
+    padding-bottom: 100px;
   }
 }
