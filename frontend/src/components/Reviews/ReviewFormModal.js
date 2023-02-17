@@ -15,7 +15,6 @@ function ReviewFormModal({ spotId }) {
   const onSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    console.log('submitting')
     const newReview = {
       review,
       stars: rating
