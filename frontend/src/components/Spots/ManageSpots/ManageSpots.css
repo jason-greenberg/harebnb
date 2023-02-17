@@ -161,13 +161,3 @@ h1 {
     padding-right: 25px;
   }
 }
-
-@media screen and (max-width: 380px) {
-  .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 300px;
-    width: 100%;
-  }
-}
