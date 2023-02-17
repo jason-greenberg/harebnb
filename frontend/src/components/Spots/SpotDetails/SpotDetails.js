@@ -132,7 +132,7 @@ function SpotDetails() {
         )}
         <div className="reviews">
           { !spot.numReviews && canPostReview ? 'Be the first to post a review!' : ''  }
-          { reviewsArray && reviewsArray.map(review => (
+          { reviewsArray && reviewsArray.slice(0).reverse().map(review => (
             <div key={review.id} className="review-individual">
               <div className="review-first-name review-com">{review.User?.firstName}</div>
               <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}

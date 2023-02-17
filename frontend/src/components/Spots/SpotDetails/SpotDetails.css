@@ -348,6 +348,12 @@ h3 {
     justify-content: flex-end;
     margin-right: 0.8em;
   }
+  
+  .reviews {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   .reviews-container {
     padding-bottom: 100px;
   }
