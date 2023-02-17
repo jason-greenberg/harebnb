@@ -33,7 +33,7 @@ function SpotDetails() {
 
   // Return Spot Not Found, if spot does not exist in spots.singleSpot slice of state
   if (!spot || !Object.values(spot).length) {
-    return <h1 className="not-found">Unable to retrieve details. Please try again shortly</h1>
+    return <h3 className="not-found">Unable to retrieve details. Please try again shortly</h3>
   }
 
   const preview = spot.SpotImages[0]?.url || ''
