@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import DeleteSpotModal from "../ManageSpots/DeleteSpotModal";
