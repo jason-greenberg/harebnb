@@ -120,6 +120,10 @@ label {
   font-size: 15px;
 }
 
+.price-input {
+  width: 27em;
+}
+
 .state-input {
   width: 11em;
 }

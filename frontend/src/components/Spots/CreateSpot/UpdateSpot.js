@@ -223,7 +223,8 @@ function UpdateSpot() {
                   type="text"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Price"
+                  placeholder="Price per night (USD)"
+                  className="price-input"
                 />
                 <div className="error-message">{errors.price}</div>
               </label>
