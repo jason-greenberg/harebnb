@@ -20,9 +20,7 @@ function ReviewFormModal({ spotId }) {
   useEffect(() => {
     if (!errors.length && rating > 0) {
       setDisabled(false)
-      console.log('all clear')
     }
-    if (errors.length) console.log('error', errors)
   }, [errors])
 
   const validate = () => {
