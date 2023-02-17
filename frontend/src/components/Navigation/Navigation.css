@@ -182,6 +182,7 @@ img {
   }
   .navigation-bar {
     width: 90%;
+    padding-left: 30px;
   }
   .profile-dropdown {
     position: fixed;
