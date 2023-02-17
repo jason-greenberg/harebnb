@@ -6,8 +6,22 @@ import './CreateSpot.css';
 
 function UpdateSpot() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [errorsLoaded, setErrorsLoaded] = useState(false)
   const dispatch = useDispatch();
   const { spotId } = useParams();
+  const spot = useSelector(state => state.spots.singleSpot);
+  const user = useSelector(state => state.session.user);
+  const [country, setCountry] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [errors, setErrors] = useState('');
+  const history = useHistory();
 
   const setSpot = async () => {
     const spotData = await dispatch(getSingleSpotData(spotId));
@@ -25,26 +39,7 @@ function UpdateSpot() {
 
   useEffect(() => {
     setSpot()
-  }, [dispatch, spotId])
-
-  const spot = useSelector(state => state.spots.singleSpot);
-  const user = useSelector(state => state.session.user);
-  const [country, setCountry] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [description, setDescription] = useState('');
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  // const [previewImageUrl, setPreviewImageUrl] = useState('');
-  // const [imageUrl2, setImageUrl2] = useState('');
-  // const [imageUrl3, setImageUrl3] = useState('');
-  // const [imageUrl4, setImageUrl4] = useState('');
-  // const [imageUrl5, setImageUrl5] = useState('');
-  const [errors, setErrors] = useState([]);
-  const history = useHistory();
+  }, [dispatch, spotId]);
 
   const validate = () => {
     const validationErrors = {};
@@ -54,38 +49,22 @@ function UpdateSpot() {
     if (!state) validationErrors.state = 'State is required';
     if (!latitude) validationErrors.latitude = 'Latitude is required';
     if (!longitude) validationErrors.longitude = 'Longitude is required';
-    if (!description) validationErrors.description = 'Description is required';
-    if (description && description.length < 30) {
+    if (description.length < 30) {
       validationErrors.description = 'Description needs a minimum of 30 characters';
     }
+    if (!description) validationErrors.description = 'Description is required';
     if (!name) validationErrors.name = 'Name is required';
     if (!price) validationErrors.price = 'Price is required';
-    // if (!previewImageUrl) validationErrors.previewImageUrl = 'Preview Image is required';
-    // // validate image urls
-    // if (previewImageUrl && !/\.(jpe?g|png)$/i.test(previewImageUrl)) {
-    //   validationErrors.previewImageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
-    // }
-    // if (imageUrl2 && !/\.(jpe?g|png)$/i.test(imageUrl2)) {
-    //   validationErrors.imageUrl2 = 'Image URL must end in .png, .jpg, or .jpeg';
-    // }
-    // if (imageUrl3 && !/\.(jpe?g|png)$/i.test(imageUrl3)) {
-    //   validationErrors.imageUrl3 = 'Image URL must end in .png, .jpg, or .jpeg';
-    // }
-    // if (imageUrl4 && !/\.(jpe?g|png)$/i.test(imageUrl4)) {
-    //   validationErrors.imageUrl4 = 'Image URL must end in .png, .jpg, or .jpeg';
-    // }
-    // if (imageUrl5 && !/\.(jpe?g|png)$/i.test(imageUrl5)) {
-    //   validationErrors.imageUrl5 = 'Image URL must end in .png, .jpg, or .jpeg';
-    // }
 
+    setErrorsLoaded(false)
     return validationErrors;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(validate());
-
-    if (!Object.keys(errors).length) {
+    const validationErrors = validate();
+    setErrors(validationErrors)
+    if (!Object.keys(validationErrors).length) {
       const newSpot = {
         id: spot.id,
         address,
@@ -99,17 +78,7 @@ function UpdateSpot() {
         price: parseFloat(price)
       }
       // Update Spot and add to spots.singleSpot slice of state
-      await dispatch(updateSingleSpot(newSpot));
-      
-      // Add any images to new spot and to spots.singleSpot slice of state
-      // const newSpotImages = []
-      // if (previewImageUrl) newSpotImages.push(previewImageUrl); 
-      // if (imageUrl2) newSpotImages.push(imageUrl2); 
-      // if (imageUrl3) newSpotImages.push(imageUrl3); 
-      // if (imageUrl4) newSpotImages.push(imageUrl4); 
-      // if (imageUrl5) newSpotImages.push(imageUrl5); 
-
-      // newSpotImages.forEach(image => dispatch(addImageToSpot({ url: image, preview: false }, spotData.id)));
+      const spotData = await dispatch(updateSingleSpot(newSpot));
 
       // Redirect user to newly created spot details page
       history.push(`/spots/${spot.id}`);
