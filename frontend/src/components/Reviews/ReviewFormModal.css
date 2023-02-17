@@ -17,6 +17,7 @@ h1 {
   height: 125px;
   width: 450px;
   font-size: 16px;
+  resize: none;
 }
 
 .stars-container {
@@ -46,7 +47,7 @@ h1 {
 }
 
 .submit {
-  margin-top: 20px;
+  margin: 20px 18px 0px 0px 
 }
 
 .submit-button {
