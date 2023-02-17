@@ -137,7 +137,7 @@ function SpotDetails() {
               <div className="review-first-name review-com">{review.User?.firstName}</div>
               <div className="review-date review-com">{review.createdAt.split('T')[0]}</div> {/* Format date */}
               <div className="review-description review-com">{review.review}</div>
-              { review.userId === user.id && (
+              { review.userId === user?.id && (
                 <button
                   onClick={() => handleDeleteReview(review.id)}
                   className="delete-button"
