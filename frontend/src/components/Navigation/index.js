@@ -13,7 +13,7 @@ function Navigation({ isLoaded }){
         <li>
           <NavLink exact to="/">
             <div className="logo-and-name">
-              <img src="/assets/harebnb-logo.png" alt="logo" />
+            <img src="/favicon.ico" alt="logo" />
               <h3 
                 id="site-name"
                 style={{ textDecoration: 'none' }}
