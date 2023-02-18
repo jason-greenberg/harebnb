@@ -5,6 +5,7 @@ import { deleteReviewById, getAllReviewsSpot, getAllReviewsUser } from "../../..
 import { getSingleSpotData } from "../../../store/spots";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import ReviewFormModal from "../../Reviews/ReviewFormModal";
+import DeleteReviewModal from "../../Reviews/DeleteReviewModal";
 import './SpotDetails.css'
 
 function SpotDetails() {
@@ -139,10 +140,13 @@ function SpotDetails() {
               <div className="review-description review-com">{review.review}</div>
               { review.userId === user?.id && (
                 <button
-                  onClick={() => handleDeleteReview(review.id)}
                   className="delete-button"
                 >
-                  Delete
+                  <OpenModalMenuItem 
+                    itemText="Delete"
+                    itemTextClassName="delete"
+                    modalComponent={<DeleteReviewModal review={review}/>}
+                  />
                 </button>
               )}
             </div>

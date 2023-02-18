@@ -1,3 +1,7 @@
+.delete-button {
+  list-style: none;
+}
+
 .post-review-button {
   align-items: center;
   background-color: #FF385C;
