@@ -85,7 +85,9 @@ function CreateSpot() {
       if (imageUrl4) newSpotImages.push(imageUrl4); 
       if (imageUrl5) newSpotImages.push(imageUrl5); 
 
-      newSpotImages.forEach(image => dispatch(addImageToSpot({ url: image, preview: false }, spotData.id)));
+      newSpotImages.forEach((image, idx) => {
+        dispatch(addImageToSpot({ url: image, preview: false }, spotData.id));
+      });
 
       // Redirect user to newly created spot details page
       history.push(`/spots/${spotData.id}`);
