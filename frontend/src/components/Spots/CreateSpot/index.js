@@ -87,7 +87,6 @@ function CreateSpot() {
 
       newSpotImages.forEach((image, idx) => {
         dispatch(addImageToSpot({ url: image, preview: false }, spotData.id));
-        console.log(idx, 'image created');
       });
 
       // Redirect user to newly created spot details page
