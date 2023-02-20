@@ -66,9 +66,9 @@ function SpotDetails() {
         </div>
         <div className="small-preview-images-container">
           {/* {Maps the second through fifth SpotImages to the page} */}
-          {spot.SpotImages && spot.SpotImages.slice(1, 5).map(image => (
+          {spot.SpotImages && spot.SpotImages.slice(1, 5).map((image, idx) => (
             <img 
-              key={image.id} 
+              key={idx} 
               className="small-preview-image"
               src={image.url}
               alt="preview-image"
