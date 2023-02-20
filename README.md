@@ -93,13 +93,13 @@ Add the ability for users to create and save lists of their favorite listings.
 5. Implement a system for hosts to set house rules and for guests to confirm that they will abide by those rules before booking.
 
 ## Technical Implementation Details
-The project is a full-stack web application that allows users to search and book parking spots. The frontend of the app is built using React-Redux, and the backend is built using Node.js and Express.js. The app uses a PostgreSQL database to store information about spots, users, bookings, and reviews.
+The project is a full-stack web application that allows users to search and book vacation rental properties. The frontend of the app is built using React-Redux, and the backend is built using Node.js and Express.js. The app uses a PostgreSQL database to store information about spots, users, bookings, reviews, and images.
 
 The app has a secure authentication system that uses JSON Web Tokens (JWTs) to authenticate users. When a user logs in or signs up, the server generates a JWT and sends it back to the client. The client then stores the JWT in a cookie and sends it back to the server with every subsequent request that requires authentication. The server verifies the JWT and allows the request to proceed if it is valid.
 
-One challenge we faced was efficiently querying the database to retrieve spots based on various filters and pagination options. To solve this, we used the findAll method of the Sequelize ORM, along with the where and limit options to filter and paginate the results. We also used the offset option to implement pagination by skipping a certain number of results based on the page number and page size.
+One challenge I faced was efficiently querying the database to retrieve spots based on various filters and pagination options. To solve this, I used the findAll method of the Sequelize ORM, along with the where and limit options to filter and paginate the results.Ialso used the offset option to implement pagination by skipping a certain number of results based on the page number and page size.
 
-Another challenge was implementing a robust booking system that allows users to book spots for specific dates and times. To solve this, we added a Booking model to the database and implemented routes and functions to create and cancel bookings. We also added validations to ensure that users can only book spots that are available for the specified dates and times.
+Another challenge was implementing a robust booking system that allows users to book spots for specific dates and times. To solve this,Iadded a Booking model to the database and implemented routes and functions to create and cancel bookings. I also added validations to ensure that users can only book spots that are available for the specified dates and times.
 
 Here is a code snippet showing the implementation of the POST route that allows users to create bookings:
 
