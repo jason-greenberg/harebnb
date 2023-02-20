@@ -3,10 +3,51 @@
 Welcome to HareBnB, a vacation booking service designed specifically for bunnies and rabbits (and their humans)! Our platform allows users to search for and book bunny and rabbit-friendly properties, or list their own property for others to rent. With a user-friendly interface and a wide range of options to choose from, HareBnB makes it easy for bunny and rabbit lovers to find the perfect vacation spot. Whether you're looking to rent out your bunny-approved home or searching for the perfect getaway, HareBnB has you covered.
 
 ## Live Site
-https://airbnb-api-project-0ykp.onrender.com/
+https://harebnb.onrender.com/
 
 ## Backend Repository
-https://github.com/jason-greenberg/authenticate-me-for-render-deployment
+https://github.com/jason-greenberg/harebnb/tree/main/backend
+
+## Frontend Repository
+https://github.com/jason-greenberg/harebnb/tree/main/frontend
+
+## Technologies Used
+Frontend:
+- React-Redux
+
+Backend:
+- Node.js
+- Express.js
+- Sequelize
+- PostgreSQL
+
+## **Prerequisites**
+Before you begin, you will need to implement the following environmental variables using a .env file or Render.com's built-in Environmental Variables tab:
+```java
+DATABASE_URL
+JWT_EXPIRES_IN
+JWT_SECRET
+NODE_ENV //(eg. production or development)
+SCHEMA // (for the database config, eg. 'airbnb_data')
+```
+## **Build**
+To install and build the front and backend, run the following command:
+```bash
+npm install &&
+npm run render-postbuild &&
+npm run build &&
+npm run sequelize --prefix backend db:migrate &&
+npm run sequelize --prefix backend db:seed:all
+```
+The API comes seeded with 3 demo users, 6 spots, several reviews, images, and bookings for testing purposes. The build command sequence will migrate the all tables and seed them.
+## **Start**
+To start the application, run the following command:
+```bash
+npm start
+```
+
+## API Documentation
+Found here: [API documentation](./backend/API-documentation.md)
 
 ## Database Schema Design
 
@@ -15,31 +56,29 @@ https://github.com/jason-greenberg/authenticate-me-for-render-deployment
 [airbnb-dbdiagram]: ./backend/assets/harebnb_dbdiagram.png
 
 ## Screenshots
-![search-spots]
+### Landing Page
+![landing-page]
 
-[search-spots]: ./backend/assets/filter-spots-by-price-and-location.png
+[landing-page]: ./frontend/public/assets/landing-page.png
+The landing page serves as the first point of contact with the HareBnB website. The page includes a list of all spots currently listed on the platform. The page also has a login and sign-up button (in the user dropdown menu) for users to create or access their account. As well as a 'Create a New Spot' link for logged-in users.
 
-![see-your-bookings]
+### Create Spot Page
+![create-spot]
 
-[see-your-bookings]: ./backend/assets/get-all-of-your-bookings.png
+[create-spot]: ./frontend/public/assets/create-spot.png
+The "Create a new Spot" page allows users to list their properties for rent. The page features a user-friendly form with fields for property details such as location, description, and photos. Users can also set the pricing of their property.
 
-![leave-a-review]
+### Spot Details Page
+![spot-details]
 
-[leave-a-review]: ./backend/assets/create-a-review.png
+[spot-details]: ./frontend/public/assets/spot-details.png
+The "Spot Details" page provides users with a detailed view of a property that they are interested in renting. The page includes information about the location and description, as well as photos of the property. Users can also see reviews from previous guests and leave their own reviews of the property.
 
-## Installation Instructions
-There are no necessary dependencies to install for this project. Simply follow the [API documentation](./backend/API-documentation.md) to use the web-hosted API. No further set up is required.
+### Manage Spots Page
+![manage-spots]
 
-## Technologies Used
-• PostgreSQL
-
-• Sequelize
-
-• JavaScript
-
-• SQL
-
-• Express
+[manage-spots]: ./frontend/public/assets/manage-spots.png
+The "Manage Spots" page allows users to view and edit the properties they have listed for rent. The page features a list of properties, each with their own thumbnail image and basic details. Users can click on each property to edit its details and pricing, or delete the listing altogether.
 
 ## To-Dos/Future Features
 1. Add the ability for hosts to set different pricing for different seasons or holidays.
@@ -54,7 +93,7 @@ Add the ability for users to create and save lists of their favorite listings.
 5. Implement a system for hosts to set house rules and for guests to confirm that they will abide by those rules before booking.
 
 ## Technical Implementation Details
-The project is a full-stack web application that allows users to search and book parking spots. The frontend of the app is built using React, and the backend is built using Node.js and Express.js. The app uses a PostgreSQL database to store information about spots, users, bookings, and reviews.
+The project is a full-stack web application that allows users to search and book parking spots. The frontend of the app is built using React-Redux, and the backend is built using Node.js and Express.js. The app uses a PostgreSQL database to store information about spots, users, bookings, and reviews.
 
 The app has a secure authentication system that uses JSON Web Tokens (JWTs) to authenticate users. When a user logs in or signs up, the server generates a JWT and sends it back to the client. The client then stores the JWT in a cookie and sends it back to the server with every subsequent request that requires authentication. The server verifies the JWT and allows the request to proceed if it is valid.
 
