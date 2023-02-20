@@ -3,10 +3,13 @@
 Welcome to HareBnB, a vacation booking service designed specifically for bunnies and rabbits (and their humans)! Our platform allows users to search for and book bunny and rabbit-friendly properties, or list their own property for others to rent. With a user-friendly interface and a wide range of options to choose from, HareBnB makes it easy for bunny and rabbit lovers to find the perfect vacation spot. Whether you're looking to rent out your bunny-approved home or searching for the perfect getaway, HareBnB has you covered.
 
 ## Live Site
-https://airbnb-api-project-0ykp.onrender.com/
+https://harebnb.onrender.com/
 
 ## Backend Repository
-https://github.com/jason-greenberg/authenticate-me-for-render-deployment
+https://github.com/jason-greenberg/harebnb/tree/main/backend
+
+## Frontend Repository
+https://github.com/jason-greenberg/harebnb/tree/main/frontend
 
 ## Database Schema Design
 
@@ -15,31 +18,59 @@ https://github.com/jason-greenberg/authenticate-me-for-render-deployment
 [airbnb-dbdiagram]: ./backend/assets/harebnb_dbdiagram.png
 
 ## Screenshots
-![search-spots]
+![landing-page]
 
-[search-spots]: ./backend/assets/filter-spots-by-price-and-location.png
+[landing-page]: ./frontend/public/assets/landing-page.png
 
-![see-your-bookings]
+![create-spot]
 
-[see-your-bookings]: ./backend/assets/get-all-of-your-bookings.png
+[create-spot]: ./frontend/public/assets/create-spot.png
 
-![leave-a-review]
+![spot-details]
 
-[leave-a-review]: ./backend/assets/create-a-review.png
+[spot-details]: ./frontend/public/assets/spot-details.png
 
-## Installation Instructions
-There are no necessary dependencies to install for this project. Simply follow the [API documentation](./backend/API-documentation.md) to use the web-hosted API. No further set up is required.
+![manage-spots]
+
+[manage-spots]: ./frontend/public/assets/manage-spots.png
 
 ## Technologies Used
-• PostgreSQL
+Frontend:
+- React-Redux
 
-• Sequelize
+Backend:
+- Node.js
+- Express.js
+- Sequelize
+- PostgreSQL
 
-• JavaScript
+## **Prerequisites**
+Before you begin, you will need to implement the following environmental variables using a .env file or Render.com's built-in Environmental Variables tab:
+```java
+DATABASE_URL
+JWT_EXPIRES_IN
+JWT_SECRET
+NODE_ENV //(eg. production or development)
+SCHEMA // (for the database config, eg. 'airbnb_data')
+```
+## **Build**
+To install and build the front and backend, run the following command:
+```bash
+npm install &&
+npm run render-postbuild &&
+npm run build &&
+npm run sequelize --prefix backend db:migrate &&
+npm run sequelize --prefix backend db:seed:all
+```
+The API comes seeded with 3 demo users for testing purposes. The build command will migrate the Users table and seed it with these 3 users.
+## **Start**
+To start the application, run the following command:
+```bash
+npm start
+```
 
-• SQL
-
-• Express
+## API Documentation
+Found here: [API documentation](./backend/API-documentation.md)
 
 ## To-Dos/Future Features
 1. Add the ability for hosts to set different pricing for different seasons or holidays.
