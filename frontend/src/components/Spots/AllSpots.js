@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 function AllSpots() {
   const allSpots = useSelector(state => state.spots.allSpots);
   const singleSpot = useSelector(state => state.spots.singleSpot);
+  const userReviews = useSelector(state => state.spots.user);
   const allSpotsArray = Object.values(allSpots);
   const dispatch = useDispatch();
 
