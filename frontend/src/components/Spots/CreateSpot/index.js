@@ -60,9 +60,10 @@ function CreateSpot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(validate());
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
-    if (!Object.keys(errors).length) {
+    if (!Object.keys(validationErrors).length) {
       const newSpot = {
         address,
         city,
