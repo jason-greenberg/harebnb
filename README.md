@@ -2,6 +2,8 @@
 ## Description
 Welcome to HareBnB, a vacation booking service designed specifically for bunnies and rabbits (and their humans)! Our platform allows users to search for and book bunny and rabbit-friendly properties, or list their own property for others to rent. With a user-friendly interface and a wide range of options to choose from, HareBnB makes it easy for bunny and rabbit lovers to find the perfect vacation spot. Whether you're looking to rent out your bunny-approved home or searching for the perfect getaway, HareBnB has you covered.
 
+[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,postgres,react,redux,css)](https://skillicons.dev)
+
 ## Live Site
 https://harebnb.onrender.com/
 
